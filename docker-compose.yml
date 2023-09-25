@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  getway:
+    container_name: getway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 8020:8000

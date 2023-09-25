@@ -1,1 +1,4 @@
-[{"path": "https://file.siraf.app/api/file/file/1","signature": "/signature"}]
+[{"path": "https://nativecontent.sirafgroup.com/api/v1/content/randContent/","signature": "/api/content/randContent/"},
+{"path": "https://auth.masafiranian.ir/api/v1/user/user/","signature": "/api/v1/user/user/"},
+{"path": "https://content.masafiranian.ir/api/v1/comment/addComment/","signature": "/api/v1/comment/addComment/"}
+]
