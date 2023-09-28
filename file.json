@@ -1,4 +1,21 @@
-[{"path": "https://nativecontent.sirafgroup.com/api/v1/content/randContent/","signature": "/api/content/randContent/"},
-{"path": "https://auth.masafiranian.ir/api/v1/user/user/","signature": "/api/v1/user/user/"},
-{"path": "https://content.masafiranian.ir/api/v1/comment/addComment/","signature": "/api/v1/comment/addComment/"}
+[
+  
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/randContent/","signature": "/api/content/randContent/","method": "get"},
+{"path": "https://auth.masafiranian.ir/api/v1/user/user/","signature": "/api/v1/user/user/","method": "get"},
+{"path": "https://content.masafiranian.ir/api/v1/portal/admin/portals/","signature": "/api/v1/portal/admin/portals/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/contents/","signature": "/api/v1/content/admin/contents/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/blocks/","signature": "/api/v1/content/admin/blocks/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/contentCreator/","signature": "/api/v1/content/contentCreator/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/deleteContentBlock/","signature": "/api/v1/content/admin/deleteContentBlock/","method": "delete"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/contentBlock/","signature": "/api/v1/content/admin/contentBlock/","method": "post"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/contentBlock/","signature": "/api/v1/content/admin/contentBlock/","method": "post"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/contentItemDelete/","signature": "/api/v1/content/admin/contentItemDelete/","method": "delete"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/contentStart/","signature": "/api/v1/content/admin/contentStart/","method": "post"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/tag/tags/","signature": "/api/v1/tag/tags/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/updateContentStart/","signature": "/api/v1/content/admin/updateContentStart/","method": "put"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/showContentStart/","signature": "/api/v1/content/admin/showContentStart/","method": "get"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/addItemContent/","signature": "/api/v1/content/admin/addItemContent/","method": "put"},
+{"path": "https://nativecontent.sirafgroup.com/api/v1/content/admin/getBaseContent/","signature": "/api/v1/content/admin/getBaseContent/","method": "get"}
+
 ]
+
