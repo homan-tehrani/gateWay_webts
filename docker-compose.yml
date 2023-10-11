@@ -9,4 +9,4 @@ services:
     volumes:
       - .:/app
     ports:
-      - 8020:8000
+      - 8085:8000
