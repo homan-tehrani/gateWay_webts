@@ -10,3 +10,11 @@ services:
       - .:/app
     ports:
       - 8085:8000
+    networks:
+      - network_api
+
+networks:
+  network_api:
+    driver: overley
+    external: true
+

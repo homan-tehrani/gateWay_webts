@@ -1,21 +1,22 @@
 import http
 import time
+import memcache
+import json
+import requests
+import threading
+import os
 from global_variables import LOG_URL
 from fastapi import FastAPI, Request, Header
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from fastapi import APIRouter
 from dotenv import load_dotenv
-import json
-import requests
-import threading
-import os
 
 load_dotenv()
 app = FastAPI()
 router = APIRouter()
-
-
+cache = memcache.Client([os.getenv('cacheIpAddress')])
+# cache.flush_all()
 class GateWay:
     def __init__(self, request: Request, header, fileUrl: str):
         self.request = request
@@ -30,12 +31,6 @@ class GateWay:
     async def __call__(self, request: Request, call_next):
         try:
             existUrl = self.existUrl(request)
-            # try:
-            #     self.body = await request.body()
-            # except:
-            #     self.body = await request.json()
-            #     self.body = json.dumps(self.body)
-            # self.body =  request.form()
             if not existUrl:
                 thread = threading.Thread(target=saveLog, args=(request, 1200, self.body, 'not existUrl'))
                 thread.start()
@@ -67,6 +62,12 @@ class GateWay:
                 self.token = None
             self.method = request.method
             path = None
+            try:
+                path = cache.get(signature)
+                if path is not None:
+                    return path
+            except:
+                pass
             with open(self.fileUrl, "r") as json_file:
                 Items = json.load(json_file)
                 for item in Items:
@@ -76,12 +77,14 @@ class GateWay:
                             thread.start()
                             return False
                         if 'path' not in item: return False
-                        path = item['path']
-
+                        try:
+                            cache.set(signature, item, time=int(os.getenv("cacheTime")))
+                        except:
+                            pass
+                        path = item
             if path:
                 return path
             return False
-
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 1197, self.body, f"{e}"))
             thread.start()
@@ -107,16 +110,29 @@ class GateWay:
             else:
                 headers = {'Authorization': self.token}
             if request.query_params:
-                url = f"{self.path}?{request.query_params}"
+                url = f"{self.path['path']}?{request.query_params}"
             else:
-                url = f"{self.path}"
-
-            response = requests.request(self.method, url, headers=headers, data=await request.body())
-            return response
+                url = f"{self.path['path']}"
+            print("cache : ",self.path['cache'] , self.path['path'])
+            print("cacheAddress",os.getenv('cacheIpAddress'))
+            if self.path['cache'] == "False":
+                print("url not in cache : ",self.path['cache'] , self.path['path'])
+                response = requests.request(self.method, url, headers=headers, data=await request.body())
+                return response
+            try:
+                response = cache.get(url)
+                if response is None:
+                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    print("URL 3",response.text)
+                    if response.status_code==200:
+                        cache.set(url, response, time=int(os.getenv("cacheTime")))
+                return response
+            except:
+                response = requests.request(self.method, url, headers=headers, data=await request.body())
+                return response
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 1196, self.body, f"{e}"))
             thread.start()
-
             return JSONResponse(content="callService", status_code=400)
 
 
