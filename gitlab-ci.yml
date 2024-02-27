@@ -49,5 +49,6 @@ deploy:
     - ssh -A $SSH_USER@$VM_IPADDRESS   "kubectl set image -n $SCOPE deployment/$REG_APP_NAME $REG_APP_NAME=$COMPLETE_URL && kubectl set env -n $SCOPE deployment/$REG_APP_NAME APP_VERSION=$CI_COMMIT_TAG"
   only:
     - tags
+  when: manual
   tags:
     - pro
