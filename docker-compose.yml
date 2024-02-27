@@ -1,4 +1,4 @@
-version: '3.8'
+tusversion: '3.10'
 
 services:
   getway:
@@ -10,8 +10,22 @@ services:
       - .:/app
     ports:
       - 8085:8000
+    environment:
+      - LOG_URL=https://loger.sirafgroup.com/api/save-log
+      - CACHE_TIME=36000
+      - CACHE_IP_ADDRESS=cache
     networks:
       - network_api
+
+  cache:
+    image: memcached
+    #    ports:
+    #      - "11211:11211"
+    networks:
+      - network_api
+    entrypoint:
+      - memcached
+      - -m 1264
 
 networks:
   network_api:
