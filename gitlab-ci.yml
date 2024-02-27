@@ -31,6 +31,7 @@ build:
   only:
     - tags
   tags:
+    - pro
     - build
 
 deploy:
@@ -51,4 +52,5 @@ deploy:
     - tags
   when: manual
   tags:
+    - pro
     - deploy
