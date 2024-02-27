@@ -18,22 +18,12 @@ spec:
           terminationMessagePath: /dev/termination-log
           name: gateway
           env:
-            - name: MYSQL_USER
-              value: userdev
-            - name: MYSQL_PASSWORD
-              value: u3@GP6W3ge2
-            - name: MYSQL_DATABASE
-              value: arbaeen
-            - name: MYSQL_HOST
-              value: mariadb.app12.svc.cluster.local
-            - name: APP_NAME
-              value: jwt
-            - name: PORT
-              value: 80
-            - name: HOST
-              value: 0.0.0.0
-            - name: GETAWAY
-              value: http://gateway.app12.svc.cluster.local
+            - name: LOG_URL
+              value: https://loger.sirafgroup.com/api/save-log
+            - name: CACHE_TIME
+              value: 36000
+            - name: CACHE_IP_ADDRESS
+              value: cache
           securityContext:
             runAsUser: 0
           ports:
@@ -41,7 +31,7 @@ spec:
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
-          image: 'reg.dvops.ir/arbaeen/jwt:2.0.1-dev'
+          image: 'reg.masafiranian.ir/app12/gateway:0.1'
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
