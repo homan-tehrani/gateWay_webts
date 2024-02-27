@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM reg.masafiranian.ir/python:3.9
 RUN mkdir -p /app
 WORKDIR /app
 

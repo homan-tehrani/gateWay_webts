@@ -1,0 +1,58 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: gateway
+  namespace: app12
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - resources: {}
+          terminationMessagePath: /dev/termination-log
+          name: gateway
+          env:
+            - name: MYSQL_USER
+              value: userdev
+            - name: MYSQL_PASSWORD
+              value: u3@GP6W3ge2
+            - name: MYSQL_DATABASE
+              value: arbaeen
+            - name: MYSQL_HOST
+              value: mariadb.app12.svc.cluster.local
+            - name: APP_NAME
+              value: jwt
+            - name: PORT
+              value: 80
+            - name: HOST
+              value: 0.0.0.0
+            - name: GETAWAY
+              value: http://gateway.app12.svc.cluster.local
+          securityContext:
+            runAsUser: 0
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
+          terminationMessagePolicy: File
+          image: 'reg.dvops.ir/arbaeen/jwt:2.0.1-dev'
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      serviceAccountName: runasroot
+      serviceAccount: runasroot
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

@@ -1,0 +1,53 @@
+image:
+  name: docker:latest
+  entrypoint: ["/bin/sh", "-c"]
+
+services:
+  - name: docker:dind
+    alias: docker
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  COMPLETE_URL: $DOCKER_REG/app12/gateway:$CI_COMMIT_TAG
+  REG_APP_NAME: gateway
+  SCOPE: app12
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  before_script:
+    - docker info
+    - echo $DOCKER_REG_PASS | docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin
+  script:
+    - echo "Build And Push"
+    - export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    - docker build . -t $DOCKER_REG/app12/$REG_APP_NAME:$CI_COMMIT_TAG
+    - echo $CI_REGISTRY
+    - docker push $DOCKER_REG/app12/$REG_APP_NAME:$CI_COMMIT_TAG
+  only:
+    - tags
+  tags:
+    - pro
+
+deploy:
+  stage: deploy
+  before_script:
+    - echo $DOCKER_REG_PASS | docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin
+    - "command -v ssh-agent >/dev/null || ( apk add --update openssh )"
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - echo deploy = $COMPLETE_URL
+    - ssh -A $SSH_USER@$VM_IPADDRESS   "kubectl set image -n $SCOPE deployment/$REG_APP_NAME $REG_APP_NAME=$COMPLETE_URL && kubectl set env -n $SCOPE deployment/$REG_APP_NAME APP_VERSION=$CI_COMMIT_TAG"
+  only:
+    - tags
+  tags:
+    - pro
