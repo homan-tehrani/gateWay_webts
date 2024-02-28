@@ -24,19 +24,16 @@ spec:
               value: 36000
             - name: CACHE_IP_ADDRESS
               value: cache
-          securityContext:
-            runAsUser: 0
           ports:
             - containerPort: 80
               protocol: TCP
           imagePullPolicy: Always
           terminationMessagePolicy: File
           image: 'reg.masafiranian.ir/app12/gateway:0.1'
-      restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-      serviceAccountName: runasroot
-      serviceAccount: runasroot
+      serviceAccountName: anyuid
+      serviceAccount: anyuid
       securityContext: {}
       schedulerName: default-scheduler
   strategy:
