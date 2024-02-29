@@ -14,11 +14,10 @@ services:
       - LOG_URL=https://loger.sirafgroup.com/api/save-log
       - CACHE_TIME=108000
       - CACHE_IP_ADDRESS=cache
-      - DB_NAME=1111
+      - DB_NAME=Urls.db
 
     networks:
       - network_api
-
 
   cache:
     image: memcached
