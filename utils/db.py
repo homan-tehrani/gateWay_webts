@@ -1,7 +1,7 @@
 import sqlite3
-from utils.global_variables import DB_NAME
+# from utils.global_variables import DB_NAME
 
-
+DB_NAME="Urls.db"
 async def createDB():
     # Connect to SQLite database (or create a new one if it doesn't exist)
     conn = sqlite3.connect(DB_NAME)
@@ -27,7 +27,6 @@ async def createDB():
 # CRUD Operations
 
 # Create
-
 async def create_Url(path, signature, method, cache):
     connection = sqlite3.connect(DB_NAME)
 
@@ -43,6 +42,7 @@ async def get_urls():
     connection = sqlite3.connect(DB_NAME)
 
     # Create a cursor object to execute SQL commands
+
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Urls')
     response = []
@@ -86,7 +86,3 @@ async def delete_url(id, ):
     query = 'DELETE FROM Urls WHERE id=?'
     cursor.execute(query, (id,))
     connection.commit()
-
-# print(']===================================')
-# create_user("https://abstinence12.sirafgroup.com/v1/leaveSin/UserLeaveSinAdminApi/getStatisticsAdmin/",
-#             '/v1/leaveSin/UserLeaveSinAdminApi/getStatisticsAdmin/', 'get', True)

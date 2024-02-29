@@ -1,4 +1,4 @@
-tusversion: '3.10'
+version: '3.10'
 
 services:
   getway:
@@ -12,10 +12,13 @@ services:
       - 8085:8000
     environment:
       - LOG_URL=https://loger.sirafgroup.com/api/save-log
-      - CACHE_TIME=36000
+      - CACHE_TIME=108000
       - CACHE_IP_ADDRESS=cache
+      - DB_NAME=1111
+
     networks:
       - network_api
+
 
   cache:
     image: memcached
