@@ -19,7 +19,7 @@ spec:
           name: gateway
           env:
             - name: LOG_URL
-              value: https://loger.sirafgroup.com/api/save-log
+              value: log.app12.svc.cluster.local/api/save-log
             - name: CACHE_TIME
               value: 36000
             - name: CACHE_IP_ADDRESS
