@@ -251,8 +251,14 @@ def saveLog(request, message_id, request_body, response_body=''):
         {"message_id": message_id, "user_id": user_id, "request_body": request_body_json,
          "response_body": f"{response_body}", "ip": ip, })
 
-    # Set headers for the HTTP POST request to the log URL
-    headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+    # Try to extract the user_id from the request's scope
+    try:
+        # Set headers for the HTTP POST request to the log URL
+        headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+    except Exception as e:
+        print("Log connection error",e)
+
 
     # Make an HTTP POST request to the log URL with the prepared payload
     _response = requests.post(LOG_URL, headers=headers, data=payload)
