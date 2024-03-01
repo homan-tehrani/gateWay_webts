@@ -256,12 +256,10 @@ def saveLog(request, message_id, request_body, response_body=''):
     try:
         # Set headers for the HTTP POST request to the log URL
         headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+        # Make an HTTP POST request to the log URL with the prepared payload
+        _response = requests.post(LOG_URL, headers=headers, data=payload)
     except Exception as e:
         print("Log connection error",e)
-
-
-    # Make an HTTP POST request to the log URL with the prepared payload
-    _response = requests.post(LOG_URL, headers=headers, data=payload)
 
 
 def get_client_ip(request):
