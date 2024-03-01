@@ -56,7 +56,9 @@ class GateWay:
                 return JSONResponse(content={"detail": "آدرس وجود ندارد"}, status_code=404)
 
             # call reference api
+            print("apiCall",request)
             callService = await self.callService(request)
+            print("apiCall response",callService)
 
             try:
                 callServiceContent = callService.json()
@@ -203,7 +205,9 @@ class GateWay:
             # Check if caching is disabled for this path
             if self.path['cache'] == 0:
                 # Make a request to the external API without caching
+                print("--BUG NOT Cache URL ",url)
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
+                print("-----BUG NOT Cache Reponse ", response.text)
                 return response
 
             # Attempt to retrieve the response from the cache
@@ -211,6 +215,7 @@ class GateWay:
                 response = cache.get(url)
                 # If the response is not in the cache, make a request to the external API
                 if response is None:
+                    print("BUG Get cache ", url)
                     response = requests.request(self.method, url, headers=headers, data=await request.body())
                     # If the request is successful, cache the response
                     if response.status_code == 200:
