@@ -34,7 +34,7 @@ async def create_Url(path, signature, method, cache):
     cursor = connection.cursor()
     query = f'INSERT INTO Urls (path, signature, method, cache) VALUES ("{path}", "{signature}", "{method}", "{cache}")'
     cursor.execute(query)
-    conn.commit()
+    connection.commit()
 
 
 # Read
