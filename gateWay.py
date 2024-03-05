@@ -56,9 +56,8 @@ class GateWay:
                 return JSONResponse(content={"detail": "آدرس وجود ندارد"}, status_code=404)
 
             # call reference api
-            print("apiCall",request)
+            print("apiCall endPoint",request.scope['path'])
             callService = await self.callService(request)
-            print("apiCall response",callService)
 
             try:
                 callServiceContent = callService.json()
@@ -68,7 +67,7 @@ class GateWay:
                 thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callServiceContent}"))
                 thread.start()
                 return JSONResponse(content=f"srvice was error {callServiceContent} ", status_code=400)
-
+            print("apiCall response",callService)
             if "id" in callServiceContent:
                 thread = threading.Thread(target=saveLog,
                                           args=(request, callServiceContent['id'], self.body, callServiceContent))
@@ -103,7 +102,7 @@ class GateWay:
             try:
                 signature = request.scope['path']
             except Exception as e:
-                print('Warning!', str(e))
+                print('GateWayError! 2', str(e))
 
                 signature = request.headers.get('referer')
 
@@ -124,7 +123,7 @@ class GateWay:
                 if path is not None:
                     return path
             except Exception as e:
-                print('Error!', str(e))
+                print('GateWayError! 1', str(e))
 
             # If path is not in cache, retrieve it from the database
             url = await get_url(signature)
@@ -149,7 +148,7 @@ class GateWay:
                 except Exception as e:
                     thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
                     thread.start()
-                    print('Error!', str(e))
+                    print('GateWayError! 3', str(e))
                 path = url
 
             # Return the final path or False if not found
@@ -217,6 +216,7 @@ class GateWay:
                 if response is None:
                     print("BUG Get cache ", url)
                     response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    print("afasfasdf",response.text)
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
@@ -224,7 +224,7 @@ class GateWay:
 
             # Handle exceptions, print an error message, and make a request to the external API
             except Exception as e:
-                print('Error!', str(e))
+                print('Error! url', str(e))
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
@@ -245,26 +245,24 @@ def saveLog(request, message_id, request_body, response_body=''):
         user_id = 0
 
     # Retrieve the log URL from environment variables
-
-    # Convert request parameters and body to JSON format for logging
-    request_body_json = json.dumps(
-        {"param": request.scope['query_string'].decode(), "payload": request_body,
-         "token": request.headers.get('authorization', ''), "header": str(request.scope)})
-
-    # Prepare the payload for logging
-    payload = json.dumps(
-        {"message_id": message_id, "user_id": user_id, "request_body": request_body_json,
-         "response_body": f"{response_body}", "ip": ip, })
-
-
-    # Try to extract the user_id from the request's scope
     try:
+    # Convert request parameters and body to JSON format for logging
+        request_body_json = json.dumps(
+            {"param": request.scope['query_string'].decode(), "payload": request_body,
+             "token": request.headers.get('authorization', ''), "header": str(request.scope)})
+
+        # Prepare the payload for logging
+        payload = json.dumps(
+            {"message_id": message_id, "user_id": user_id, "request_body": request_body_json,
+             "response_body": f"{response_body}", "ip": ip, })
+
+        # Try to extract the user_id from the request's scope
         # Set headers for the HTTP POST request to the log URL
         headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
         # Make an HTTP POST request to the log URL with the prepared payload
         _response = requests.post(LOG_URL, headers=headers, data=payload)
     except Exception as e:
-        print("Log connection error",e)
+        print(" GateWayError Log connection error",str(e))
 
 
 def get_client_ip(request):
