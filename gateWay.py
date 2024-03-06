@@ -42,7 +42,7 @@ class GateWay:
             thread.start()
             print('************* connected to server  cache fail :', testConnections, '********************')
         print(testConnections)
-
+        callService = None
         try:
 
             # Check exist input URL
@@ -58,15 +58,16 @@ class GateWay:
             # call reference api
             print("apiCall endPoint",request.scope['path'])
             callService = await self.callService(request)
-
+            if callService.status_code == 500:
+                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
+                thread.start()
+                print("ERROR in resposne ",callService.text)
+                return JSONResponse(content=f"srvice was error ", status_code=400)
             try:
                 callServiceContent = callService.json()
             except Exception as e:
                 callServiceContent = callService.text
-            if callService.status_code == 500:
-                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callServiceContent}"))
-                thread.start()
-                return JSONResponse(content=f"srvice was error {callServiceContent} ", status_code=400)
+
             print("apiCall response",callService)
             if "id" in callServiceContent:
                 thread = threading.Thread(target=saveLog,
@@ -82,7 +83,7 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
             thread.start()
-            print("__call__",str(e))
+            print("__call__",str(e) ,callService.text)
             return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
