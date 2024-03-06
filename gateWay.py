@@ -38,10 +38,9 @@ class GateWay:
         testConnections = cache.get("testConnections")
         if not testConnections:
             # set loge for dont exist log code
-            thread = threading.Thread(target=saveLog, args=(request, 4478, self.body, testConnections))
+            thread = threading.Thread(target=saveLog, args=(request, 4478,body, testConnections))
             thread.start()
             print('************* connected to server  cache fail :', testConnections, '********************')
-        print(testConnections)
         callService = None
         try:
 
@@ -68,7 +67,6 @@ class GateWay:
             except Exception as e:
                 callServiceContent = callService.text
 
-            print("apiCall response", callService)
             if "id" in callServiceContent:
                 thread = threading.Thread(target=saveLog,
                                           args=(request, callServiceContent['id'], self.body, callServiceContent))
@@ -210,7 +208,7 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 if response is None:
                     print("____NONE url ", url)
-                    print("____NONE body  ", request.body())
+                    print("____NONE body  ", await request.body())
                     print("____NONE response  ", response)
                 return response
 
@@ -221,7 +219,10 @@ class GateWay:
                 if response is None:
                     print("BUG Get cache ", url)
                     response = requests.request(self.method, url, headers=headers, data=await request.body())
-                    print("afasfasdf", response.text)
+                    print("____NONE text", response.text)
+                    print("____NONE url ", url)
+                    print("____NONE body  ", await request.body())
+                    print("____NONE response  ", response)
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
@@ -277,6 +278,6 @@ def get_client_ip(request):
             return request.scope['client'][0]
         return ""
     except:
-        thread = threading.Thread(target=saveLog, args=(request, 4474, request.body(), 'get_client_ip'))
+        thread = threading.Thread(target=saveLog, args=(request, 4474, await request.body(), 'get_client_ip'))
         thread.start()
         return JSONResponse(content="get_client_ip", status_code=400)
