@@ -82,6 +82,7 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
             thread.start()
+            print("__call__",str(e))
             return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
