@@ -83,7 +83,7 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
             thread.start()
-            print("__call__",str(e) ,callService.text)
+            print("__call__",str(e) ,callService)
             return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
@@ -208,7 +208,10 @@ class GateWay:
                 # Make a request to the external API without caching
                 print("--BUG NOT Cache URL ",url)
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
-                print("-----BUG NOT Cache Reponse ", response.text)
+                if response is None :
+                    print("____NONE url ", url)
+                    print("____NONE body  ", request.body())
+                    print("____NONE response  ", response)
                 return response
 
             # Attempt to retrieve the response from the cache
@@ -232,7 +235,8 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
             thread.start()
-            return JSONResponse(content="callService", status_code=400)
+            print("handel error in call Service", str(e))
+            return JSONResponse(content=" error in callService", status_code=400)
 
 
 def saveLog(request, message_id, request_body, response_body=''):
