@@ -242,7 +242,7 @@ class GateWay:
 
 def saveLog(request, message_id, request_body, response_body=''):
     # Get the client's IP address using a custom function (get_client_ip)
-    ip = get_client_ip(request)
+    ip = '0'
 
     # Try to extract the user_id from the request's scope
     try:
@@ -278,6 +278,6 @@ def get_client_ip(request):
             return request.scope['client'][0]
         return ""
     except:
-        thread = threading.Thread(target=saveLog, args=(request, 4474, await request.body(), 'get_client_ip'))
+        thread = threading.Thread(target=saveLog, args=(request, 4474, 'body', 'get_client_ip'))
         thread.start()
         return JSONResponse(content="get_client_ip", status_code=400)
