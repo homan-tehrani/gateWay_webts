@@ -38,7 +38,7 @@ class GateWay:
         testConnections = cache.get("testConnections")
         if not testConnections:
             # set loge for dont exist log code
-            thread = threading.Thread(target=saveLog, args=(request, 4478,body, testConnections))
+            thread = threading.Thread(target=saveLog, args=(request, 4478,'body', testConnections))
             thread.start()
             print('************* connected to server  cache fail :', testConnections, '********************')
         callService = None
