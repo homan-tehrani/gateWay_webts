@@ -56,19 +56,19 @@ class GateWay:
                 return JSONResponse(content={"detail": "آدرس وجود ندارد"}, status_code=404)
 
             # call reference api
-            print("apiCall endPoint",request.scope['path'])
+            print("apiCall endPoint", request.scope['path'])
             callService = await self.callService(request)
             if callService.status_code == 500:
                 thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
                 thread.start()
-                print("ERROR in resposne ",callService.text)
+                print("ERROR in resposne ", callService.text)
                 return JSONResponse(content=f"srvice was error ", status_code=400)
             try:
                 callServiceContent = callService.json()
             except Exception as e:
                 callServiceContent = callService.text
 
-            print("apiCall response",callService)
+            print("apiCall response", callService)
             if "id" in callServiceContent:
                 thread = threading.Thread(target=saveLog,
                                           args=(request, callServiceContent['id'], self.body, callServiceContent))
@@ -83,17 +83,17 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
             thread.start()
-            print("__call__",str(e) ,callService)
+            print("__call__", str(e), callService)
             return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
         try:
             """
             Parses the URL from the incoming request and retrieves corresponding information.
-    
+
             Args:
                 request (FastAPI Request): The incoming request object.
-    
+
             Returns:
                 dict or bool: Returns the parsed URL information or False if not found.
             """
@@ -206,9 +206,9 @@ class GateWay:
             # Check if caching is disabled for this path
             if self.path['cache'] == 0:
                 # Make a request to the external API without caching
-                print("--BUG NOT Cache URL ",url)
+                print("--BUG NOT Cache URL ", url)
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
-                if response is None :
+                if response is None:
                     print("____NONE url ", url)
                     print("____NONE body  ", request.body())
                     print("____NONE response  ", response)
@@ -221,7 +221,7 @@ class GateWay:
                 if response is None:
                     print("BUG Get cache ", url)
                     response = requests.request(self.method, url, headers=headers, data=await request.body())
-                    print("afasfasdf",response.text)
+                    print("afasfasdf", response.text)
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
@@ -252,7 +252,7 @@ def saveLog(request, message_id, request_body, response_body=''):
 
     # Retrieve the log URL from environment variables
     try:
-    # Convert request parameters and body to JSON format for logging
+        # Convert request parameters and body to JSON format for logging
         request_body_json = json.dumps(
             {"param": request.scope['query_string'].decode(), "payload": request_body,
              "token": request.headers.get('authorization', ''), "header": str(request.scope)})
@@ -268,7 +268,7 @@ def saveLog(request, message_id, request_body, response_body=''):
         # Make an HTTP POST request to the log URL with the prepared payload
         _response = requests.post(LOG_URL, headers=headers, data=payload)
     except Exception as e:
-        print(" GateWayError Log connection error",str(e))
+        print(" GateWayError Log connection error", str(e))
 
 
 def get_client_ip(request):
