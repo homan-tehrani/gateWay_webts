@@ -11,7 +11,7 @@ from utils.db import get_url
 
 cache = memcache.Client([CACHE_IP_ADDRESS])
 
-LOGIN_EXEMPT_URLS = ['/v/url/addUrl/', '/v/url/getUrls/', '/v/url/deleteUrl/', '/v/url/clearCache/', ]
+LOGIN_EXEMPT_URLS = ['/v/url/addUrl/', '/v/url/getUrls/', '/v/url/deleteUrl/', '/v/url/clearCache/', '/v/url/health/']
 
 
 # cache.flush_all()

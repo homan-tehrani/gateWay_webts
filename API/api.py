@@ -69,3 +69,8 @@ async def clear_cache():
     except Exception as e:
         # Handle exceptions appropriately, for example, log the error
         return JSONResponse(content={"detail": f"Internal Server Error ---> {e}"}, status_code=400)
+
+
+@router.get("/health/")
+async def get_health():
+    return ({"status":200})
