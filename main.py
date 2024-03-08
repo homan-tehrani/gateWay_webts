@@ -10,7 +10,7 @@ from gateWay import GateWay
 from API.api import router as urls_router
 
 app = FastAPI()
-
+print("START 2")
 app.add_middleware(BaseHTTPMiddleware, dispatch=GateWay(Request, Header))
 app.add_middleware(
     CORSMiddleware,
@@ -22,5 +22,6 @@ app.add_middleware(
 # import routes
 from API.api import router as urls_router
 
+print("START 3")
 # including routers
 app.include_router(urls_router, prefix='/v1')

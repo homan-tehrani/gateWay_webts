@@ -17,6 +17,7 @@ LOGIN_EXEMPT_URLS = ['/v/url/addUrl/', '/v/url/getUrls/', '/v/url/deleteUrl/', '
 # cache.flush_all()
 
 class GateWay:
+    print("START 1")
     def __init__(self, request: Request, header):
         # init variables
         self.request = request
@@ -28,6 +29,7 @@ class GateWay:
         self.path = None
 
     async def __call__(self, request: Request, call_next):
+        print("START 4")
         order = r'[0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9]'
         path = request.scope['path']
         path = re.sub(order, '', path)
