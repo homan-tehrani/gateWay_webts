@@ -6,6 +6,9 @@ import requests
 
 
 async def CallService(url, method, headers, data=None, time=30):
+    print(data)
+    print(type(data))
+    print('[[[[[[[[[[[[[[[[[[[[[[CallService]]]]]]]]]]]]]]]]]]]]]]')
     try:
         try:
 

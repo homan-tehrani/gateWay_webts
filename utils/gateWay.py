@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from fastapi import Request, Header
 from pydantic import BaseModel
 from utils.db import get_url
+from starlette.datastructures import FormData
 
 cache = memcache.Client([CACHE_IP_ADDRESS])
 
@@ -35,8 +36,15 @@ class GateWay:
 
             try:
                 body = await request.json()
+
             except json.JSONDecodeError:
                 body = None
+            if body is None:
+                data = await request.form()
+                body =dict( FormData(data))
+
+            print(body)
+            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[body]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
             self.body = body
             result = None
             # Check exist input URL
@@ -51,7 +59,7 @@ class GateWay:
 
             # call reference api
             result = await self.callExternalService(request)
-            if  result is None:
+            if result is None:
                 return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
 
             # check status code  api
@@ -157,7 +165,7 @@ class GateWay:
             return False
 
         except Exception as e:
-            print('Error !   parseUrl  : ',str(e))
+            print('Error !   parseUrl  : ', str(e))
             thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
             thread.start()
             return JSONResponse(content="parseUrl", status_code=400)
@@ -187,8 +195,12 @@ class GateWay:
         try:
             try:
                 body = await request.json()
+
             except json.JSONDecodeError:
                 body = None
+            if body is None:
+                data = await request.form()
+                body =dict( FormData(data))
             self.body = body
             # Extract the 'content-type' header from the request
             contentType = request.headers.get("content-type")
