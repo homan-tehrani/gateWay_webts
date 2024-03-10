@@ -24,6 +24,7 @@ async def CallService(url, method, headers, data=None, time=30):
                 elif method.upper() == 'DELETE':
                     response = await client.delete(url, headers=headers, data=data, timeout=time)
                 print(response)
+                print(response.json())
                 print('[[[[[[[[[[[[[[[response]]]]]]]]]]]]]]]')
                 return response
         except Exception as e :

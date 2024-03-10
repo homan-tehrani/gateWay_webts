@@ -30,76 +30,78 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
+        # try:
+        # check connection cache
+        await CheckConnectionCache(cache, request)
+
         try:
-            # check connection cache
-            await CheckConnectionCache(cache, request)
+            body = await request.json()
 
-            try:
-                body = await request.json()
+        except json.JSONDecodeError:
+            body = None
+        if body is None:
+            data = await request.form()
+            body = dict(FormData(data))
 
-            except json.JSONDecodeError:
-                body = None
-            if body is None:
-                data = await request.form()
-                body =dict( FormData(data))
-
-            print(body)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[body]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
-            self.body = body
-            result = None
-            # Check exist input URL
-            existUrl = await self.existUrl(request)
-            if not existUrl:
-                # set loge for  does not exist url
-                thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
-                thread.start()
-
-                #  response for client
-                return JSONResponse(content={"detail": "not found address"}, status_code=404)
-
-            # call reference api
-            result = await self.callExternalService(request)
-            if result is None:
-                return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
-
-            # check status code  api
-            if str(result.status_code).startswith("5") :
-                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
-                thread.start()
-                print("ERROR in response ", result.text)
-                print("ERROR in response ", result)
-                return JSONResponse(content={"detail": "srvice was error"}, status_code=400)
-            # get content result call api
-            try:
-                callServiceContent = result.json()
-            except Exception as e:
-                print("Exception in result.json() ", str(e))
-                callServiceContent = result.text
-
-            #  set log api called
-            if "id" in callServiceContent:
-                try:
-                    thread = threading.Thread(target=saveLog,
-                                              args=(request, callServiceContent['id'], self.body, callServiceContent))
-                    thread.start()
-                except Exception as e:
-                    print("Exception in save  log ", str(e))
-
-                #  response for client
-                return JSONResponse(content=callServiceContent, status_code=result.status_code)
-            else:
-                # set loge for dont exist log code
-                thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
-                thread.start()
-                #  response for client
-                return JSONResponse(content=callServiceContent, status_code=result.status_code)
-
-        except Exception as e:
-            #  save  log Exception
-            thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+        print(body)
+        print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[body]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
+        self.body = body
+        result = None
+        # Check exist input URL
+        existUrl = await self.existUrl(request)
+        if not existUrl:
+            # set loge for  does not exist url
+            thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
             thread.start()
-            print("__call__", str(e))
-            return JSONResponse(content="__call__", status_code=400)
+
+            #  response for client
+            return JSONResponse(content={"detail": "not found address"}, status_code=404)
+
+        # call reference api
+        result = await self.callExternalService(request)
+        print(result)
+        print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[result]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
+        if result is None:
+            return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
+
+        # check status code  api
+        if str(result.status_code).startswith("5"):
+            thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
+            thread.start()
+            print("ERROR in response ", result.text)
+            print("ERROR in response ", result)
+            return JSONResponse(content={"detail": "srvice was error"}, status_code=400)
+        # get content result call api
+        try:
+            callServiceContent = result.json()
+        except Exception as e:
+            print("Exception in result.json() ", str(e))
+            callServiceContent = result.text
+
+        #  set log api called
+        if "id" in callServiceContent:
+            try:
+                thread = threading.Thread(target=saveLog,
+                                          args=(request, callServiceContent['id'], self.body, callServiceContent))
+                thread.start()
+            except Exception as e:
+                print("Exception in save  log ", str(e))
+
+            #  response for client
+            return JSONResponse(content=callServiceContent, status_code=result.status_code)
+        else:
+            # set loge for dont exist log code
+            thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
+            thread.start()
+            #  response for client
+            return JSONResponse(content=callServiceContent, status_code=result.status_code)
+
+    # except Exception as e:
+    #     #  save  log Exception
+    #     thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+    #     thread.start()
+    #     print("__call__", str(e))
+    #     return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
         try:
@@ -200,7 +202,7 @@ class GateWay:
                 body = None
             if body is None:
                 data = await request.form()
-                body =dict( FormData(data))
+                body = dict(FormData(data))
             self.body = body
             # Extract the 'content-type' header from the request
             contentType = request.headers.get("content-type")
