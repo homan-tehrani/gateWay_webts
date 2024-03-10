@@ -388,13 +388,14 @@ class GateWay:
             thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
             thread.start()
             print('************* connected to server  cache fail :', testConnections, '********************')
+        else:
+            print('-------------------- connected to server  cache  :', testConnections, '------------------')
+
         callService = None
         try:
 
             # Check exist input URL
             existUrl = await self.existUrl(request)
-            print(existUrl)
-            print('[[[[[[[[[[[[[[[[[[[[[existUrl]]]]]]]]]]]]]]]]]]]]]')
             if not existUrl:
                 # set loge for  does not exist url
                 thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
@@ -411,25 +412,27 @@ class GateWay:
                 thread.start()
                 print("ERROR in resposne ", callService.text)
                 return JSONResponse(content=f"srvice was error ", status_code=400)
-            print(callService)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[[callService]]]]]]]]]]]]]]]]]]]]]]]]]')
             try:
                 callServiceContent = callService.json()
             except Exception as e:
                 callServiceContent = callService.text
-            print(callServiceContent)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[callServiceContent]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
             if "id" in callServiceContent:
-                thread = threading.Thread(target=saveLog,
-                                          args=(request, callServiceContent['id'], self.body, callServiceContent))
-                thread.start()
+                try:
+                    thread = threading.Thread(target=saveLog,
+                                              args=(request, callServiceContent['id'], self.body, callServiceContent))
+                    thread.start()
+                except  Exception as e:
+                    print("Exception in save  log in line  422", str(e))
+
+                #  response for client
+                return JSONResponse(content=callServiceContent, status_code=callService.status_code)
             else:
                 # set loge for dont exist log code
                 thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
                 thread.start()
 
-            #  response for client
-            return JSONResponse(content=callServiceContent, status_code=callService.status_code)
+                #  response for client
+                return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
             thread.start()
@@ -479,12 +482,7 @@ class GateWay:
 
             # If path is not in cache, retrieve it from the database
             url = await get_url(signature)
-            print(url)
-            print('[[[[[[[[[[[[[[[[[[[[[[[url]]]]]]]]]]]]]]]]]]]]]]]')
             if url:
-                print(self.method)
-                print(url['method'])
-                print("[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[method")
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
                     # Log unauthorized method attempt
@@ -507,7 +505,6 @@ class GateWay:
                     thread.start()
                     print('GateWayError! 3', str(e))
                 path = url
-            print(path)
             # Return the final path or False if not found
             if path:
                 return path
@@ -525,8 +522,6 @@ class GateWay:
         # Attempt to parse the URL using the parseUrl method
         try:
             path = await self.parseUrl(request)
-            print(path)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[path]]]]]]]]]]]]]]]]]]]]]]]]')
             # If a valid path is obtained, update self.path and return True
             if not path:
                 return False
@@ -544,59 +539,59 @@ class GateWay:
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
     async def callService(self, request):
-        # try:
-        # Extract the 'content-type' header from the request
-        contentType = request.headers.get("content-type")
-
-        # Check the HTTP method to determine the headers
-        if self.method != "GET":
-            headers = {'Content-Type': contentType, 'Authorization': self.token}
-        else:
-            headers = {'Authorization': self.token}
-
-        # Construct the URL based on the request parameters
-        if request.query_params:
-            url = f"{self.path['path']}?{request.query_params}"
-        else:
-            url = f"{self.path['path']}"
-
-        # Check if caching is disabled for this path
-        if self.path['cache'] == 0:
-            # Make a request to the external API without caching
-            print("--BUG NOT Cache URL ", url)
-            response = requests.request(self.method, url, headers=headers, data=await request.body())
-            if response is None:
-                print("____NONE url ", url)
-                print("____NONE body  ", await request.body())
-                print("____NONE response  ", response)
-            return response
-
-        # Attempt to retrieve the response from the cache
         try:
-            response = cache.get(url)
-            # If the response is not in the cache, make a request to the external API
-            if response is None:
-                print("BUG Get cache ", url)
-                response = requests.request(self.method, url, headers=headers, data=await request.body())
-                print("____NONE text", response.text)
-                print("____NONE url ", url)
-                print("____NONE body  ", await request.body())
-                print("____NONE response  ", response)
-                # If the request is successful, cache the response
-                if response.status_code == 200:
-                    cache.set(url, response, time=int(CACHE_TIME))
-            return response
+            # Extract the 'content-type' header from the request
+            contentType = request.headers.get("content-type")
 
-        # Handle exceptions, print an error message, and make a request to the external API
-        except Exception as e:
-            print('Error! url', str(e))
+            # Check the HTTP method to determine the headers
+            if self.method != "GET":
+                headers = {'Content-Type': contentType, 'Authorization': self.token}
+            else:
+                headers = {'Authorization': self.token}
+
+            # Construct the URL based on the request parameters
+            if request.query_params:
+                url = f"{self.path['path']}?{request.query_params}"
+            else:
+                url = f"{self.path['path']}"
+
+            # Check if caching is disabled for this path
+            if self.path['cache'] == 0:
+                # Make a request to the external API without caching
+                print("--BUG NOT Cache URL ", url)
+                response = requests.request(self.method, url, headers=headers, data=await request.body())
+                if response is None:
+                    print("____NONE url ", url)
+                    print("____NONE body  ", await request.body())
+                    print("____NONE response  ", response)
+                return response
+
+            # Attempt to retrieve the response from the cache
+            try:
+                response = cache.get(url)
+                # If the response is not in the cache, make a request to the external API
+                if response is None:
+                    print("BUG Get cache ", url)
+                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    print("____NONE text", response.text)
+                    print("____NONE url ", url)
+                    print("____NONE body  ", await request.body())
+                    print("____NONE response  ", response)
+                    # If the request is successful, cache the response
+                    if response.status_code == 200:
+                        cache.set(url, response, time=int(CACHE_TIME))
+                return response
+
+            # Handle exceptions, print an error message, and make a request to the external API
+            except Exception as e:
+                print('Error! url', str(e))
             response = requests.request(self.method, url, headers=headers, data=await request.body())
             return response
-    # except Exception as e:
-    #     thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
-    #     thread.start()
-    #     print("handel error in call Service", str(e))
-    #     return JSONResponse(content=" error in callService", status_code=400)
+        except Exception as e:
+            thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
+            thread.start()
+            print("handel error in call Service", str(e))
+            return JSONResponse(content=" error in callService", status_code=400)
 
 
 def saveLog(request, message_id, request_body, response_body=''):

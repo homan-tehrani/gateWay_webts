@@ -56,7 +56,6 @@ async def get_urls():
 # Read
 async def get_url(signature):
     connection = sqlite3.connect(DB_NAME)
-
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Urls WHERE  signature=?', (signature,))

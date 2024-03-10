@@ -18,6 +18,7 @@ LOGIN_EXEMPT_URLS = ['/v/url/addUrl/', '/v/url/getUrls/', '/v/url/deleteUrl/', '
 
 class GateWay:
     print("START 1")
+
     def __init__(self, request: Request, header):
         print("__init__1")
 

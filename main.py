@@ -29,18 +29,15 @@ print("START 3")
 app.include_router(urls_router, prefix='/v1')
 
 
-
 @app.route("/hello")
 async def hello():
     return {"hello": "world"}
 
 
-@app.api_route("/{path_name:path}", methods=["GET","POST"])
+@app.api_route("/{path_name:path}", methods=["GET", "POST", "PUT", "DELETE"])
 async def catch_all(request: Request, path_name: str):
-
     gateWay = GateWay(Request, Header)
     response = await gateWay.call(request)
     print(response)
-
     print('[[[[[[[[[[[[[[[[[[[[response]]]]]]]]]]]]]]]]]]]]')
     return response
