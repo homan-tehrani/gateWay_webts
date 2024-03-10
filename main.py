@@ -1,12 +1,16 @@
-from fastapi import FastAPI, Request, Header
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
-from utils.gateWay import GateWay
+from fastapi import FastAPI, Request, Header
+# from utils.gateWay import GateWay
+from gateWay import GateWay
 
 # import routes
 from API.api import router as urls_router
 
 app = FastAPI()
 
+
+# app.add_middleware(BaseHTTPMiddleware, dispatch=GateWay(Request, Header))
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

@@ -1,15 +1,16 @@
 import re
+import httpx
+import json
 import memcache
 import json
 import requests
 import threading
 from utils.global_variables import LOG_URL, CACHE_TIME, CACHE_IP_ADDRESS
-from utils.common import CallService, CheckConnectionCache
-from fastapi.responses import JSONResponse
 from fastapi import Request, Header
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from utils.db import get_url
-from starlette.datastructures import FormData
+from utils.common import CheckConnectionCache
 
 cache = memcache.Client([CACHE_IP_ADDRESS])
 
@@ -19,6 +20,7 @@ cache = memcache.Client([CACHE_IP_ADDRESS])
 class GateWay:
 
     def __init__(self, request: Request, header):
+        print("__init__1")
 
         # init variables
         self.request = request
@@ -30,28 +32,10 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        # try:
-            # check connection cache
-            await CheckConnectionCache(cache, request)
+        await CheckConnectionCache(cache, request)
+        callService = None
+        try:
 
-            contentType = request.headers.get("content-type")
-
-            if "multipart/form-data" in str(contentType):
-                data = await request.form()
-                body = (FormData(data))
-            elif "application/json" in str(contentType):
-                try:
-                    body = await request.json()
-
-                except json.JSONDecodeError:
-                    body = None
-            else:
-                body = None
-            print(contentType)
-            print(body)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[body]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
-            self.body = body
-            result = None
             # Check exist input URL
             existUrl = await self.existUrl(request)
             if not existUrl:
@@ -60,54 +44,48 @@ class GateWay:
                 thread.start()
 
                 #  response for client
-                return JSONResponse(content={"detail": "not found address"}, status_code=404)
+                return JSONResponse(content={"detail": "آدرس وجود ندارد"}, status_code=404)
 
             # call reference api
-            result = await self.callExternalService(request)
-            if result is None:
-                return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
-
-            # check status code  api
-            if result.status_code == 500:
-                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
+            callService = await self.callService(request)
+            if callService.status_code == 500:
+                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
                 thread.start()
-                print("ERROR in response ", result.text)
-                print("ERROR in response ", result)
-                return JSONResponse(content={"detail": "srvice was error"}, status_code=400)
-            # get content result call api
+                print("ERROR in resposne ", callService.text)
+                return JSONResponse(content=f"srvice was error ", status_code=400)
             try:
-                callServiceContent = result.json()
+                callServiceContent = callService.json()
             except Exception as e:
-                print("Exception in result.json() ", str(e))
-                callServiceContent = result.text
+                callServiceContent = callService.text
 
-            #  set log api called
             if "id" in callServiceContent:
-                try:
-                    thread = threading.Thread(target=saveLog,
-                                              args=(request, callServiceContent['id'], self.body, callServiceContent))
-                    thread.start()
-                except Exception as e:
-                    print("Exception in save  log ", str(e))
-
-                #  response for client
-                return JSONResponse(content=callServiceContent, status_code=result.status_code)
+                thread = threading.Thread(target=saveLog,
+                                          args=(request, callServiceContent['id'], self.body, callServiceContent))
+                thread.start()
             else:
                 # set loge for dont exist log code
                 thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
                 thread.start()
-                #  response for client
-                return JSONResponse(content=callServiceContent, status_code=result.status_code)
 
-        # except Exception as e:
-        #     #  save  log Exception
-        #     thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
-        #     thread.start()
-        #     print("__call__", str(e))
-        #     return JSONResponse(content="__call__", status_code=400)
+            #  response for client
+            return JSONResponse(content=callServiceContent, status_code=callService.status_code)
+        except Exception as e:
+            thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+            thread.start()
+            print("__call__", str(e), callService)
+            return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
         try:
+            """
+            Parses the URL from the incoming request and retrieves corresponding information.
+
+            Args:
+                request (FastAPI Request): The incoming request object.
+
+            Returns:
+                dict or bool: Returns the parsed URL information or False if not found.
+            """
             # Extract headers from the request
             self.headers = request.headers
 
@@ -115,7 +93,7 @@ class GateWay:
             try:
                 signature = request.scope['path']
             except Exception as e:
-                print('Error  !  in get signature request : ', str(e))
+                print('GateWayError! 2', str(e))
 
                 signature = request.headers.get('referer')
 
@@ -130,12 +108,13 @@ class GateWay:
 
             path = None
             try:
+
                 # Try to get the path from the cache
                 path = cache.get(signature)
                 if path is not None:
                     return path
             except Exception as e:
-                print('Error  !  in get data on cache : ', str(e))
+                print('GateWayError! 1', str(e))
 
             # If path is not in cache, retrieve it from the database
             url = await get_url(signature)
@@ -160,8 +139,9 @@ class GateWay:
                 except Exception as e:
                     thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
                     thread.start()
-                    print('Error  ! in set  data on cache  : ', str(e))
+                    print('GateWayError! 3', str(e))
                 path = url
+
             # Return the final path or False if not found
             if path:
                 return path
@@ -170,7 +150,6 @@ class GateWay:
             return False
 
         except Exception as e:
-            print('Error !   parseUrl  : ', str(e))
             thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
             thread.start()
             return JSONResponse(content="parseUrl", status_code=400)
@@ -196,73 +175,85 @@ class GateWay:
             # Return a JSON response indicating an error with status code 400
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
-    async def callExternalService(self, request):
+    async def callService(self, request):
         try:
+            # Extract the 'content-type' header from the request
             contentType = request.headers.get("content-type")
 
-            if "multipart/form-data" in str(contentType):
-                data = await request.form()
-                body = (FormData(data))
-            elif "application/json" in str(contentType):
-                try:
-                    body = await request.json()
-
-                except json.JSONDecodeError:
-                    body = None
-            else:
-                body = None
-            print(contentType)
-            print(body)
-            print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[body]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
-            self.body=body
             headers = {}
             if self.token:
                 headers['Authorization'] = self.token
             if contentType:
                 headers['Content-Type'] = contentType
-            # else:
-            #     headers['Content-Type'] = 'application/json'
 
             # Construct the URL based on the request parameters
             if request.query_params:
                 url = f"{self.path['path']}?{request.query_params}"
             else:
                 url = f"{self.path['path']}"
+
             # Check if caching is disabled for this path
             if self.path['cache'] == 0:
                 # Make a request to the external API without caching
-                response = await CallService(url, self.method, headers,request, data=self.body, time=30)
-                if not response: return None
-                return response
+                async with httpx.AsyncClient() as client:
+                    if self.method.upper() == 'GET':
+                        response = await client.get(url, headers=headers, timeout=30)
+                    elif self.method.upper() == 'POST':
+                        response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
+                    elif self.method.upper() == 'PUT':
+                        response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                    elif self.method.upper() == 'DELETE':
+                        response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
+                    else:
+                        response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    return response
 
             # Attempt to retrieve the response from the cache
             try:
                 response = cache.get(url)
-
                 # If the response is not in the cache, make a request to the external API
                 if response is None:
-                    response = await CallService(url, self.method, headers, data=body, time=30)
-                    if not response: return None
-
+                    # Make a request to the external API without caching
+                    async with httpx.AsyncClient() as client:
+                        if self.method.upper() == 'GET':
+                            response = await client.get(url, headers=headers, timeout=30)
+                        elif self.method.upper() == 'POST':
+                            response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
+                        elif self.method.upper() == 'PUT':
+                            response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                        elif self.method.upper() == 'DELETE':
+                            response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
+                        else:
+                            response = requests.request(self.method, url, headers=headers, data=await request.body())
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
-
                 return response
+
             # Handle exceptions, print an error message, and make a request to the external API
             except Exception as e:
                 print('Error! url', str(e))
-            response = await CallService(url, self.method, headers, data=body, time=30)
-            if not response: return None
-            return response
+            # Make a request to the external API without caching
+            async with httpx.AsyncClient() as client:
+                if self.method.upper() == 'GET':
+                    response = await client.get(url, headers=headers, timeout=30)
+                elif self.method.upper() == 'POST':
+                    response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
+                elif self.method.upper() == 'PUT':
+                    response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                elif self.method.upper() == 'DELETE':
+                    response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
+                else:
+                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                return response
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
             thread.start()
+            print("handel error in call Service", str(e))
             return JSONResponse(content=" error in callService", status_code=400)
 
 
 def saveLog(request, message_id, request_body, response_body=''):
-    return True
     # Get the client's IP address using a custom function (get_client_ip)
     ip = '0'
 
