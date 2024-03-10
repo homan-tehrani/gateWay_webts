@@ -8,7 +8,7 @@ import requests
 async def CallService(url, method, headers, data=None, time=30):
     try:
         try:
-            
+
             async with httpx.AsyncClient() as client:
                 if method.upper() == 'GET':
                     response = await client.get(url, headers=headers, timeout=time)

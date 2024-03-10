@@ -254,6 +254,7 @@ class GateWay:
 
 
 def saveLog(request, message_id, request_body, response_body=''):
+    return True
     # Get the client's IP address using a custom function (get_client_ip)
     ip = '0'
 
