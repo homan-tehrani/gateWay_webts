@@ -32,26 +32,26 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        await CheckConnectionCache(cache, request)
+        # await CheckConnectionCache(cache, request)
         callService = None
         try:
 
             # Check exist input URL
-            existUrl = await self.existUrl(request)
+            existUrl = await self.parseUrl(request)
             if not existUrl:
                 # set loge for  does not exist url
                 thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
                 thread.start()
 
                 #  response for client
-                return JSONResponse(content={"detail": "آدرس وجود ندارد"}, status_code=404)
+                return JSONResponse(content={"detail": "address not found"}, status_code=404)
 
             # call reference api
             callService = await self.callService(request)
             if callService.status_code == 500:
                 thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
                 thread.start()
-                print("ERROR in resposne ", callService.text)
+                print("ERROR in response ", callService.text)
                 return JSONResponse(content=f"srvice was error ", status_code=400)
             try:
                 callServiceContent = callService.json()
@@ -112,7 +112,8 @@ class GateWay:
                 # Try to get the path from the cache
                 path = cache.get(signature)
                 if path is not None:
-                    return path
+                    self.path = path
+                    # return path
             except Exception as e:
                 print('GateWayError! 1', str(e))
 
@@ -134,17 +135,18 @@ class GateWay:
                     return False
 
                 try:
-                    # Cache the URL with the specified cache time
+                    # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
                     thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
                     thread.start()
-                    print('GateWayError! 3', str(e))
+                    print('Cache the URL  ! ', str(e))
                 path = url
 
             # Return the final path or False if not found
             if path:
-                return path
+                self.path = path
+                # return path
             thread = threading.Thread(target=saveLog, args=(request, 4473, self.body, "path dose not exist"))
             thread.start()
             return False
@@ -194,25 +196,9 @@ class GateWay:
 
             # Check if caching is disabled for this path
             if self.path['cache'] == 0:
-                # Make a request to the external API without caching
-                async with httpx.AsyncClient() as client:
-                    if self.method.upper() == 'GET':
-                        response = await client.get(url, headers=headers, timeout=30)
-                    elif self.method.upper() == 'POST':
-                        response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
-                    elif self.method.upper() == 'PUT':
-                        response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
-                    elif self.method.upper() == 'DELETE':
-                        response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
-                    else:
-                        response = requests.request(self.method, url, headers=headers, data=await request.body())
-                    return response
 
-            # Attempt to retrieve the response from the cache
-            try:
-                response = cache.get(url)
-                # If the response is not in the cache, make a request to the external API
-                if response is None:
+                try:
+
                     # Make a request to the external API without caching
                     async with httpx.AsyncClient() as client:
                         if self.method.upper() == 'GET':
@@ -223,8 +209,33 @@ class GateWay:
                             response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
                         elif self.method.upper() == 'DELETE':
                             response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
-                        else:
-                            response = requests.request(self.method, url, headers=headers, data=await request.body())
+                        return response
+                except:
+                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    return response
+
+            # Attempt to retrieve the response from the cache
+            try:
+                response = cache.get(url)
+                # If the response is not in the cache, make a request to the external API
+                if response is None:
+                    try:
+
+                        # Make a request to the external API without caching
+                        async with httpx.AsyncClient() as client:
+                            if self.method.upper() == 'GET':
+                                response = await client.get(url, headers=headers, timeout=30)
+                            elif self.method.upper() == 'POST':
+                                response = await client.post(url, headers=headers, data=await request.body(),
+                                                             timeout=30)
+                            elif self.method.upper() == 'PUT':
+                                response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                            elif self.method.upper() == 'DELETE':
+                                response = await client.delete(url, headers=headers, data=await request.body(),
+                                                               timeout=30)
+                    except:
+                        response = requests.request(self.method, url, headers=headers, data=await request.body())
+
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
@@ -232,19 +243,22 @@ class GateWay:
 
             # Handle exceptions, print an error message, and make a request to the external API
             except Exception as e:
-                print('Error! url', str(e))
-            # Make a request to the external API without caching
-            async with httpx.AsyncClient() as client:
-                if self.method.upper() == 'GET':
-                    response = await client.get(url, headers=headers, timeout=30)
-                elif self.method.upper() == 'POST':
-                    response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
-                elif self.method.upper() == 'PUT':
-                    response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
-                elif self.method.upper() == 'DELETE':
-                    response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
-                else:
-                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                print('Error! cache.get ', str(e))
+            try:
+
+                # Make a request to the external API without caching
+                async with httpx.AsyncClient() as client:
+                    if self.method.upper() == 'GET':
+                        response = await client.get(url, headers=headers, timeout=30)
+                    elif self.method.upper() == 'POST':
+                        response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
+                    elif self.method.upper() == 'PUT':
+                        response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                    elif self.method.upper() == 'DELETE':
+                        response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
+                    return response
+            except:
+                response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
