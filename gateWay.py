@@ -39,7 +39,6 @@ class GateWay:
             # Check exist input URL
             existUrl = await self.parseUrl(request)
             if not existUrl:
-                print()
                 # set loge for  does not exist url
                 thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
                 thread.start()
