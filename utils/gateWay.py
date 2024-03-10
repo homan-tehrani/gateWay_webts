@@ -10,7 +10,7 @@ from fastapi import Request, Header
 from pydantic import BaseModel
 from utils.db import get_url
 
-cache = memcache.Client(CACHE_IP_ADDRESS)
+cache = memcache.Client([CACHE_IP_ADDRESS])
 
 
 # cache.flush_all()
@@ -51,6 +51,9 @@ class GateWay:
 
             # call reference api
             result = await self.callExternalService(request)
+            if  result is None:
+                return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
+
             # check status code  api
             if result.status_code == 500:
                 thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
@@ -62,7 +65,7 @@ class GateWay:
             try:
                 callServiceContent = result.json()
             except Exception as e:
-                print("Exception in result.json() in line  71", str(e))
+                print("Exception in result.json() ", str(e))
                 callServiceContent = result.text
 
             #  set log api called
@@ -72,7 +75,7 @@ class GateWay:
                                               args=(request, callServiceContent['id'], self.body, callServiceContent))
                     thread.start()
                 except Exception as e:
-                    print("Exception in save  log in line  422", str(e))
+                    print("Exception in save  log ", str(e))
 
                 #  response for client
                 return JSONResponse(content=callServiceContent, status_code=result.status_code)
@@ -99,7 +102,7 @@ class GateWay:
             try:
                 signature = request.scope['path']
             except Exception as e:
-                print('Error in line 113 !  in get signature request : ', str(e))
+                print('Error  !  in get signature request : ', str(e))
 
                 signature = request.headers.get('referer')
 
@@ -119,7 +122,7 @@ class GateWay:
                 if path is not None:
                     return path
             except Exception as e:
-                print('Error in  line  131 !  in get data on cache : ', str(e))
+                print('Error  !  in get data on cache : ', str(e))
 
             # If path is not in cache, retrieve it from the database
             url = await get_url(signature)
@@ -144,7 +147,7 @@ class GateWay:
                 except Exception as e:
                     thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
                     thread.start()
-                    print('Error in  line 156 ! in set  data on cache  : ', str(e))
+                    print('Error  ! in set  data on cache  : ', str(e))
                 path = url
             # Return the final path or False if not found
             if path:
@@ -154,6 +157,7 @@ class GateWay:
             return False
 
         except Exception as e:
+            print('Error !   parseUrl  : ',str(e))
             thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
             thread.start()
             return JSONResponse(content="parseUrl", status_code=400)
@@ -205,6 +209,7 @@ class GateWay:
             if self.path['cache'] == 0:
                 # Make a request to the external API without caching
                 response = await CallService(url, self.method, headers, data=self.body, time=30)
+                if not response: return None
                 return response
 
             # Attempt to retrieve the response from the cache
@@ -214,6 +219,8 @@ class GateWay:
                 # If the response is not in the cache, make a request to the external API
                 if response is None:
                     response = await CallService(url, self.method, headers, data=body, time=30)
+                    if not response: return None
+
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
@@ -223,6 +230,7 @@ class GateWay:
             except Exception as e:
                 print('Error! url', str(e))
             response = await CallService(url, self.method, headers, data=body, time=30)
+            if not response: return None
             return response
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))

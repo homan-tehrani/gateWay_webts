@@ -8,6 +8,7 @@ import requests
 async def CallService(url, method, headers, data=None, time=30):
     try:
         try:
+
             async with httpx.AsyncClient() as client:
                 if method.upper() == 'GET':
                     response = await client.get(url, headers=headers, timeout=time)
@@ -19,7 +20,9 @@ async def CallService(url, method, headers, data=None, time=30):
                 elif method.upper() == 'DELETE':
                     response = await client.delete(url, headers=headers, data=data, timeout=time)
                 return response
-        except:
+        except Exception as e :
+            print("Error in httpx.AsyncClient()  !", str(e))
+
             response = requests.request(method, url, headers=headers, data=data)
             return response
 
