@@ -19,9 +19,12 @@ async def CallService(url, method, headers, data=None, time=30):
                     data = json.dumps(data)
                     response = await client.post(url, headers=headers, data=data, timeout=time)
                 elif method.upper() == 'PUT':
+                    data = json.dumps(data)
                     response = await client.put(url, headers=headers, data=data, timeout=time)
                 elif method.upper() == 'DELETE':
                     response = await client.delete(url, headers=headers, data=data, timeout=time)
+                print(response)
+                print('[[[[[[[[[[[[[[[response]]]]]]]]]]]]]]]')
                 return response
         except Exception as e :
             print("Error in httpx.AsyncClient()  !", str(e))

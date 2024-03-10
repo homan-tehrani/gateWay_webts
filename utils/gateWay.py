@@ -63,7 +63,7 @@ class GateWay:
                 return JSONResponse(content={"detail": "callExternalService was error"}, status_code=400)
 
             # check status code  api
-            if result.status_code == 500:
+            if str(result.status_code).startswith("5") :
                 thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
                 thread.start()
                 print("ERROR in response ", result.text)
