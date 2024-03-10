@@ -2,25 +2,32 @@ import httpx
 import json
 from datetime import datetime
 import threading
+import requests
 
 
 async def CallService(url, method, headers, data=None, time=30):
     try:
-        async with httpx.AsyncClient() as client:
-            if method.upper() == 'GET':
-                response = await client.get(url, headers=headers, timeout=time)
-            elif method.upper() == 'POST':
-                data = json.dumps(data)
-                response = await client.post(url, headers=headers, data=data, timeout=time)
-            elif method.upper() == 'PUT':
-                response = await client.put(url, headers=headers, data=data, timeout=time)
-            elif method.upper() == 'DELETE':
-                response = await client.delete(url, headers=headers, data=data, timeout=time)
+        try:
+            async with httpx.AsyncClient() as client:
+                if method.upper() == 'GET':
+                    response = await client.get(url, headers=headers, timeout=time)
+                elif method.upper() == 'POST':
+                    data = json.dumps(data)
+                    response = await client.post(url, headers=headers, data=data, timeout=time)
+                elif method.upper() == 'PUT':
+                    response = await client.put(url, headers=headers, data=data, timeout=time)
+                elif method.upper() == 'DELETE':
+                    response = await client.delete(url, headers=headers, data=data, timeout=time)
+                return response
+        except:
+            response = requests.request(method, url, headers=headers, data=data)
             return response
 
     except Exception as e:
         print("Error!", str(e))
         return False
+
+
 def saveLog(request, message_id, request_body, response_body=''):
     return True
     # Get the client's IP address using a custom function (get_client_ip)
@@ -54,7 +61,7 @@ def saveLog(request, message_id, request_body, response_body=''):
         print(" GateWayError Log connection error", str(e))
 
 
-async def CheckConnectionCache(cache,request):
+async def CheckConnectionCache(cache, request):
     #   test  connection cache server
     cache.set("testConnections", "connected to server  cache successfully", time=20)
     testConnections = cache.get("testConnections")
@@ -65,5 +72,3 @@ async def CheckConnectionCache(cache,request):
         print('********************* connected to server  cache fail :', testConnections, '********************')
     else:
         print('-------------------- connected to server  cache :', testConnections, '------------------')
-
-

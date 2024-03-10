@@ -4,7 +4,7 @@ import json
 import requests
 import threading
 from utils.global_variables import LOG_URL, CACHE_TIME, CACHE_IP_ADDRESS
-from utils.common import CallService,CheckConnectionCache
+from utils.common import CallService, CheckConnectionCache
 from fastapi.responses import JSONResponse
 from fastapi import Request, Header
 from pydantic import BaseModel
@@ -29,16 +29,16 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        # try:
+        try:
             # check connection cache
-            await CheckConnectionCache(cache,request)
+            await CheckConnectionCache(cache, request)
 
-            #  get value body request
-            body = await request.json()
+            try:
+                body = await request.json()
+            except json.JSONDecodeError:
+                body = None
             self.body = body
-
-            callService = None
-
+            result = None
             # Check exist input URL
             existUrl = await self.existUrl(request)
             if not existUrl:
@@ -51,19 +51,19 @@ class GateWay:
 
             # call reference api
             result = await self.callExternalService(request)
-
             # check status code  api
             if result.status_code == 500:
-                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
+                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{result.text}"))
                 thread.start()
-                print("ERROR in response ", callService.text)
-                return JSONResponse(content=f"srvice was error ", status_code=400)
+                print("ERROR in response ", result.text)
+                print("ERROR in response ", result)
+                return JSONResponse(content={"detail": "srvice was error"}, status_code=400)
             # get content result call api
             try:
                 callServiceContent = result.json()
             except Exception as e:
-                callServiceContent = result.text
                 print("Exception in result.json() in line  71", str(e))
+                callServiceContent = result.text
 
             #  set log api called
             if "id" in callServiceContent:
@@ -83,12 +83,12 @@ class GateWay:
                 #  response for client
                 return JSONResponse(content=callServiceContent, status_code=result.status_code)
 
-        # except Exception as e:
-        #     #  save  log Exception
-        #     thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
-        #     thread.start()
-        #     print("__call__", str(e))
-        #     return JSONResponse(content="__call__", status_code=400)
+        except Exception as e:
+            #  save  log Exception
+            thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+            thread.start()
+            print("__call__", str(e))
+            return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
         try:
@@ -181,7 +181,10 @@ class GateWay:
 
     async def callExternalService(self, request):
         try:
-            body = await request.json()
+            try:
+                body = await request.json()
+            except json.JSONDecodeError:
+                body = None
             self.body = body
             # Extract the 'content-type' header from the request
             contentType = request.headers.get("content-type")
@@ -190,13 +193,14 @@ class GateWay:
                 headers['Authorization'] = self.token
             if contentType:
                 headers['Content-Type'] = contentType
+            # else:
+            #     headers['Content-Type'] = 'application/json'
 
             # Construct the URL based on the request parameters
             if request.query_params:
                 url = f"{self.path['path']}?{request.query_params}"
             else:
                 url = f"{self.path['path']}"
-
             # Check if caching is disabled for this path
             if self.path['cache'] == 0:
                 # Make a request to the external API without caching
@@ -206,14 +210,15 @@ class GateWay:
             # Attempt to retrieve the response from the cache
             try:
                 response = cache.get(url)
+
                 # If the response is not in the cache, make a request to the external API
                 if response is None:
                     response = await CallService(url, self.method, headers, data=body, time=30)
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cache.set(url, response, time=int(CACHE_TIME))
-                return response
 
+                return response
             # Handle exceptions, print an error message, and make a request to the external API
             except Exception as e:
                 print('Error! url', str(e))
