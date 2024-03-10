@@ -5,13 +5,15 @@ from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from gateWay import GateWay
-
 # import routes
-from API.api import router as urls_router
+# from API.api import router as urls_router
+from fastapi import FastAPI, Request
+from test import GateWay
 
 app = FastAPI()
+
 print("START 2")
-app.add_middleware(BaseHTTPMiddleware, dispatch=GateWay(Request, Header))
+# app.add_middleware(BaseHTTPMiddleware, dispatch=GateWay(Request, Header))
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,3 +27,20 @@ from API.api import router as urls_router
 print("START 3")
 # including routers
 app.include_router(urls_router, prefix='/v1')
+
+
+
+@app.route("/hello")
+async def hello():
+    return {"hello": "world"}
+
+
+@app.api_route("/{path_name:path}", methods=["GET","POST"])
+async def catch_all(request: Request, path_name: str):
+
+    gateWay = GateWay(Request, Header)
+    response = await gateWay.call(request)
+    print(response)
+
+    print('[[[[[[[[[[[[[[[[[[[[response]]]]]]]]]]]]]]]]]]]]')
+    return response
