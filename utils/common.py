@@ -54,7 +54,7 @@ def saveLog(request, message_id, request_body, response_body=''):
         print(" GateWayError Log connection error", str(e))
 
 
-async def CheckConnectionCache(cache):
+async def CheckConnectionCache(cache,request):
     #   test  connection cache server
     cache.set("testConnections", "connected to server  cache successfully", time=20)
     testConnections = cache.get("testConnections")

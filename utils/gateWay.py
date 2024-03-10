@@ -10,7 +10,7 @@ from fastapi import Request, Header
 from pydantic import BaseModel
 from utils.db import get_url
 
-cache = memcache.Client([CACHE_IP_ADDRESS])
+cache = memcache.Client(CACHE_IP_ADDRESS)
 
 
 # cache.flush_all()
@@ -29,9 +29,9 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        try:
+        # try:
             # check connection cache
-            await CheckConnectionCache(cache)
+            await CheckConnectionCache(cache,request)
 
             #  get value body request
             body = await request.json()
@@ -83,12 +83,12 @@ class GateWay:
                 #  response for client
                 return JSONResponse(content=callServiceContent, status_code=result.status_code)
 
-        except Exception as e:
-            #  save  log Exception
-            thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
-            thread.start()
-            print("__call__", str(e))
-            return JSONResponse(content="__call__", status_code=400)
+        # except Exception as e:
+        #     #  save  log Exception
+        #     thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+        #     thread.start()
+        #     print("__call__", str(e))
+        #     return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
         try:

@@ -1,7 +1,10 @@
 import sqlite3
+
 # from utils.global_variables import DB_NAME
 
-DB_NAME="Urls.db"
+DB_NAME = "Urls.db"
+
+
 async def createDB():
     # Connect to SQLite database (or create a new one if it doesn't exist)
     conn = sqlite3.connect(DB_NAME)
