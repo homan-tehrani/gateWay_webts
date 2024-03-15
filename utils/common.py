@@ -63,13 +63,16 @@ def saveLog(request, message_id, request_body, response_body=''):
 
 
 async def CheckConnectionCache(cache, request):
-    #   test  connection cache server
-    cache.set("testConnections", "connected to server  cache successfully", time=20)
-    testConnections = cache.get("testConnections")
-    if not testConnections:
-        # set loge for dont exist log code
-        thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
-        thread.start()
-        print('********************* connected to server  cache fail :', testConnections, '********************')
-    else:
-        print('-------------------- connected to server  cache :', testConnections, '------------------')
+    try:
+        #   test  connection cache server
+        cache.set("testConnections", "connected to server  cache successfully", time=20)
+        testConnections = cache.get("testConnections")
+        if not testConnections:
+            # set loge for dont exist log code
+            thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
+            thread.start()
+            print('********************* connected to server  cache fail :', testConnections, '********************')
+        else:
+            print('-------------------- connected to server  cache :', testConnections, '------------------')
+    except Exception as e:
+        print('-------------------- connected to server  cache :', str(e), '------------------')

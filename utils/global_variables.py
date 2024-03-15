@@ -9,6 +9,5 @@ GET_USER_URL = AUTHENTICATION_SITE + "/api/v1/user/userByToken/"
 # URLs
 CACHE_IP_ADDRESS = os.getenv('CACHE_IP_ADDRESS')
 DB_NAME = os.getenv('DB_NAME')
-# CACHE_TIME = os.getenv('CACHE_TIME')
-CACHE_TIME = 10800
+CACHE_TIME = os.getenv('CACHE_TIME')
 LOG_URL = os.getenv('LOG_URL')
