@@ -32,7 +32,9 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        # await CheckConnectionCache(cache, request)
+        await CheckConnectionCache(cache, request)
+        print(request.query_params)
+        print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[request.query_params]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
         callService = None
         try:
 
@@ -215,35 +217,47 @@ class GateWay:
                     return response
 
             # Attempt to retrieve the response from the cache
-            try:
-                response = cache.get(url)
-                # If the response is not in the cache, make a request to the external API
-                if response is None:
-                    try:
-
-                        # Make a request to the external API without caching
-                        async with httpx.AsyncClient() as client:
-                            if self.method.upper() == 'GET':
-                                response = await client.get(url, headers=headers, timeout=30)
-                            elif self.method.upper() == 'POST':
-                                response = await client.post(url, headers=headers, data=await request.body(),
-                                                             timeout=30)
-                            elif self.method.upper() == 'PUT':
-                                response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
-                            elif self.method.upper() == 'DELETE':
-                                response = await client.delete(url, headers=headers, data=await request.body(),
-                                                               timeout=30)
-                    except:
-                        response = requests.request(self.method, url, headers=headers, data=await request.body())
-
-                    # If the request is successful, cache the response
-                    if response.status_code == 200:
-                        cache.set(url, response, time=int(CACHE_TIME))
-                return response
+            # try:
+            url="https://content12.sirafgroup.com/v1/content/contentApi/getContent/?id=17330"
+            response = cache.get(url)
+            print(url)
+            print(response)
+            print('[[[[[[[[[[[[[[[[[[[[[[[[[[response get cache]]]]]]]]]]]]]]]]]]]]]]]]]]')
+            # If the response is not in the cache, make a request to the external API
+            if response is None:
+                try:
+                    # Make a request to the external API without caching
+                    async with httpx.AsyncClient() as client:
+                        if self.method.upper() == 'GET':
+                            response = await client.get(url, headers=headers, timeout=30)
+                        elif self.method.upper() == 'POST':
+                            response = await client.post(url, headers=headers, data=await request.body(),
+                                                         timeout=30)
+                        elif self.method.upper() == 'PUT':
+                            response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
+                        elif self.method.upper() == 'DELETE':
+                            response = await client.delete(url, headers=headers, data=await request.body(),
+                                                           timeout=30)
+                except:
+                    response = requests.request(self.method, url, headers=headers, data=await request.body())
+                print(response.status_code)
+                print('[[[[[[[[[[[[[[[[[[[[[[[[response.status_code]]]]]]]]]]]]]]]]]]]]]]]]')
+                print(response.json())
+                print('[[[[[[[[[[[[[[[[[[[[[[response]]]]]]]]]]]]]]]]]]]]]]')
+                # If the request is successful, cache the response
+                if response.status_code == 200:
+                    print(url)
+                    print(response.json())
+                    print(int(CACHE_TIME))
+                    print('[[[[[[[[[[[[[[[[[[[[[[set cache  ]]]]]]]]]]]]]]]]]]]]]]')
+                    a=cache.set(url, response, time=int(CACHE_TIME))
+                    print(a)
+                    print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[a]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
+            return response
 
             # Handle exceptions, print an error message, and make a request to the external API
-            except Exception as e:
-                print('Error! cache.get ', str(e))
+            # except Exception as e:
+            #     print('Error! cache.get ', str(e))
             try:
 
                 # Make a request to the external API without caching
@@ -263,7 +277,7 @@ class GateWay:
         except Exception as e:
             thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
             thread.start()
-            print("handel error in call Service", str(e))
+            print("handle    error in call Service", str(e))
             return JSONResponse(content=" error in callService", status_code=400)
 
 
