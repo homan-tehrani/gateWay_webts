@@ -240,8 +240,8 @@ class GateWay:
                     # If the request is successful, cache the response
                     if response.status_code == 200:
                         cacheSet=cache.set(url, response, time=int(CACHE_TIME))
-                        print(f' cach  status  set  is : {cacheSet}')
-                print('--------------------------------------------------------------', response.json())
+                        print(f'time  cache  : {CACHE_TIME}')
+                        print(f' cache  status  set  is : {cacheSet}')
 
                 return response
 
