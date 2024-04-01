@@ -62,17 +62,14 @@ async def send_log_to_rabbitmq(type,message):
             
             # Declare a queue
             if type==1:
-                queue = await channel.declare_queue('gateway_logs')
+                send_routing_key = 'gateway_logs'
             elif type==2:
-                queue = await channel.declare_queue('requests_logs')
-
-            # Bind the queue to the exchange
-            await queue.bind(exchange)
+                send_routing_key = 'requests_logs'
 
             # Publish a message to the exchange with a routing key
             await exchange.publish(
                 aio_pika.Message(body=data.encode()),
-                routing_key=""
+                routing_key=send_routing_key
             )
             print("Message sent successfully")
 
