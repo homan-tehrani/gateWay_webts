@@ -3,7 +3,7 @@ from pydantic import ValidationError
 from fastapi.responses import JSONResponse
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
 from utils.db import get_url, get_urls, delete_url, update_Url, create_Url
-from utils.gateWay import cache
+from gateWay import cache
 
 router = APIRouter(prefix='/url')
 
