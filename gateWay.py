@@ -4,16 +4,15 @@ import json
 import memcache
 import json
 import requests
-# import threading
+import asyncio
 from utils.global_variables import LOG_URL, CACHE_TIME, CACHE_IP_ADDRESS
 from fastapi import Request, Header
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from utils.db import get_url
-from utils.common import CheckConnectionCache
+from utils.common import check_connection_cache,send_log_to_rabbitmq
 
 cache = memcache.Client([CACHE_IP_ADDRESS])
-
 
 # cache.flush_all()
 
@@ -30,48 +29,35 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):
-        await CheckConnectionCache(cache, request)
+        await check_connection_cache(cache, request)
         callService = None
         try:
 
             # Check exist input URL
             existUrl = await self.parseUrl(request)
             if not existUrl:
-                # set loge for  does not exist url
-                # thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
-                # thread.start()
+                asyncio.create_task(send_log_to_rabbitmq(1,f"address not found in parseUrl"))
 
                 #  response for client
                 return JSONResponse(content={"detail": "address not found"}, status_code=404)
 
             # call reference api
             callService = await self.callService(request)
-            if callService.status_code == 500:
-                # thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
-                # thread.start()
-                print("ERROR in response ", callService.text)
-                return JSONResponse(content=f"srvice was error ", status_code=400)
+            
             try:
                 callServiceContent = callService.json()
             except Exception as e:
                 callServiceContent = callService.text
-
-            # if "id" in callServiceContent:
-            #     thread = threading.Thread(target=saveLog,
-            #                               args=(request, callServiceContent['id'], self.body, callServiceContent))
-            #     thread.start()
-            # else:
-            #     # set loge for dont exist log code
-            #     thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
-            #     thread.start()
-
+            
+            asyncio.create_task(send_log_to_rabbitmq(2,callService.text))
+                
             #  response for client
+            if str(callService.status_code)[0] != '2':
+                return JSONResponse(content=f"service was error ", status_code=400)
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
-            # thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
-            # thread.start()
-            # print("__call__", str(e), callService)
-            return JSONResponse(content="__call__", status_code=400)
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call function : {str(e)}"))
+            return JSONResponse(content="error in call function", status_code=400)
 
     async def parseUrl(self, request):
         try:
@@ -91,8 +77,6 @@ class GateWay:
             try:
                 signature = request.scope['path']
             except Exception as e:
-                print('GateWayError! 2', str(e))
-
                 signature = request.headers.get('referer')
 
             # Check for authorization header and store the token
@@ -113,6 +97,8 @@ class GateWay:
                     self.path = path
                     # return path
             except Exception as e:
+                asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server "))
+
                 print('GateWayError! 1', str(e))
 
             # If path is not in cache, retrieve it from the database
@@ -121,37 +107,30 @@ class GateWay:
 
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
-                    # Log unauthorized method attempt
-                    # thread = threading.Thread(target=saveLog, args=(request, 4470, self.body, "self.method"))
-                    # thread.start()
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : {str(self.method).lower()} !== {url['method']}"))
                     return False
 
                 # Check if 'path' key is present in the retrieved URL
-                if 'path' not in url or not url['path']:
-                    # thread = threading.Thread(target=saveLog, args=(request, 4471, self.body, "self.method"))
-                    # thread.start()
+                if 'path' not in url :
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : path not in  !== {json.dumps(url)}"))
                     return False
 
                 try:
                     # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
-                    # thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
-                    # thread.start()
-                    print('Cache the URL  ! ', str(e))
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"caching url failed with error : {str(e)}"))
                 path = url
 
             # Return the final path or False if not found
             if path:
                 self.path = path
                 return path
-            # thread = threading.Thread(target=saveLog, args=(request, 4473, self.body, "path dose not exist"))
-            # thread.start()
+            asyncio.create_task(send_log_to_rabbitmq(1,f"this path dose not exist : {path}"))
             return False
 
         except Exception as e:
-            # thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
-            # thread.start()
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in parse url : {json.dumps(url)}"))
             return JSONResponse(content="parseUrl", status_code=400)
 
     async def existUrl(self, request):
@@ -167,12 +146,7 @@ class GateWay:
 
         # Handle exceptions during the URL parsing
         except Exception as e:
-
-            # Log the exception and create a new thread for asynchronous logging
-            # thread = threading.Thread(target=saveLog, args=(request, 4475, self.body, f"{e}"))
-            # thread.start()
-
-            # Return a JSON response indicating an error with status code 400
+            asyncio.create_task(send_log_to_rabbitmq(1,f"does not existUrl : {str(e)}"))
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
     async def callService(self, request):
@@ -215,9 +189,6 @@ class GateWay:
             # Attempt to retrieve the response from the cache
             try:
                 response = cache.get(url)
-                print(url)
-                print(response)
-                print('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[get data on cache]]]]]]]]]]]]]]]]]]]]]]]]]]]]]')
                 # If the response is not in the cache, make a request to the external API
                 if response is None:
                     try:
@@ -265,9 +236,7 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
-            # thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
-            # thread.start()
-            print("handle    error in call Service", str(e))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call service : {str(e)}"))
             return JSONResponse(content=" error in callService", status_code=400)
 
 
@@ -309,7 +278,6 @@ def get_client_ip(request):
         if 'client' in request.scope:
             return request.scope['client'][0]
         return ""
-    except:
-        # thread = threading.Thread(target=saveLog, args=(request, 4474, 'body', 'get_client_ip'))
-        # thread.start()
+    except Exception as e:
+        asyncio.create_task(send_log_to_rabbitmq(1,f"error in get client ip : {str(e)}"))
         return JSONResponse(content="get_client_ip", status_code=400)
