@@ -1,8 +1,12 @@
 import httpx
 import json
 from datetime import datetime
-import threading
+import asyncio
 import requests
+import aio_pika
+import json
+
+from utils.global_variables import RABBITMQ_HOST,RABBITMQ_PASSWORD,RABBITMQ_PORT,RABBITMQ_USERNAME,RABBITMQ_VHOST
 
 
 async def CallService(url, method, headers, data=None, time=30):
@@ -62,17 +66,60 @@ def saveLog(request, message_id, request_body, response_body=''):
         print(" GateWayError Log connection error", str(e))
 
 
-async def CheckConnectionCache(cache, request):
+async def check_connection_cache(cache, request):
     try:
-        #   test  connection cache server
         cache.set("testConnections", "connected to server  cache successfully", time=20)
         testConnections = cache.get("testConnections")
         if not testConnections:
-            # set loge for dont exist log code
-            # thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
-            # thread.start()
-            print('********************* connected to server  cache fail :', testConnections, '********************')
-        else:
-            print('-------------------- connected to server  cache :', testConnections, '------------------')
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server "))
     except Exception as e:
-        print('-------------------- connected to server  cache :', str(e), '------------------')
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server : {str(e)}"))
+
+async def send_log_to_rabbitmq(type,message):
+    data=json.dumps({'data':message})
+    try:
+        connection = await aio_pika.connect_robust(
+            host=RABBITMQ_HOST,
+            port=RABBITMQ_PORT,
+            login=RABBITMQ_USERNAME,
+            password=RABBITMQ_PASSWORD,
+            virtualhost=RABBITMQ_VHOST
+        )
+
+        async with connection:
+            channel = await connection.channel()
+
+            # Declare a fanout exchange
+            exchange = await channel.declare_exchange('logs', aio_pika.ExchangeType.FANOUT)
+            
+            # Declare a queue
+            if type==1:
+                queue = await channel.declare_queue('gateway_logs')
+            elif type==2:
+                queue = await channel.declare_queue('requests_logs')
+
+            # Bind the queue to the exchange
+            await queue.bind(exchange)
+
+            # Publish a message to the exchange with a routing key
+            await exchange.publish(
+                aio_pika.Message(body=data.encode()),
+                routing_key=""
+            )
+            print("Message sent successfully")
+
+
+    except Exception as e:
+        print(e)
+
+
+def check_and_convert_to_bytes(data):
+    if isinstance(data, bytes):
+        return data
+    else:
+        try:
+            # Convert the variable to bytes
+            return bytes(data, 'utf-8')
+        except Exception as ex:
+            print(f"Conversion to bytes failed with error: {ex}")
+            return None
