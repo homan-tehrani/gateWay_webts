@@ -1,7 +1,6 @@
 from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request, Header
-# from utils.gateWay import GateWay
 from gateWay import GateWay
 
 # import routes
