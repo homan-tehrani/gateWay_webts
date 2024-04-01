@@ -4,7 +4,7 @@ import json
 import memcache
 import json
 import requests
-import threading
+# import threading
 from utils.global_variables import LOG_URL, CACHE_TIME, CACHE_IP_ADDRESS
 from fastapi import Request, Header
 from fastapi.responses import JSONResponse
@@ -38,8 +38,8 @@ class GateWay:
             existUrl = await self.parseUrl(request)
             if not existUrl:
                 # set loge for  does not exist url
-                thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
-                thread.start()
+                # thread = threading.Thread(target=saveLog, args=(request, 4464, self.body, 'not existUrl'))
+                # thread.start()
 
                 #  response for client
                 return JSONResponse(content={"detail": "address not found"}, status_code=404)
@@ -47,8 +47,8 @@ class GateWay:
             # call reference api
             callService = await self.callService(request)
             if callService.status_code == 500:
-                thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
-                thread.start()
+                # thread = threading.Thread(target=saveLog, args=(request, 4465, self.body, f"{callService.text}"))
+                # thread.start()
                 print("ERROR in response ", callService.text)
                 return JSONResponse(content=f"srvice was error ", status_code=400)
             try:
@@ -56,21 +56,21 @@ class GateWay:
             except Exception as e:
                 callServiceContent = callService.text
 
-            if "id" in callServiceContent:
-                thread = threading.Thread(target=saveLog,
-                                          args=(request, callServiceContent['id'], self.body, callServiceContent))
-                thread.start()
-            else:
-                # set loge for dont exist log code
-                thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
-                thread.start()
+            # if "id" in callServiceContent:
+            #     thread = threading.Thread(target=saveLog,
+            #                               args=(request, callServiceContent['id'], self.body, callServiceContent))
+            #     thread.start()
+            # else:
+            #     # set loge for dont exist log code
+            #     thread = threading.Thread(target=saveLog, args=(request, 4468, self.body, callServiceContent))
+            #     thread.start()
 
             #  response for client
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
-            thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
-            thread.start()
-            print("__call__", str(e), callService)
+            # thread = threading.Thread(target=saveLog, args=(request, 4469, self.body, f"{e}"))
+            # thread.start()
+            # print("__call__", str(e), callService)
             return JSONResponse(content="__call__", status_code=400)
 
     async def parseUrl(self, request):
@@ -122,22 +122,22 @@ class GateWay:
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
                     # Log unauthorized method attempt
-                    thread = threading.Thread(target=saveLog, args=(request, 4470, self.body, "self.method"))
-                    thread.start()
+                    # thread = threading.Thread(target=saveLog, args=(request, 4470, self.body, "self.method"))
+                    # thread.start()
                     return False
 
                 # Check if 'path' key is present in the retrieved URL
                 if 'path' not in url or not url['path']:
-                    thread = threading.Thread(target=saveLog, args=(request, 4471, self.body, "self.method"))
-                    thread.start()
+                    # thread = threading.Thread(target=saveLog, args=(request, 4471, self.body, "self.method"))
+                    # thread.start()
                     return False
 
                 try:
                     # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
-                    thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
-                    thread.start()
+                    # thread = threading.Thread(target=saveLog, args=(request, 4472, self.body, "cache.set"))
+                    # thread.start()
                     print('Cache the URL  ! ', str(e))
                 path = url
 
@@ -145,13 +145,13 @@ class GateWay:
             if path:
                 self.path = path
                 return path
-            thread = threading.Thread(target=saveLog, args=(request, 4473, self.body, "path dose not exist"))
-            thread.start()
+            # thread = threading.Thread(target=saveLog, args=(request, 4473, self.body, "path dose not exist"))
+            # thread.start()
             return False
 
         except Exception as e:
-            thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
-            thread.start()
+            # thread = threading.Thread(target=saveLog, args=(request, 4474, self.body, f"{e}"))
+            # thread.start()
             return JSONResponse(content="parseUrl", status_code=400)
 
     async def existUrl(self, request):
@@ -169,8 +169,8 @@ class GateWay:
         except Exception as e:
 
             # Log the exception and create a new thread for asynchronous logging
-            thread = threading.Thread(target=saveLog, args=(request, 4475, self.body, f"{e}"))
-            thread.start()
+            # thread = threading.Thread(target=saveLog, args=(request, 4475, self.body, f"{e}"))
+            # thread.start()
 
             # Return a JSON response indicating an error with status code 400
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
@@ -265,8 +265,8 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
-            thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
-            thread.start()
+            # thread = threading.Thread(target=saveLog, args=(request, 4476, self.body, f"{e}"))
+            # thread.start()
             print("handle    error in call Service", str(e))
             return JSONResponse(content=" error in callService", status_code=400)
 
@@ -310,6 +310,6 @@ def get_client_ip(request):
             return request.scope['client'][0]
         return ""
     except:
-        thread = threading.Thread(target=saveLog, args=(request, 4474, 'body', 'get_client_ip'))
-        thread.start()
+        # thread = threading.Thread(target=saveLog, args=(request, 4474, 'body', 'get_client_ip'))
+        # thread.start()
         return JSONResponse(content="get_client_ip", status_code=400)

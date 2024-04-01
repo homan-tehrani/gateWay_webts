@@ -69,8 +69,8 @@ async def CheckConnectionCache(cache, request):
         testConnections = cache.get("testConnections")
         if not testConnections:
             # set loge for dont exist log code
-            thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
-            thread.start()
+            # thread = threading.Thread(target=saveLog, args=(request, 4478, 'self.body', testConnections))
+            # thread.start()
             print('********************* connected to server  cache fail :', testConnections, '********************')
         else:
             print('-------------------- connected to server  cache :', testConnections, '------------------')
