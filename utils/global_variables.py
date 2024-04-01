@@ -11,3 +11,11 @@ CACHE_IP_ADDRESS = os.getenv('CACHE_IP_ADDRESS')
 DB_NAME = os.getenv('DB_NAME')
 CACHE_TIME = os.getenv('CACHE_TIME')
 LOG_URL = os.getenv('LOG_URL')
+
+
+# Rabbitmq 
+RABBITMQ_HOST = '77.238.108.86'
+RABBITMQ_PORT = 5672
+RABBITMQ_USERNAME = 'gateway'
+RABBITMQ_PASSWORD = 'Bgateway@1256'
+RABBITMQ_VHOST = 'gateway'
