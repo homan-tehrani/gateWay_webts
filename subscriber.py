@@ -27,21 +27,20 @@ async def consume_message_from_rabbitmq():
 
             # Declare a fanout exchange
             exchange = await channel.declare_exchange('logs', aio_pika.ExchangeType.FANOUT)
-            
+
             # Declare a queue
-            queue = await channel.declare_queue('failed')
+            queue = await channel.declare_queue()
+
+            # Bind the queue to the exchange
+            await queue.bind(exchange)
 
             async for message in queue:
                 async with message.process():
-                    data={
-                        'body':message.body.decode(),
-                        'exchange':message.exchange,
-                        'routing_key':message.routing_key
-                                 }
                     try:
+                        data={'body':message.body.decode()}
                         client = pymongo.MongoClient("mongodb://77.238.108.86:27000/log?retryWrites=true&w=majority")
                         db = client["logs"]
-                        collection = db["failed"]
+                        collection = db[message.routing_key]
                         result = collection.insert_one(data)
                         client.close()
                     except Exception as ex:
