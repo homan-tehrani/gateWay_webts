@@ -44,7 +44,11 @@ async def check_connection_cache(cache, request):
             asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server : {str(e)}"))
 
 async def send_log_to_rabbitmq(type,message):
-    data=json.dumps({'data':message})
+    try:
+        message=json.loads(message)
+    except:
+        pass
+    data=json.dumps({'data':message},ensure_ascii=False).encode('utf8')
     try:
         connection = await aio_pika.connect_robust(
             host=RABBITMQ_HOST,
@@ -68,7 +72,7 @@ async def send_log_to_rabbitmq(type,message):
 
             # Publish a message to the exchange with a routing key
             await exchange.publish(
-                aio_pika.Message(body=data.encode()),
+                aio_pika.Message(body=data),
                 routing_key=send_routing_key
             )
             print("Message sent successfully")
