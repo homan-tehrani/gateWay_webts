@@ -28,15 +28,14 @@ class GateWay:
         self.body = None
         self.path = None
 
-    async def call(self, request: Request):
+    async def call(self, request: Request):        
         await check_connection_cache(cache, request)
         callService = None
         try:
-
             # Check exist input URL
             existUrl = await self.parseUrl(request)
             if not existUrl:
-                asyncio.create_task(send_log_to_rabbitmq(1,f"address not found in parseUrl"))
+                asyncio.create_task(send_log_to_rabbitmq(1,f"address not found in parseUrl",request.url))
 
                 #  response for client
                 return JSONResponse(content={"detail": "address not found"}, status_code=404)
@@ -49,14 +48,14 @@ class GateWay:
             except Exception as e:
                 callServiceContent = callService.text
             
-            asyncio.create_task(send_log_to_rabbitmq(2,callService.text))
+            asyncio.create_task(send_log_to_rabbitmq(2,{"response":callService.text,"request":callService.request.text,},callService.request.url))
                 
             #  response for client
             if str(callService.status_code)[0] != '2':
                 return JSONResponse(content=f"service was error ", status_code=400)
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call function : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call function : {str(e)}",request.url))
             return JSONResponse(content="error in call function", status_code=400)
 
     async def parseUrl(self, request):
@@ -97,7 +96,7 @@ class GateWay:
                     self.path = path
                     # return path
             except Exception as e:
-                asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server "))
+                asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server ",request.url))
 
                 print('GateWayError! 1', str(e))
 
@@ -107,30 +106,30 @@ class GateWay:
 
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
-                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : {str(self.method).lower()} !== {url['method']}"))
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : {str(self.method).lower()} !== {url['method']}",request.url))
                     return False
 
                 # Check if 'path' key is present in the retrieved URL
                 if 'path' not in url :
-                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : path not in  !== {json.dumps(url)}"))
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"error in validate : path not in  !== {json.dumps(url)}",request.url))
                     return False
 
                 try:
                     # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
-                    asyncio.create_task(send_log_to_rabbitmq(1,f"caching url failed with error : {str(e)}"))
+                    asyncio.create_task(send_log_to_rabbitmq(1,f"caching url failed with error : {str(e)}",request.url))
                 path = url
 
             # Return the final path or False if not found
             if path:
                 self.path = path
                 return path
-            asyncio.create_task(send_log_to_rabbitmq(1,f"this path dose not exist : {path}"))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"this path dose not exist : {self.path}",request.url))
             return False
 
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"error in parse url : {json.dumps(url)}"))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in parse url : {json.dumps(url)}",request.url))
             return JSONResponse(content="parseUrl", status_code=400)
 
     async def existUrl(self, request):
@@ -146,7 +145,7 @@ class GateWay:
 
         # Handle exceptions during the URL parsing
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"does not existUrl : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"does not existUrl : {str(e)}",request.url))
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
     async def callService(self, request):
@@ -236,7 +235,7 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call service : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"error in call service : {str(e)}",request.url))
             return JSONResponse(content=" error in callService", status_code=400)
 
 
@@ -248,5 +247,5 @@ def get_client_ip(request):
             return request.scope['client'][0]
         return ""
     except Exception as e:
-        asyncio.create_task(send_log_to_rabbitmq(1,f"error in get client ip : {str(e)}"))
+        asyncio.create_task(send_log_to_rabbitmq(1,f"error in get client ip : {str(e)}",request.url))
         return JSONResponse(content="get_client_ip", status_code=400)
