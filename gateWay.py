@@ -125,7 +125,7 @@ class GateWay:
             if path:
                 self.path = path
                 return path
-            asyncio.create_task(send_log_to_rabbitmq(1,f"this path dose not exist : {self.path}",request.url))
+            asyncio.create_task(send_log_to_rabbitmq(1,f"this path dose not exist",request.url))
             return False
 
         except Exception as e:
