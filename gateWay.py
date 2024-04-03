@@ -48,7 +48,7 @@ class GateWay:
             except Exception as e:
                 callServiceContent = callService.text
             
-            asyncio.create_task(send_log_to_rabbitmq(2,{"response":callService.text,"request":callService.request.text,},callService.request.url))
+            asyncio.create_task(send_log_to_rabbitmq(2,callService.text,callService.request.url,callService.status_code))
                 
             #  response for client
             if str(callService.status_code)[0] != '2':
