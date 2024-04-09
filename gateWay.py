@@ -195,7 +195,6 @@ class GateWay:
                         async with httpx.AsyncClient() as client:
                             if self.method.upper() == 'GET':
                                 response = await client.get(url, headers=headers, timeout=30)
-                                print("DFSDF",response)
                             elif self.method.upper() == 'POST':
                                 response = await client.post(url, headers=headers, data=await request.body(),
                                                              timeout=30)
