@@ -1,3 +1,4 @@
+from fastapi import Request
 import httpx
 import json
 from datetime import datetime
@@ -5,6 +6,7 @@ import asyncio
 import requests
 import aio_pika
 import json
+from starlette.datastructures import UploadFile 
 
 from utils.global_variables import RABBITMQ_HOST,RABBITMQ_PASSWORD,RABBITMQ_PORT,RABBITMQ_USERNAME,RABBITMQ_VHOST
 
@@ -39,18 +41,21 @@ async def check_connection_cache(cache, request):
         cache.set("testConnections", "connected to server  cache successfully", time=20)
         testConnections = cache.get("testConnections")
         if not testConnections:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server "))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server "))
     except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(1,f"error in connect to cache server : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server : {str(e)}"))
 
-async def send_log_to_rabbitmq(type,message,url=None,status_code=None):
+async def send_log_to_rabbitmq(request,type,message,status_code=None):
+    data={}
+    current_datetime = datetime.now()
+    data['createAt']=str(current_datetime)
+    request_data= await parse_request(request)
+    data['request']=request_data
     try:
         message=json.loads(message)
+        data['response']=message
     except:
-        pass
-    data={'data':message}
-    if url:
-        data['url']=str(url)
+        data['data']=message
     if status_code:
         data['status_code']=status_code
     data=json.dumps(data,ensure_ascii=False).encode('utf8')
@@ -97,3 +102,26 @@ def check_and_convert_to_bytes(data):
         except Exception as ex:
             print(f"Conversion to bytes failed with error: {ex}")
             return None
+        
+async def parse_request(request: Request):
+    headers = dict(request.headers)
+    body = await request.body()
+    try:
+        body=body.decode()
+        body=json.loads(body)
+    except:
+        body=""
+    form_data = dict(await request.form())
+    for key, value in form_data.items():
+        if type(value)==UploadFile:
+            form_data[key]=dict(value.headers)
+            form_data[key]['size']=f"{value.size} bytes"
+    query_params = dict(request.query_params)
+    url=str(request.url)
+    return {
+        "url": url,
+        "headers": headers,
+        "body": body,
+        "form_data": form_data,
+        "query_params": query_params,
+    }
