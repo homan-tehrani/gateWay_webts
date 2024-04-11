@@ -47,6 +47,8 @@ class GateWay:
                 callServiceContent = callService.json()
             except Exception as e:
                 callServiceContent = callService.text
+            else:
+                return callService
             
             asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.request.url,callService.status_code))
                 
