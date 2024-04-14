@@ -46,6 +46,7 @@ async def check_connection_cache(cache, request):
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server : {str(e)}"))
 
 async def send_log_to_rabbitmq(request,type,message,status_code=None):
+    return True
     data={}
     current_datetime = datetime.now()
     data['createAt']=str(current_datetime)
