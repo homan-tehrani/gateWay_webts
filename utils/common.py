@@ -106,17 +106,20 @@ def check_and_convert_to_bytes(data):
         
 async def parse_request(request: Request):
     headers = dict(request.headers)
-    body = await request.body()
     try:
+        body = await request.body()
         body=body.decode()
         body=json.loads(body)
     except:
         body=""
-    form_data = dict(await request.form())
-    for key, value in form_data.items():
-        if type(value)==UploadFile:
-            form_data[key]=dict(value.headers)
-            form_data[key]['size']=f"{value.size} bytes"
+    try:
+        form_data = dict(await request.form())
+        for key, value in form_data.items():
+            if type(value)==UploadFile:
+                form_data[key]=dict(value.headers)
+                form_data[key]['size']=f"{value.size} bytes"
+    except:
+        body=form_data
     query_params = dict(request.query_params)
     url=str(request.url)
     return {
