@@ -28,7 +28,8 @@ class GateWay:
         self.body = None
         self.path = None
 
-    async def call(self, request: Request):        
+    async def call(self, request: Request):       
+        breakpoint() 
         await check_connection_cache(cache, request)
         callService = None
         try:
@@ -46,15 +47,12 @@ class GateWay:
             try:
                 callServiceContent = callService.json()
             except Exception as e:
-                callServiceContent = callService.text
-            else:
-                return callService
+                try:
+                    callServiceContent = callService.text
+                except:
+                    return callService
             
-            asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.request.url,callService.status_code))
-                
-            #  response for client
-            if str(callService.status_code)[0] != '2':
-                return JSONResponse(content=f"service was error ", status_code=400)
+            asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.status_code))
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call function : {str(e)}"))
