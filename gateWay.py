@@ -29,7 +29,6 @@ class GateWay:
         self.path = None
 
     async def call(self, request: Request):       
-        breakpoint() 
         await check_connection_cache(cache, request)
         callService = None
         try:
