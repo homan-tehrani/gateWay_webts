@@ -35,8 +35,6 @@ class GateWay:
             # Check exist input URL
             existUrl = await self.parseUrl(request)
             if not existUrl:
-                asyncio.create_task(send_log_to_rabbitmq(request,1,f"address not found in parseUrl"))
-
                 #  response for client
                 return JSONResponse(content={"detail": "address not found"}, status_code=404)
 
@@ -234,6 +232,7 @@ class GateWay:
                 return response
         except Exception as e:
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}"))
+            print("asdfsdf",str(e))
             return JSONResponse(content=" error in callService", status_code=400)
 
 
