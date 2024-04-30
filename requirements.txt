@@ -26,3 +26,4 @@ typing_extensions==4.8.0
 urllib3==2.0.6
 uvicorn==0.23.2
 aio-pika==9.4.1
+persiantools==4.0.0
