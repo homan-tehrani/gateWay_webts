@@ -56,7 +56,7 @@ async def send_log_to_rabbitmq(request,type,message,status_code=None):
         message=json.loads(message)
         data['response']=message
     except:
-        data['data']=message
+        data['gateway']=message
     if status_code:
         data['status_code']=status_code
     data=json.dumps(data,ensure_ascii=False).encode('utf8')
