@@ -52,7 +52,7 @@ class GateWay:
             asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.status_code))
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call function : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call function : {str(e)}",500))
             return JSONResponse(content="error in call function", status_code=400)
 
     async def parseUrl(self, request):
@@ -93,7 +93,7 @@ class GateWay:
                     self.path = path
                     # return path
             except Exception as e:
-                asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server "))
+                asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server ",500))
 
                 print('GateWayError! 1', str(e))
 
@@ -103,30 +103,30 @@ class GateWay:
 
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : {str(self.method).lower()} !== {url['method']}"))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : {str(self.method).lower()} !== {url['method']}",500))
                     return False
 
                 # Check if 'path' key is present in the retrieved URL
                 if 'path' not in url :
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : path not in  !== {json.dumps(url)}"))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : path not in  !== {json.dumps(url)}",500))
                     return False
 
                 try:
                     # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"caching url failed with error : {str(e)}"))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"caching url failed with error : {str(e)}",500))
                 path = url
 
             # Return the final path or False if not found
             if path:
                 self.path = path
                 return path
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"this path dose not exist"))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"this path dose not exist",500))
             return False
 
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in parse url : {json.dumps(url)}"))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in parse url : {json.dumps(url)}",500))
             return JSONResponse(content="parseUrl", status_code=400)
 
     async def existUrl(self, request):
@@ -142,7 +142,7 @@ class GateWay:
 
         # Handle exceptions during the URL parsing
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"does not existUrl : {str(e)}"))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"does not existUrl : {str(e)}",500))
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
     async def callService(self, request):
@@ -231,9 +231,8 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}"))
-            print("asdfsdf",str(e))
-            return JSONResponse(content=" error in callService", status_code=400)
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}",100))
+            return JSONResponse(content=" error in callService", status_code=500)
 
 
 
