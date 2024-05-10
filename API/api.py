@@ -8,11 +8,10 @@ from dotenv import load_dotenv
 import os
 
 router = APIRouter(prefix='/url')
-
+load_dotenv()
 
 @router.post('/addUrl/')
 async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Header(None)):
-    load_dotenv()
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
@@ -44,7 +43,6 @@ async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Head
 
 @router.get('/getUrls/')
 async def get_urls_endpoint(authorization: str = Header(None)):
-    load_dotenv()
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
@@ -60,7 +58,6 @@ async def get_urls_endpoint(authorization: str = Header(None)):
 
 @router.delete('/deleteUrl/')
 async def delete_url_endpoint(data: DeleteUrlValidation = Body(),authorization: str = Header(None)):
-    load_dotenv()
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
@@ -76,7 +73,6 @@ async def delete_url_endpoint(data: DeleteUrlValidation = Body(),authorization: 
 
 @router.get('/clearCache/')
 async def clear_cache(authorization: str = Header(None)):
-    load_dotenv()
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
@@ -95,7 +91,6 @@ async def clear_cache(authorization: str = Header(None)):
 
 @router.get("/health/")
 async def get_health(authorization: str = Header(None)):
-    load_dotenv()
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
