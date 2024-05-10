@@ -1,15 +1,22 @@
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Header, HTTPException
 from pydantic import ValidationError
 from fastapi.responses import JSONResponse
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
 from utils.db import get_url, get_urls, delete_url, update_Url, create_Url
 from gateWay import cache
+from dotenv import load_dotenv
+import os
 
 router = APIRouter(prefix='/url')
 
 
 @router.post('/addUrl/')
-async def add_url(datas: AddListUrlValidation = Body()):
+async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Header(None)):
+    load_dotenv()
+    correct_token = str(os.getenv("TOKEN"))
+    if authorization is None or authorization != correct_token:
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+
     try:
         for data in datas.data:
             # validations
@@ -36,7 +43,12 @@ async def add_url(datas: AddListUrlValidation = Body()):
 
 
 @router.get('/getUrls/')
-async def get_urls_endpoint():
+async def get_urls_endpoint(authorization: str = Header(None)):
+    load_dotenv()
+    correct_token = str(os.getenv("TOKEN"))
+    if authorization is None or authorization != correct_token:
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+
     try:
         # Assuming conn and cursor are available in the current scope
         urls_data = await get_urls()
@@ -47,7 +59,12 @@ async def get_urls_endpoint():
 
 
 @router.delete('/deleteUrl/')
-async def delete_url_endpoint(data: DeleteUrlValidation = Body()):
+async def delete_url_endpoint(data: DeleteUrlValidation = Body(),authorization: str = Header(None)):
+    load_dotenv()
+    correct_token = str(os.getenv("TOKEN"))
+    if authorization is None or authorization != correct_token:
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+
     try:
         # Assuming conn and cursor are available in the current scope
         await delete_url(data.id)
@@ -58,7 +75,12 @@ async def delete_url_endpoint(data: DeleteUrlValidation = Body()):
 
 
 @router.get('/clearCache/')
-async def clear_cache():
+async def clear_cache(authorization: str = Header(None)):
+    load_dotenv()
+    correct_token = str(os.getenv("TOKEN"))
+    if authorization is None or authorization != correct_token:
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+
     try:
         # Flush all items from the cache
         cache.flush_all()
@@ -72,5 +94,10 @@ async def clear_cache():
 
 
 @router.get("/health/")
-async def get_health():
+async def get_health(authorization: str = Header(None)):
+    load_dotenv()
+    correct_token = str(os.getenv("TOKEN"))
+    if authorization is None or authorization != correct_token:
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+
     return ({"status":200})

@@ -15,6 +15,7 @@ services:
       - CACHE_TIME=108000
       - CACHE_IP_ADDRESS=cache
       - DB_NAME=Urls.db
+      - TOKEN=test
 
     networks:
       - network_api
