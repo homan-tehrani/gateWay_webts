@@ -35,7 +35,7 @@ async def create_Url(id, path, signature, method, cache):
 
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
-    query = f'INSERT INTO Urls (id, path, signature, method, cache) VALUES ("{id}" "{path}", "{signature}", "{method}", "{cache}")'
+    query = f'INSERT INTO Urls (id, path, signature, method, cache) VALUES ("{id}", "{path}", "{signature}", "{method}", "{cache}")'
     cursor.execute(query)
     connection.commit()
 
