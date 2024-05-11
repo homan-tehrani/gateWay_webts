@@ -59,10 +59,13 @@ async def get_urls():
 # Read
 async def get_url(id):
     connection = sqlite3.connect(DB_NAME)
-
+    
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Urls WHERE  id=?', (id,))
+    if type(id) is int:
+        cursor.execute('SELECT * FROM Urls WHERE  id=?', (id,))
+    else:
+        cursor.execute('SELECT * FROM Urls WHERE  signature=?', (id,))
     result = cursor.fetchone()
     if result:
         return {"id": result[0], "path": result[1], "signature": result[2], "method": result[3], "cache": result[4], }
