@@ -25,14 +25,14 @@ async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Head
                 return JSONResponse(content={"detail": str(e)}, status_code=400)
 
             # check if URL already exists
-            url = await get_url(data.signature)
+            url = await get_url(data.id)
 
             if url:
                 # update
-                await update_Url(data.path, data.signature, data.method, data.cache, url['id'])
+                await update_Url(data.id, data.path, data.signature, data.method, data.cache)
             else:
                 # create
-                await create_Url(data.path, data.signature, data.method, data.cache)
+                await create_Url(data.id, data.path, data.signature, data.method, data.cache)
 
         return JSONResponse(content={"detail": "URLs added successfully"}, status_code=200)
 
