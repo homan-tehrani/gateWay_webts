@@ -1,0 +1,37 @@
+version: '3.10'
+
+services:
+  getway:
+    container_name: getway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - 8085:80
+    environment:
+      - LOG_URL=https://loger.sirafgroup.com/api/save-log
+      - CACHE_TIME=108000
+      - CACHE_IP_ADDRESS=cache
+      - DB_NAME=Urls.db
+      - TOKEN=test
+
+    networks:
+      - network_api
+
+  cache:
+    image: memcached
+    #    ports:
+    #      - "11211:11211"
+    networks:
+      - network_api
+    entrypoint:
+      - memcached
+      - -m 1264
+
+networks:
+  network_api:
+    driver: overley
+    external: true
+
