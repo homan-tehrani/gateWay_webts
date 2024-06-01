@@ -2,6 +2,7 @@ from pydantic import BaseModel, validator, Field
 
 
 class AddUrlValidation(BaseModel):
+    id: int
     path: str
     signature: str
     method: str
