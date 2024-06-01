@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Header, HTTPException
 from pydantic import ValidationError
 from fastapi.responses import JSONResponse
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
-from utils.db import get_url, get_urls, delete_url, update_Url, create_Url
+from utils.db import get_url, get_urls, delete_url, update_Url, create_Url, check_url_table_exists
 from gateWay import cache
 from dotenv import load_dotenv
 import os
@@ -15,8 +15,11 @@ async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Head
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
-
+    
+    await check_url_table_exists()
+    
     try:
+        
         for data in datas.data:
             # validations
             try:
@@ -46,7 +49,9 @@ async def get_urls_endpoint(authorization: str = Header(None)):
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
-
+    
+    await check_url_table_exists()
+    
     try:
         # Assuming conn and cursor are available in the current scope
         urls_data = await get_urls()
@@ -62,6 +67,8 @@ async def delete_url_endpoint(data: DeleteUrlValidation = Body(),authorization: 
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
 
+    await check_url_table_exists()
+    
     try:
         # Assuming conn and cursor are available in the current scope
         await delete_url(data.id)
@@ -77,6 +84,8 @@ async def clear_cache(authorization: str = Header(None)):
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
 
+    await check_url_table_exists()
+        
     try:
         # Flush all items from the cache
         cache.flush_all()

@@ -4,7 +4,17 @@ import sqlite3
 
 DB_NAME = "Urls.db"
 
-
+async def check_url_table_exists(table_name="Urls"):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", ("table_name",))
+    result = cursor.fetchone()
+    if result is not None:
+        return True
+    else:
+        await createDB()
+        return True
+    
 async def createDB():
     # Connect to SQLite database (or create a new one if it doesn't exist)
     print("asfasdfasdf")
