@@ -63,7 +63,7 @@ async def send_log_to_rabbitmq(request,type,message,status_code=None):
     try:
         connection = await aio_pika.connect_robust(
             host=RABBITMQ_HOST,
-            port=RABBITMQ_PORT,
+            port=int(RABBITMQ_PORT),
             login=RABBITMQ_USERNAME,
             password=RABBITMQ_PASSWORD,
             virtualhost=RABBITMQ_VHOST
