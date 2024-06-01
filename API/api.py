@@ -99,9 +99,5 @@ async def clear_cache(authorization: str = Header(None)):
 
 
 @router.get("/health/")
-async def get_health(authorization: str = Header(None)):
-    correct_token = str(os.getenv("TOKEN"))
-    if authorization is None or authorization != correct_token:
-        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
-
+async def get_health():
     return ({"status":200})
