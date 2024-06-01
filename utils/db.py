@@ -7,6 +7,7 @@ DB_NAME = "Urls.db"
 
 async def createDB():
     # Connect to SQLite database (or create a new one if it doesn't exist)
+    print("asfasdfasdf")
     conn = sqlite3.connect(DB_NAME)
 
     # Create a cursor object to execute SQL commands
