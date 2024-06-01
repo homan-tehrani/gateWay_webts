@@ -122,8 +122,10 @@ async def parse_request(request: Request):
         body=form_data
     query_params = dict(request.query_params)
     url=str(request.url)
+    method=str(request.method)
     return {
         "url": url,
+        "method": method,
         "headers": headers,
         "body": body,
         "form_data": form_data,

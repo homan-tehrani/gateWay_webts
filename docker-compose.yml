@@ -16,7 +16,13 @@ services:
       - CACHE_IP_ADDRESS=cache
       - DB_NAME=Urls.db
       - TOKEN=test
-
+      - AUTHENTICATION_SITE=https://nativeauth.sirafgroup.com
+      - RABBITMQ_HOST=77.238.108.86'
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=gateway
+      - RABBITMQ_PASSWORD=Bgateway@1256
+      - RABBITMQ_VHOST=gateway
+- 
     networks:
       - network_api
 

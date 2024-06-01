@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 
 # Site Url
-AUTHENTICATION_SITE = "https://nativeauth.sirafgroup.com"
+AUTHENTICATION_SITE = os.getenv('AUTHENTICATION_SITE')
 AUTHENTICATION_URL = f"{AUTHENTICATION_SITE}/user/auth/login_email/?site=project.sirafgroup.com"
 GET_USER_URL = AUTHENTICATION_SITE + "/api/v1/user/userByToken/"
 
@@ -14,8 +14,9 @@ LOG_URL = os.getenv('LOG_URL')
 
 
 # Rabbitmq 
-RABBITMQ_HOST = '77.238.108.86'
-RABBITMQ_PORT = 5672
-RABBITMQ_USERNAME = 'gateway'
-RABBITMQ_PASSWORD = 'Bgateway@1256'
-RABBITMQ_VHOST = 'gateway'
+RABBITMQ_HOST = os.getenv('RABBITMQ_HOST')
+RABBITMQ_PORT = os.getenv('RABBITMQ_PORT')
+RABBITMQ_USERNAME = os.getenv('RABBITMQ_USERNAME')
+RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASSWORD')
+RABBITMQ_VHOST = os.getenv('RABBITMQ_VHOST')
+
