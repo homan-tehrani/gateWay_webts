@@ -9,7 +9,7 @@ import json
 from starlette.datastructures import UploadFile 
 from persiantools.jdatetime import JalaliDate, JalaliDateTime
 
-from utils.global_variables import RABBITMQ_HOST,RABBITMQ_PASSWORD,RABBITMQ_PORT,RABBITMQ_USERNAME,RABBITMQ_VHOST,EXCHANGE_NAME
+from utils.global_variables import RABBITMQ_HOST,RABBITMQ_PASSWORD,RABBITMQ_PORT,RABBITMQ_USERNAME,RABBITMQ_VHOST,RABBIT_EXCHANGE_NAME
 
 
 async def CallService(url, method, headers, data=None, time=30):
@@ -73,7 +73,7 @@ async def send_log_to_rabbitmq(request,type,message,status_code=None):
             channel = await connection.channel()
 
             # Declare a fanout exchange
-            exchange = await channel.declare_exchange(EXCHANGE_NAME, aio_pika.ExchangeType.FANOUT)
+            exchange = await channel.declare_exchange(RABBIT_EXCHANGE_NAME, aio_pika.ExchangeType.FANOUT)
             
             # Declare a queue
             if type==1:
