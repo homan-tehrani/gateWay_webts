@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 # Site Url
 AUTHENTICATION_SITE = os.getenv('AUTHENTICATION_SITE')
 AUTHENTICATION_URL = f"{AUTHENTICATION_SITE}/user/auth/login_email/?site=project.sirafgroup.com"
-GET_USER_URL = AUTHENTICATION_SITE + "/api/v1/user/userByToken/"
+GET_USER_URL = f"{AUTHENTICATION_SITE}/api/v1/user/userByToken/"
 
 # URLs
 CACHE_IP_ADDRESS = os.getenv('CACHE_IP_ADDRESS')
