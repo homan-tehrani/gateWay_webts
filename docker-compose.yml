@@ -22,7 +22,7 @@ services:
       - RABBITMQ_USERNAME=gateway
       - RABBITMQ_PASSWORD=Bgateway@1256
       - RABBITMQ_VHOST=gateway
-      - EXCHANGE_NAME=logs
+      - RABBIT_EXCHANGE_NAME=logs
 
     networks:
       - network_api
