@@ -163,7 +163,7 @@ class GateWay:
                 url = f"{self.path['path']}"
 
             # Check if caching is disabled for this path
-            if self.path['cache'] == 0:
+            if self.path['cache'] == "False":
 
                 try:
 
