@@ -161,9 +161,9 @@ class GateWay:
                 url = f"{self.path['path']}?{request.query_params}"
             else:
                 url = f"{self.path['path']}"
-
+            print("asdfasdf",self.path['cache'])
             # Check if caching is disabled for this path
-            if self.path['cache'] == "False":
+            if self.path['cache'] == 0:
 
                 try:
 
