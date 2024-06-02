@@ -207,6 +207,7 @@ class GateWay:
                     if response.status_code == 200:
                         cacheSet=cache.set(url, response, time=int(CACHE_TIME))
                         print(f'time  cache  : {CACHE_TIME}')
+                        print(f'cache url  : {url}')
                         print(f' cache  status  set  is : {cacheSet}')
 
                 return response
