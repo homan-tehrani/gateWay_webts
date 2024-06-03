@@ -2613,161 +2613,161 @@
     },
     {
         "id": 2226,
-        "path": "http://tickets.app12.svc.cluster.local/api/user/OperatorUsers/",
+        "path": "http://ticket.app12.svc.cluster.local/api/user/OperatorUsers/",
         "signature": "/api/user/OperatorUsers/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2227,
-        "path": "http://tickets.app12.svc.cluster.local/api/user/operators/",
+        "path": "http://ticket.app12.svc.cluster.local/api/user/operators/",
         "signature": "/api/user/operators/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2228,
-        "path": "http://tickets.app12.svc.cluster.local/",
+        "path": "http://ticket.app12.svc.cluster.local/",
         "signature": "",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2229,
-        "path": "http://tickets.app12.svc.cluster.local/api/group/editGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/group/editGroup/",
         "signature": "/api/group/editGroup/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2230,
-        "path": "http://tickets.app12.svc.cluster.local/api/group/removeGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/group/removeGroup/",
         "signature": "/api/group/removeGroup/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2231,
-        "path": "http://tickets.app12.svc.cluster.local/api/group/groups/",
+        "path": "http://ticket.app12.svc.cluster.local/api/group/groups/",
         "signature": "/api/group/groups/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2232,
-        "path": "http://tickets.app12.svc.cluster.local/api/group/changeGroupId/",
+        "path": "http://ticket.app12.svc.cluster.local/api/group/changeGroupId/",
         "signature": "/api/group/changeGroupId/",
         "method": "put",
         "cache": 0
     },
     {
         "id": 2233,
-        "path": "http://tickets.app12.svc.cluster.local/api/userGroup/addUserGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/addUserGroup/",
         "signature": "/api/userGroup/addUserGroup/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2234,
-        "path": "http://tickets.app12.svc.cluster.local/api/userGroup/removeUserGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/removeUserGroup/",
         "signature": "/api/userGroup/removeUserGroup/",
         "method": "delete",
         "cache": 0
     },
     {
         "id": 2235,
-        "path": "http://tickets.app12.svc.cluster.local/api/userGroup/addAdminToGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/addAdminToGroup/",
         "signature": "/api/userGroup/addAdminToGroup/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2236,
-        "path": "http://tickets.app12.svc.cluster.local/api/userGroup/removeAdminGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/removeAdminGroup/",
         "signature": "/api/userGroup/removeAdminGroup/",
         "method": "delete",
         "cache": 0
     },
     {
         "id": 2237,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/addMessage/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/addMessage/",
         "signature": "/api/ticket/addMessage/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2238,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/createTicket/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/createTicket/",
         "signature": "/api/ticket/createTicket/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2239,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/tickets/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/tickets/",
         "signature": "/api/ticket/tickets/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2240,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/ticket/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/ticket/",
         "signature": "/api/ticket/ticket/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2241,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/ticketsAnswer/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/ticketsAnswer/",
         "signature": "/api/ticket/ticketsAnswer/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2242,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/ticketClose/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/ticketClose/",
         "signature": "/api/ticket/ticketClose/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2243,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/ticketsAdminget/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/ticketsAdminget/",
         "signature": "/api/ticket/ticketsAdminget/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2244,
-        "path": "http://tickets.app12.svc.cluster.local/",
+        "path": "http://ticket.app12.svc.cluster.local/",
         "signature": "",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2245,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticket/setExpertId/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticket/setExpertId/",
         "signature": "/api/ticket/setExpertId/",
         "method": "put",
         "cache": 0
     },
     {
         "id": 2246,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticketAdminApi/getTicketAdmin/ticket_id/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticketAdminApi/getTicketAdmin/ticket_id/",
         "signature": "/api/ticketAdminApi/getTicketAdmin/ticket_id/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2247,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticketAdminApi/getTicketsAdmin/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticketAdminApi/getTicketsAdmin/",
         "signature": "/api/ticketAdminApi/getTicketsAdmin/",
         "method": "post",
         "cache": 0
     },
     {
         "id": 2248,
-        "path": "http://tickets.app12.svc.cluster.local/api/ticketAdminApi/getTicketsAdmin/",
+        "path": "http://ticket.app12.svc.cluster.local/api/ticketAdminApi/getTicketsAdmin/",
         "signature": "/api/ticketAdminApi/getTicketsAdmin/",
         "method": "post",
         "cache": 0
@@ -3187,14 +3187,14 @@
     },
     {
         "id": 2467,
-        "path": "http://tickets.app12.svc.cluster.local/v1/messageLog/messageLogApi/ticketAddLog/",
+        "path": "http://ticket.app12.svc.cluster.local/v1/messageLog/messageLogApi/ticketAddLog/",
         "signature": "/v1/messageLog/messageLogApi/ticketAddLog/",
         "method": "get",
         "cache": 0
     },
     {
         "id": 2468,
-        "path": "http://tickets.app12.svc.cluster.local/v1/messageLog/messageLogApi/ticketImportLog/",
+        "path": "http://ticket.app12.svc.cluster.local/v1/messageLog/messageLogApi/ticketImportLog/",
         "signature": "/v1/messageLog/messageLogApi/ticketImportLog/",
         "method": "get",
         "cache": 0

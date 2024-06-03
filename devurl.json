@@ -3,161 +3,161 @@
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryApi/getCategoriesIdea/",
             "signature": "/v1/category/categoryApi/getCategoriesIdea/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1638
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryApi/getCategoriesName/",
             "signature": "/v1/category/categoryApi/getCategoriesName/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1639
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryAdminApi/editIdeaCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/editIdeaCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1810
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryAdminApi/deleteIdeaCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/deleteIdeaCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1811
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryAdminApi/addIdeaCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/addIdeaCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1812
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/category/categoryAdminApi/getIdeaCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getIdeaCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1953
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/addIdea/",
             "signature": "/v1/idea/ideaApi/addIdea/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1526
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getIdeas/",
             "signature": "/v1/idea/ideaApi/getIdeas/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1527
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getIdea/",
             "signature": "/v1/idea/ideaApi/getIdea/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1651
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getUserIdea/",
             "signature": "/v1/idea/ideaApi/getUserIdea/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1654
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getMyIdeas/",
             "signature": "/v1/idea/ideaApi/getMyIdeas/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1672
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getMyIdea/",
             "signature": "/v1/idea/ideaApi/getMyIdea/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1673
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/mostVisitedIdeas/",
             "signature": "/v1/idea/ideaApi/mostVisitedIdeas/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1675
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaApi/getFavoriteIdeas/",
             "signature": "/v1/idea/ideaApi/getFavoriteIdeas/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2163
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaAdminApi/getIdeasAdmin/",
             "signature": "/v1/idea/ideaAdminApi/getIdeasAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1806
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaAdminApi/getIdeaAdmin/",
             "signature": "/v1/idea/ideaAdminApi/getIdeaAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1807
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaAdminApi/editIdeaAdmin/",
             "signature": "/v1/idea/ideaAdminApi/editIdeaAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1808
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/idea/ideaAdminApi/deleteIdeaAdmin/",
             "signature": "/v1/idea/ideaAdminApi/deleteIdeaAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1809
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/messageLog/messageLogApi/ideaAddLog/",
             "signature": "/v1/messageLog/messageLogApi/ideaAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2344
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/messageLog/messageLogApi/ideaImportLog/",
             "signature": "/v1/messageLog/messageLogApi/ideaImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2345
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/campaign/campaignApi/getCampaigns/",
             "signature": "/v1/campaign/campaignApi/getCampaigns/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2403
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/campaign/campaignApi/getCampaign/",
             "signature": "/v1/campaign/campaignApi/getCampaign/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2405
         },
         {
             "path": "https://idea12.sirafgroup.com/v1/financial/factorApi/addFactor/",
             "signature": "/v1/financial/factorApi/addFactor/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2433
         },
@@ -165,182 +165,182 @@
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryAdminApi/addDicAdmin/",
             "signature": "/v1/dictionary/dictionaryAdminApi/addDicAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1629
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/assignContent/",
             "signature": "/v1/dictionary/dictionaryApi/assignContent/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1631
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/getDics/",
             "signature": "/v1/dictionary/dictionaryApi/getDics/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1632
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/updateDic/",
             "signature": "/v1/dictionary/dictionaryApi/updateDic/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1633
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/getDic/",
             "signature": "/v1/dictionary/dictionaryApi/getDic/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1741
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/mostVisitedDic/",
             "signature": "/v1/dictionary/dictionaryApi/mostVisitedDic/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1756
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryAdminApi/getDicAdmin/",
             "signature": "/v1/dictionary/dictionaryAdminApi/getDicAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2159
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryApi/getFavoriteDics/",
             "signature": "/v1/dictionary/dictionaryApi/getFavoriteDics/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2164
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryAdminApi/getDicsAdmin/",
             "signature": "/v1/dictionary/dictionaryAdminApi/getDicsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1984
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryAdminApi/editDicAdmin/",
             "signature": "/v1/dictionary/dictionaryAdminApi/editDicAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1985
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dictionaryAdminApi/deleteDicAdmin/",
             "signature": "/v1/dictionary/dictionaryAdminApi/deleteDicAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1986
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dicLetterApi/getLetter/",
             "signature": "/v1/dictionary/dicLetterApi/getLetter/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1656
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dicLetterAdminApi/getLettersAdmin/",
             "signature": "/v1/dictionary/dicLetterAdminApi/getLettersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1977
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dicLetterAdminApi/editLetterAdmin/",
             "signature": "/v1/dictionary/dicLetterAdminApi/editLetterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1978
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dicLetterAdminApi/deleteLetterAdmin/",
             "signature": "/v1/dictionary/dicLetterAdminApi/deleteLetterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1982
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/dictionary/dicLetterAdminApi/addLetterAdmin/",
             "signature": "/v1/dictionary/dicLetterAdminApi/addLetterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1995
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryApi/getDicCategories/",
             "signature": "/v1/category/categoryApi/getDicCategories/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1634
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryApi/searchDicCategory/",
             "signature": "/v1/category/categoryApi/searchDicCategory/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1659
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryAdminApi/getDicCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getDicCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1979
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryAdminApi/editDicCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/editDicCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1981
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryAdminApi/deleteDicCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/deleteDicCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1983
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/category/categoryAdminApi/addDicCategotyAdmin/",
             "signature": "/v1/category/categoryAdminApi/addDicCategotyAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1994
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/tag/tagApi/addTagAdmin/",
             "signature": "/v1/tag/tagApi/addTagAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1976
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/tag/tagAdminApi/getTagsAdmin/",
             "signature": "/v1/tag/tagAdminApi/getTagsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1996
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/messageLog/messageLogApi/wikiMahdiAddLog/",
             "signature": "/v1/messageLog/messageLogApi/wikiMahdiAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2438
         },
         {
             "path": "https://wiki.sirafgroup.com/v1/messageLog/messageLogApi/wikiMahdiImportLog/",
             "signature": "/v1/messageLog/messageLogApi/wikiMahdiImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2439
         },
@@ -348,399 +348,399 @@
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/addlike/",
             "signature": "/v1/like/likeApi/addlike/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1622
         },
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/removeLike/",
             "signature": "/v1/like/likeApi/removeLike/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1623
         },
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/getLike/",
             "signature": "/v1/like/likeApi/getLike/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1624
         },
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/getMostLikes/",
             "signature": "/v1/like/likeApi/getMostLikes/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1652
         },
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/getLikesCount/",
             "signature": "/v1/like/likeApi/getLikesCount/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2010
         },
         {
             "path": "https://common12.sirafgroup.com/v1/like/likeApi/getForamtedLikeCounts/",
             "signature": "/v1/like/likeApi/getForamtedLikeCounts/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2139
         },
         {
             "path": "https://common12.sirafgroup.com/v1/favorite/favoriteApi/addFavorite/",
             "signature": "/v1/favorite/favoriteApi/addFavorite/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1625
         },
         {
             "path": "https://common12.sirafgroup.com/v1/favorite/favoriteApi/disableFavorite/",
             "signature": "/v1/favorite/favoriteApi/disableFavorite/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1626
         },
         {
             "path": "https://common12.sirafgroup.com/v1/favorite/favoriteApi/getFavorite/",
             "signature": "/v1/favorite/favoriteApi/getFavorite/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1627
         },
         {
             "path": "https://common12.sirafgroup.com/v1/favorite/favoriteApi/getFavorites/",
             "signature": "/v1/favorite/favoriteApi/getFavorites/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1848
         },
         {
             "path": "https://common12.sirafgroup.com/v1/view/viewApi/addView/",
             "signature": "/v1/view/viewApi/addView/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1620
         },
         {
             "path": "https://common12.sirafgroup.com/v1/view/viewApi/getView/",
             "signature": "/v1/view/viewApi/getView/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1621
         },
         {
             "path": "https://common12.sirafgroup.com/v1/view/viewApi/getMostView/",
             "signature": "/v1/view/viewApi/getMostView/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1653
         },
         {
             "path": "https://common12.sirafgroup.com/v1/view/viewApi/syncView/",
             "signature": "/v1/view/viewApi/syncView/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1666
         },
         {
             "path": "https://common12.sirafgroup.com/v1/view/viewApi/getMostViewdById/",
             "signature": "/v1/view/viewApi/getMostViewdById/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1997
         },
         {
             "path": "https://common12.sirafgroup.com/v1/messageLog/messageApi/updateMessage/",
             "signature": "/v1/messageLog/messageApi/updateMessage/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1628
         },
         {
             "path": "https://common12.sirafgroup.com/v1/messageLog/messageLogApi/commonAddLog/",
             "signature": "/v1/messageLog/messageLogApi/commonAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2281
         },
         {
             "path": "https://common12.sirafgroup.com/v1/messageLog/messageLogApi/commonImportLog/",
             "signature": "/v1/messageLog/messageLogApi/commonImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2440
         },
         {
             "path": "https://common12.sirafgroup.com/v1/rate/rateApi/addRate/",
             "signature": "/v1/rate/rateApi/addRate/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1755
         },
         {
             "path": "https://common12.sirafgroup.com/v1/rate/rateApi/getSumRate/",
             "signature": "/v1/rate/rateApi/getSumRate/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2160
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentApi/addComment/",
             "signature": "/v1/comment/commentApi/addComment/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1799
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentApi/showComment/",
             "signature": "/v1/comment/commentApi/showComment/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1800
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentApi/deactiveStatus/",
             "signature": "/v1/comment/commentApi/deactiveStatus/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1801
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentAdminApi/getCommentsAdmin/",
             "signature": "/v1/comment/commentAdminApi/getCommentsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2041
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentAdminApi/addCommentAdmin/",
             "signature": "/v1/comment/commentAdminApi/addCommentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2042
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentAdminApi/deleteCommentAdmin/",
             "signature": "/v1/comment/commentAdminApi/deleteCommentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2043
         },
         {
             "path": "https://common12.sirafgroup.com/v1/comment/commentAdminApi/getAllCommentsAdmin/",
             "signature": "/v1/comment/commentAdminApi/getAllCommentsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2376
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
             "signature": "/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1957
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/addLeaveSin/",
             "signature": "/v1/leaveSin/leaveSinApi/addLeaveSin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1958
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/getLeaveSin/",
             "signature": "/v1/leaveSin/leaveSinApi/getLeaveSin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1959
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/getParticipatedLeaveSin/",
             "signature": "/v1/leaveSin/leaveSinApi/getParticipatedLeaveSin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1964
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/getPrivateLeaveSins/",
             "signature": "/v1/leaveSin/leaveSinApi/getPrivateLeaveSins/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1967
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/leaveSinSendNotif/",
             "signature": "/v1/leaveSin/leaveSinApi/leaveSinSendNotif/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2045
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinAdminApi/addLeaveSinAdmin/",
             "signature": "/v1/leaveSin/leaveSinAdminApi/addLeaveSinAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2127
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinAdminApi/editLeaveSinAdmin/",
             "signature": "/v1/leaveSin/leaveSinAdminApi/editLeaveSinAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2129
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinAdminApi/deleteLeaveSinAdmin/",
             "signature": "/v1/leaveSin/leaveSinAdminApi/deleteLeaveSinAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2130
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinAdminApi/getPublicLeaveSinsAdmin/",
             "signature": "/v1/leaveSin/leaveSinAdminApi/getPublicLeaveSinsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2132
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinAdminApi/getPrivateLeaveSinsAdmin/",
             "signature": "/v1/leaveSin/leaveSinAdminApi/getPrivateLeaveSinsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2136
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/userLeaveSinApi/getUserLeaveSins/",
             "signature": "/v1/leaveSin/userLeaveSinApi/getUserLeaveSins/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1960
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/userLeaveSinApi/deleteUserLeaveSin/",
             "signature": "/v1/leaveSin/userLeaveSinApi/deleteUserLeaveSin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1961
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/userLeaveSinApi/disableUserLeaveSins/",
             "signature": "/v1/leaveSin/userLeaveSinApi/disableUserLeaveSins/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1962
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/userLeaveSinApi/addUserLeaveSin/",
             "signature": "/v1/leaveSin/userLeaveSinApi/addUserLeaveSin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1963
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/UserLeaveSinAdminApi/getStatisticsAdmin/",
             "signature": "/v1/leaveSin/UserLeaveSinAdminApi/getStatisticsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2137
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/userLeaveSinScoreApi/addUserLeaveSinScore/",
             "signature": "/v1/leaveSin/userLeaveSinScoreApi/addUserLeaveSinScore/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1965
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryApi/getLeaveSinCategories/",
             "signature": "/v1/category/categoryApi/getLeaveSinCategories/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1966
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryApi/addCategory/",
             "signature": "/v1/category/categoryApi/addCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1993
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryAdminApi/addLeaveSinCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/addLeaveSinCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2126
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryAdminApi/getLeaveSinCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getLeaveSinCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2128
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryAdminApi/editLeaveSinCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/editLeaveSinCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2134
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryAdminApi/deleteLeaveSinCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/deleteLeaveSinCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2135
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryDescriptionAdminApi/addCategoryDesAdmin/",
             "signature": "/v1/category/categoryDescriptionAdminApi/addCategoryDesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2488
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryDescriptionAdminApi/editCategoryDesAdmin/",
             "signature": "/v1/category/categoryDescriptionAdminApi/editCategoryDesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2490
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryDescriptionAdminApi/getCategoriesDesAdmin/",
             "signature": "/v1/category/categoryDescriptionAdminApi/getCategoriesDesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2491
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryDescriptionAdminApi/deleteCategoryDesAdmin/",
             "signature": "/v1/category/categoryDescriptionAdminApi/deleteCategoryDesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2492
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/category/categoryDescriptionApi/getCategoriesDes/",
             "signature": "/v1/category/categoryDescriptionApi/getCategoriesDes/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2489
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/messageLog/messageLogApi/abstinenceAddLog/",
             "signature": "/v1/messageLog/messageLogApi/abstinenceAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2441
         },
         {
             "path": "https://abstinence12.sirafgroup.com/v1/messageLog/messageLogApi/abstinenceImportLog/",
             "signature": "/v1/messageLog/messageLogApi/abstinenceImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2442
         },
@@ -748,1351 +748,1351 @@
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/getDoubts/",
             "signature": "/v1/doubt/doubtApi/getDoubts/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1665
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/getDoubt/",
             "signature": "/v1/doubt/doubtApi/getDoubt/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1669
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/addDoubt/",
             "signature": "/v1/doubt/doubtApi/addDoubt/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1670
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/mostVisitedDoubts/",
             "signature": "/v1/doubt/doubtApi/mostVisitedDoubts/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1757
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/getUserDoubts/",
             "signature": "/v1/doubt/doubtApi/getUserDoubts/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2118
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtApi/getFavoriteDoubts/",
             "signature": "/v1/doubt/doubtApi/getFavoriteDoubts/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2162
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtAdminApi/getDoubtsAdmin/",
             "signature": "/v1/doubt/doubtAdminApi/getDoubtsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1780
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtAdminApi/getDoubtAdmin/",
             "signature": "/v1/doubt/doubtAdminApi/getDoubtAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1781
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtAdminApi/deleteDoubtAdmin/",
             "signature": "/v1/doubt/doubtAdminApi/deleteDoubtAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1782
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/doubtAdminApi/editDoubtAdmin/",
             "signature": "/v1/doubt/doubtAdminApi/editDoubtAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1783
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/categoryApi/getCategories/",
             "signature": "/v1/doubt/categoryApi/getCategories/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1668
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/categoryApi/getCategoriesName/",
             "signature": "/v1/doubt/categoryApi/getCategoriesName/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1671
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/categoryAdminApi/addCategoryAdmin/",
             "signature": "/v1/doubt/categoryAdminApi/addCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1784
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/categoryAdminApi/deleteCategoryAdmin/",
             "signature": "/v1/doubt/categoryAdminApi/deleteCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1785
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/doubt/categoryAdminApi/editCategoryAdmin/",
             "signature": "/v1/doubt/categoryAdminApi/editCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1786
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/category/categoryAdminApi/getDoubtCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getDoubtCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2288
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/messageLog/messageLogApi/doubtsAddLog/",
             "signature": "/v1/messageLog/messageLogApi/doubtsAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2443
         },
         {
             "path": "https://doubt.sirafgroup.com/v1/messageLog/messageLogApi/doubtsImportLog/",
             "signature": "/v1/messageLog/messageLogApi/doubtsImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2444
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/loginMobile/",
             "signature": "/v1/user/userApi/loginMobile/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1677
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/loginEmail/",
             "signature": "/v1/user/userApi/loginEmail/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1678
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/registerEmail/",
             "signature": "/v1/user/userApi/registerEmail/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1679
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/userByToken/",
             "signature": "/v1/user/userApi/userByToken/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1680
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/refreshToken/",
             "signature": "/v1/user/userApi/refreshToken/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1681
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/registerMobile/",
             "signature": "/v1/user/userApi/registerMobile/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1682
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/loginOtpEmail/",
             "signature": "/v1/user/userApi/loginOtpEmail/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1683
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/loginUsername/",
             "signature": "/v1/user/userApi/loginUsername/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1684
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/setPassword/",
             "signature": "/v1/user/userApi/setPassword/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1685
         },
         {
             "path": "https://auth12.sirafgroup.com/api/v1/user/logout/",
             "signature": "/api/v1/user/logout/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1686
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/editProfile/",
             "signature": "/v1/user/userApi/editProfile/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1721
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userApi/user/",
             "signature": "/v1/user/userApi/user/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1723
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userAdminApi/users/",
             "signature": "/v1/user/userAdminApi/users/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1687
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/userAdminApi/userAdmin/",
             "signature": "/v1/user/userAdminApi/userAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1688
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/verifyCodeApi/sendVerifyChange/",
             "signature": "/v1/user/verifyCodeApi/sendVerifyChange/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2169
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/verifyCodeApi/sendVerifyCode/",
             "signature": "/v1/user/verifyCodeApi/sendVerifyCode/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1722
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/user/verifyCodeApi/verifyChange/",
             "signature": "/v1/user/verifyCodeApi/verifyChange/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1724
         },
         {
             "path": "https://auth12.sirafgroup.com/api/v1/passwordReset/sendLinkPasswordReset/",
             "signature": "/api/v1/passwordReset/sendLinkPasswordReset/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1725
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/module/moduleAdminApi/modulesAdmin/",
             "signature": "/v1/module/moduleAdminApi/modulesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1689
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/module/moduleAdminApi/addModulePermAdmin/",
             "signature": "/v1/module/moduleAdminApi/addModulePermAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1690
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/role/permissionAdminApi/PermissionsAdmin/",
             "signature": "/v1/role/permissionAdminApi/PermissionsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1691
         },
         {
             "path": "https://auth12.sirafgroup.com/api/v1/permission/admin/modulesPermissionsAdmin/",
             "signature": "/api/v1/permission/admin/modulesPermissionsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1692
         },
         {
             "path": "https://auth12.sirafgroup.com/api/v1/role/admin/role/",
             "signature": "/api/v1/role/admin/role/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1693
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/role/roleAdminApi/roles/",
             "signature": "/v1/role/roleAdminApi/roles/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1694
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/role/roleAdminApi/roleEdit/",
             "signature": "/v1/role/roleAdminApi/roleEdit/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1695
         },
         {
             "path": "https://auth12.sirafgroup.com/api/v1/role/admin/listRoles/",
             "signature": "/api/v1/role/admin/listRoles/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1696
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/application/applicationApi/getLastVersion/",
             "signature": "/v1/application/applicationApi/getLastVersion/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2306
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/messageLog/messageLogApi/authAddLog/",
             "signature": "/v1/messageLog/messageLogApi/authAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2445
         },
         {
             "path": "https://auth12.sirafgroup.com/v1/messageLog/messageLogApi/authImportLog/",
             "signature": "/v1/messageLog/messageLogApi/authImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2446
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/ContentApi/blockItems/",
             "signature": "/v1/content/ContentApi/blockItems/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1713
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/ContentApi/getMostVisitedBlocks/",
             "signature": "/v1/content/ContentApi/getMostVisitedBlocks/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1714
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/ContentApi/mostVisitedBlockItems/",
             "signature": "/v1/content/ContentApi/mostVisitedBlockItems/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1715
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/ContentApi/mostVisitedItems/",
             "signature": "/v1/content/ContentApi/mostVisitedItems/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1718
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getContents/",
             "signature": "/v1/content/contentApi/getContents/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1843
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getFavoritesContents/",
             "signature": "/v1/content/contentApi/getFavoritesContents/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1870
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockApi/getFavoriteBlocks/",
             "signature": "/v1/content/contentBlockApi/getFavoriteBlocks/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1878
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getContentsByCategory/",
             "signature": "/v1/content/contentApi/getContentsByCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1879
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getMostVisitedContents/",
             "signature": "/v1/content/contentApi/getMostVisitedContents/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1880
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getContent/",
             "signature": "/v1/content/contentApi/getContent/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1900
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getMostVisitedChosenContents/",
             "signature": "/v1/content/contentApi/getMostVisitedChosenContents/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1998
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentApi/getFavoritesContentsByCategory/",
             "signature": "/v1/content/contentApi/getFavoritesContentsByCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2478
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/content/admin/contents/",
             "signature": "/api/v1/content/admin/contents/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1698
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/addContentAdmin/",
             "signature": "/v1/content/contentAdminApi/addContentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1805
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/deleteContentAdmin/",
             "signature": "/v1/content/contentAdminApi/deleteContentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1869
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/editContentAdmin/",
             "signature": "/v1/content/contentAdminApi/editContentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1901
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/getContentAdmin/",
             "signature": "/v1/content/contentAdminApi/getContentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1905
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/addContentItemAdmin/",
             "signature": "/v1/content/contentAdminApi/addContentItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1906
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/getContentsAdmin/",
             "signature": "/v1/content/contentAdminApi/getContentsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2011
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentAdminApi/convertImageAdmin/",
             "signature": "/v1/content/contentAdminApi/convertImageAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2285
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/getContentBlockesAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/getContentBlockesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1940
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockApi/getBlockByCateogory/",
             "signature": "/v1/content/contentBlockApi/getBlockByCateogory/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1899
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/addContentBlockAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/addContentBlockAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1902
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/editContentBlockAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/editContentBlockAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1903
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/deleteContentBlockAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/deleteContentBlockAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1904
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentItemAdminApi/addContentBlockItemAdmin/",
             "signature": "/v1/content/contentItemAdminApi/addContentBlockItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1907
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/editContentBlockItemAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/editContentBlockItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1908
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentItemAdminApi/deleteContentBlockItemAdmin/",
             "signature": "/v1/content/contentItemAdminApi/deleteContentBlockItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1909
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentBlockAdminApi/editWeightContentBlockAdmin/",
             "signature": "/v1/content/contentBlockAdminApi/editWeightContentBlockAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1939
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/contentItemAdminApi/covnertVideoAdmin/",
             "signature": "/v1/content/contentItemAdminApi/covnertVideoAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2284
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/bannerAdminApi/addBannerAdmin/",
             "signature": "/v1/content/bannerAdminApi/addBannerAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2483
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/bannerAdminApi/deleteBannerAdmin/",
             "signature": "/v1/content/bannerAdminApi/deleteBannerAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2484
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/bannerAdminApi/editBannerAdmin/",
             "signature": "/v1/content/bannerAdminApi/editBannerAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2486
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/bannerAdminApi/getBannersAdmin/",
             "signature": "/v1/content/bannerAdminApi/getBannersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2487
         },
         {
             "path": "https://content12.sirafgroup.com/v1/content/bannerApi/getBanner/",
             "signature": "/v1/content/bannerApi/getBanner/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2485
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/tag/contentByTag/",
             "signature": "/api/v1/tag/contentByTag/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1701
         },
         {
             "path": "https://content12.sirafgroup.com/v1/tag/tagAdminApi/tags/",
             "signature": "/v1/tag/tagAdminApi/tags/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1702
         },
         {
             "path": "https://content12.sirafgroup.com/v1/portal/portalApi/getPortals/",
             "signature": "/v1/portal/portalApi/getPortals/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2012
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/portal/admin/portalsAdmin/",
             "signature": "/api/v1/portal/admin/portalsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1704
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/portal/admin/syncPortalAdmin/",
             "signature": "/api/v1/portal/admin/syncPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1705
         },
         {
             "path": "https://content12.sirafgroup.com/v1/portal/portalAdminApi/getPortalsAdmin/",
             "signature": "/v1/portal/portalAdminApi/getPortalsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1835
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryApi/getContentCategories/",
             "signature": "/v1/category/categoryApi/getContentCategories/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1868
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/category/admin/categoryPortal/",
             "signature": "/api/v1/category/admin/categoryPortal/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1707
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryAdminApi/getContentCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getContentCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1708
         },
         {
             "path": "https://content12.sirafgroup.com/api/v1/category/admin/syncCategoryAdmin/",
             "signature": "/api/v1/category/admin/syncCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1709
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryAdminApi/addContentCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/addContentCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1822
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryAdminApi/editContentCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/editContentCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1823
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryAdminApi/deleteContentCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/deleteContentCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1824
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/contentTypeAdminApi/getContentTypesAdmin/",
             "signature": "/v1/category/contentTypeAdminApi/getContentTypesAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1821
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/contentTypeAdminApi/getCategoryContentTypesAdmin/",
             "signature": "/v1/category/contentTypeAdminApi/getCategoryContentTypesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1826
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/contentTypeApi/getContentTypes/",
             "signature": "/v1/category/contentTypeApi/getContentTypes/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1845
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryPortalAdminApi/getCategoriesPortalAdmin/",
             "signature": "/v1/category/categoryPortalAdminApi/getCategoriesPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1987
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryPortalAdminApi/addCategoryPortalAdmin/",
             "signature": "/v1/category/categoryPortalAdminApi/addCategoryPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1988
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryPortalAdminApi/editCategoryPortalAdmin/",
             "signature": "/v1/category/categoryPortalAdminApi/editCategoryPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1989
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryPortalAdminApi/deleteCategoryPortalAdmin/",
             "signature": "/v1/category/categoryPortalAdminApi/deleteCategoryPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1990
         },
         {
             "path": "https://content12.sirafgroup.com/v1/category/categoryPortalApi/getCategoriesPortal/",
             "signature": "/v1/category/categoryPortalApi/getCategoriesPortal/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1992
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterItemAdminApi/getFilterItemsAdmin/",
             "signature": "/v1/filter/filterItemAdminApi/getFilterItemsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1831
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterItemAdminApi/addFilterItemAdmin/",
             "signature": "/v1/filter/filterItemAdminApi/addFilterItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1832
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterItemAdminApi/editFilterItemAdmin/",
             "signature": "/v1/filter/filterItemAdminApi/editFilterItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1833
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterItemAdminApi/deleteFilterItemAdmin/",
             "signature": "/v1/filter/filterItemAdminApi/deleteFilterItemAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1834
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterAdminApi/getFiltersAdmin/",
             "signature": "/v1/filter/filterAdminApi/getFiltersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1827
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterAdminApi/addFilterAdmin/",
             "signature": "/v1/filter/filterAdminApi/addFilterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1828
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterAdminApi/editFilterAdmin/",
             "signature": "/v1/filter/filterAdminApi/editFilterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1829
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterAdminApi/deleteFilterAdmin/",
             "signature": "/v1/filter/filterAdminApi/deleteFilterAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1830
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterApi/getFilters/",
             "signature": "/v1/filter/filterApi/getFilters/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1847
         },
         {
             "path": "https://content12.sirafgroup.com/v1/filter/filterApi/getContentNumbers/",
             "signature": "/v1/filter/filterApi/getContentNumbers/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2044
         },
         {
             "path": "https://content12.sirafgroup.com/v1/baseCategory/baseCategoryApi/baseCategoryType/",
             "signature": "/v1/baseCategory/baseCategoryApi/baseCategoryType/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1734
         },
         {
             "path": "https://content12.sirafgroup.com/v1/messageLog/messageLogApi/contentAddLog/",
             "signature": "/v1/messageLog/messageLogApi/contentAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2447
         },
         {
             "path": "https://content12.sirafgroup.com/v1/messageLog/messageLogApi/contentImportLog/",
             "signature": "/v1/messageLog/messageLogApi/contentImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2448
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionApi/getCompetitions/",
             "signature": "/v1/competition/competitionApi/getCompetitions/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1737
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionApi/scoreProcess/",
             "signature": "/v1/competition/competitionApi/scoreProcess/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1752
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionAdminApi/getCompetitionsAdmin/",
             "signature": "/v1/competition/competitionAdminApi/getCompetitionsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1881
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionAdminApi/getCompetitionAdmin/",
             "signature": "/v1/competition/competitionAdminApi/getCompetitionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1882
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionAdminApi/deleteCompetitionAdmin/",
             "signature": "/v1/competition/competitionAdminApi/deleteCompetitionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1883
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionAdminApi/editCompetitionAdmin/",
             "signature": "/v1/competition/competitionAdminApi/editCompetitionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1884
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionAdminApi/addCompetitionAdmin/",
             "signature": "/v1/competition/competitionAdminApi/addCompetitionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1885
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/competitionApi/sendNotifCompetition/",
             "signature": "/v1/competition/competitionApi/sendNotifCompetition/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2141
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/userCompetitionApi/getCompetitionReport/",
             "signature": "/v1/competition/userCompetitionApi/getCompetitionReport/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1739
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/userCompetitionApi/disableUserCompetition/",
             "signature": "/v1/competition/userCompetitionApi/disableUserCompetition/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1745
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/userCompetitionApi/checkUserPassedExam/",
             "signature": "/v1/competition/userCompetitionApi/checkUserPassedExam/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2432
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/userCompetitionAdminApi/getUserCompetitionsAdmin/",
             "signature": "/v1/competition/userCompetitionAdminApi/getUserCompetitionsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1887
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/rateInviteApi/addRateInviteCompetition/",
             "signature": "/v1/competition/rateInviteApi/addRateInviteCompetition/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1968
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionApi/getCompetitionAnswers/",
             "signature": "/v1/question/questionApi/getCompetitionAnswers/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1740
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionApi/getQuestions/",
             "signature": "/v1/question/questionApi/getQuestions/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1742
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionAdminApi/getQuestionsAdmin/",
             "signature": "/v1/question/questionAdminApi/getQuestionsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1889
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionAdminApi/editQuestionAdmin/",
             "signature": "/v1/question/questionAdminApi/editQuestionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1890
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionAdminApi/deleteQuestionAdmin/",
             "signature": "/v1/question/questionAdminApi/deleteQuestionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1892
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/questionAdminApi/addQuestionAdmin/",
             "signature": "/v1/question/questionAdminApi/addQuestionAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1893
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/choiceAdminApi/getChoicesAdmin/",
             "signature": "/v1/question/choiceAdminApi/getChoicesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1894
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/choiceAdminApi/addChoiceAdmin/",
             "signature": "/v1/question/choiceAdminApi/addChoiceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1896
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/choiceAdminApi/deleteChoiceAdmin/",
             "signature": "/v1/question/choiceAdminApi/deleteChoiceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1897
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/choiceAdminApi/editChoiceAdmin/",
             "signature": "/v1/question/choiceAdminApi/editChoiceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1898
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/userAnswerApi/addAnswer/",
             "signature": "/v1/question/userAnswerApi/addAnswer/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1747
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/competition/userCompetitionApi/finishUserCompetition/",
             "signature": "/v1/competition/userCompetitionApi/finishUserCompetition/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1753
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/userAnswerAdminApi/getUserAnswersAdmin/",
             "signature": "/v1/question/userAnswerAdminApi/getUserAnswersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1886
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/question/userAnswerAdminApi/getUserAnswerAdmin/",
             "signature": "/v1/question/userAnswerAdminApi/getUserAnswerAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1888
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/messageLog/messageLogApi/competitionAddLog/",
             "signature": "/v1/messageLog/messageLogApi/competitionAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2449
         },
         {
             "path": "https://competition12.sirafgroup.com/v1/messageLog/messageLogApi/competitionImportLog/",
             "signature": "/v1/messageLog/messageLogApi/competitionImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2450
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayApi/getPrays/",
             "signature": "/v1/pray/prayApi/getPrays/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1758
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayApi/getPray/",
             "signature": "/v1/pray/prayApi/getPray/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1759
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayApi/getFavoritePrays/",
             "signature": "/v1/pray/prayApi/getFavoritePrays/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2165
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayAdminApi/getPrayAdmin/",
             "signature": "/v1/pray/prayAdminApi/getPrayAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1766
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayAdminApi/deletePrayAdmin/",
             "signature": "/v1/pray/prayAdminApi/deletePrayAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1767
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayAdminApi/editPrayAdmin/",
             "signature": "/v1/pray/prayAdminApi/editPrayAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1768
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayAdminApi/addPrayAdmin/",
             "signature": "/v1/pray/prayAdminApi/addPrayAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1769
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayTextAdminApi/getPrayTextsAdmin/",
             "signature": "/v1/pray/prayTextAdminApi/getPrayTextsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1770
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayTextAdminApi/deletePrayTextAdmin/",
             "signature": "/v1/pray/prayTextAdminApi/deletePrayTextAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1771
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayTextAdminApi/editPrayTextAdmin/",
             "signature": "/v1/pray/prayTextAdminApi/editPrayTextAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1772
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/pray/prayTextAdminApi/addPrayTextAdmin/",
             "signature": "/v1/pray/prayTextAdminApi/addPrayTextAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1773
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/readerAdminApi/getReaderAdmin/",
             "signature": "/v1/reader/readerAdminApi/getReaderAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1778
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/prayReaderApi/getPrayReader/",
             "signature": "/v1/reader/prayReaderApi/getPrayReader/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1762
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/prayReaderAdminApi/addPrayReaderAdmin/",
             "signature": "/v1/reader/prayReaderAdminApi/addPrayReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1775
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/prayReaderAdminApi/deletePrayReaderAdmin/",
             "signature": "/v1/reader/prayReaderAdminApi/deletePrayReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 1776
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/prayReaderAdminApi/editPrayReaderAdmin/",
             "signature": "/v1/reader/prayReaderAdminApi/editPrayReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1777
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/reader/prayReaderAdminApi/getPrayReaderAdmin/",
             "signature": "/v1/reader/prayReaderAdminApi/getPrayReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1779
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/messageLog/messageLogApi/prayerAddLog/",
             "signature": "/v1/messageLog/messageLogApi/prayerAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2451
         },
         {
             "path": "https://prayer12.sirafgroup.com/v1/messageLog/messageLogApi/prayerImportLog/",
             "signature": "/v1/messageLog/messageLogApi/prayerImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2452
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/portalsAdmin/",
             "signature": "/api/v1/portal/admin/portalsAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1849
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/addPortalAdmin/",
             "signature": "/api/v1/portal/admin/addPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1850
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/editPortalAdmin/",
             "signature": "/api/v1/portal/admin/editPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1851
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/portalAdmin/",
             "signature": "/api/v1/portal/portalAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1852
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/userPortalsAdmin/",
             "signature": "/api/v1/portal/admin/userPortalsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1853
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/allPortalsAdmin/",
             "signature": "/api/v1/portal/allPortalsAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1854
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/portalCategoriesAdmin/",
             "signature": "/api/v1/portal/portalCategoriesAdmin/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1855
         },
         {
             "path": "https://portal12.sirafgroup.com/v1/portal/portalAdminApi/syncPortalAdmin/",
             "signature": "/v1/portal/portalAdminApi/syncPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1954
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/assignUserToPortalAdmin/",
             "signature": "/api/v1/portal/admin/assignUserToPortalAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1856
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/portalUsers/portalUsersAdmin/",
             "signature": "/api/v1/portal/admin/portalUsers/portalUsersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1857
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/disablePortalUserAdmin/",
             "signature": "/api/v1/portal/admin/disablePortalUserAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1858
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/userPortalContent/",
             "signature": "/api/v1/portal/admin/userPortalContent/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1859
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/userPortalContents/",
             "signature": "/api/v1/portal/admin/userPortalContents/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1860
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/removeUserPortalContent/",
             "signature": "/api/v1/portal/admin/removeUserPortalContent/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1861
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/assignUserPortalContent/",
             "signature": "/api/v1/portal/admin/assignUserPortalContent/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1862
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/statusUserPortalContent/",
             "signature": "/api/v1/portal/admin/statusUserPortalContent/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1863
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/step/admin/PortalStep/",
             "signature": "/api/v1/step/admin/PortalStep/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1864
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/step/admin/PortalSteps/",
             "signature": "/api/v1/step/admin/PortalSteps/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1865
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/step/admin/editePortalStep/",
             "signature": "/api/v1/step/admin/editePortalStep/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1866
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/portal/admin/disablePortalUser/",
             "signature": "/api/v1/portal/admin/disablePortalUser/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1867
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/category/admin/addCategory/",
             "signature": "/api/v1/category/admin/addCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1871
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/category/admin/editCategory/",
             "signature": "/api/v1/category/admin/editCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1872
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/category/admin/portalCategories/",
             "signature": "/api/v1/category/admin/portalCategories/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1873
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/category/admin/disablePortalCategory/",
             "signature": "/api/v1/category/admin/disablePortalCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 1874
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/content/admin/syncContent/",
             "signature": "/api/v1/content/admin/syncContent/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 1875
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/content/admin/userContents/",
             "signature": "/api/v1/content/admin/userContents/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1876
         },
         {
             "path": "https://portal12.sirafgroup.com/api/v1/content/admin/usersPortals/",
             "signature": "/api/v1/content/admin/usersPortals/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1877
         },
         {
             "path": "https://portal12.sirafgroup.com/v1/messageLog/messageLogApi/portalAddLog/",
             "signature": "/v1/messageLog/messageLogApi/portalAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2453
         },
         {
             "path": "https://portal12.sirafgroup.com/v1/messageLog/messageLogApi/portalImportLog/",
             "signature": "/v1/messageLog/messageLogApi/portalImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2454
         },
@@ -2100,1204 +2100,1204 @@
         {
             "path": "library12.sirafgroup.com/v1/book/bookApi/getBooks/",
             "signature": "/v1/book/bookApi/getBooks/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1969
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookApi/getMostVisitedBooks/",
             "signature": "/v1/book/bookApi/getMostVisitedBooks/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1970
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookApi/getBook/",
             "signature": "/v1/book/bookApi/getBook/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1972
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookAdminApi/getBooksAdmin/",
             "signature": "/v1/book/bookAdminApi/getBooksAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2021
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookAdminApi/getBookAdmin/",
             "signature": "/v1/book/bookAdminApi/getBookAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2022
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookAdminApi/editBookAdmin/",
             "signature": "/v1/book/bookAdminApi/editBookAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2023
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookAdminApi/deleteBookAdmin/",
             "signature": "/v1/book/bookAdminApi/deleteBookAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2024
         },
         {
             "path": "library12.sirafgroup.com/v1/book/bookAdminApi/addBookAdmin/",
             "signature": "/v1/book/bookAdminApi/addBookAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2025
         },
         {
             "path": "library12.sirafgroup.com/v1/publisher/publisherApi/getPublishers/",
             "signature": "/v1/publisher/publisherApi/getPublishers/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1973
         },
         {
             "path": "library12.sirafgroup.com/v1/publisher/publisherAdminApi/getPublishersAdmin/",
             "signature": "/v1/publisher/publisherAdminApi/getPublishersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2026
         },
         {
             "path": "library12.sirafgroup.com/v1/publisher/publisherAdminApi/editPublisherAdmin/",
             "signature": "/v1/publisher/publisherAdminApi/editPublisherAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2027
         },
         {
             "path": "library12.sirafgroup.com/v1/publisher/publisherAdminApi/deletePublisherAdmin/",
             "signature": "/v1/publisher/publisherAdminApi/deletePublisherAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2028
         },
         {
             "path": "library12.sirafgroup.com/v1/publisher/publisherAdminApi/addPublisherAdmin/",
             "signature": "/v1/publisher/publisherAdminApi/addPublisherAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2031
         },
         {
             "path": "library12.sirafgroup.com/v1/book/attachmentAdminApi/deleteAttachmentsAdmin/",
             "signature": "/v1/book/attachmentAdminApi/deleteAttachmentsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2138
         },
         {
             "path": "library12.sirafgroup.com/v1/book/attachmentAdminApi/addAttachmentAdmin/",
             "signature": "/v1/book/attachmentAdminApi/addAttachmentAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2142
         },
         {
             "path": "library12.sirafgroup.com/v1/book/attachmentAdminApi/getAttachmentsAdmin/",
             "signature": "/v1/book/attachmentAdminApi/getAttachmentsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2143
         },
         {
             "path": "library12.sirafgroup.com/v1/author/authorApi/getAuthors/",
             "signature": "/v1/author/authorApi/getAuthors/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1974
         },
         {
             "path": "library12.sirafgroup.com/v1/author/authorAdminApi/addAuthorAdmin/",
             "signature": "/v1/author/authorAdminApi/addAuthorAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2034
         },
         {
             "path": "library12.sirafgroup.com/v1/author/authorAdminApi/editAuthorAdmin/",
             "signature": "/v1/author/authorAdminApi/editAuthorAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2035
         },
         {
             "path": "library12.sirafgroup.com/v1/author/authorAdminApi/deleteAuthorAdmin/",
             "signature": "/v1/author/authorAdminApi/deleteAuthorAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2036
         },
         {
             "path": "library12.sirafgroup.com/v1/author/authorAdminApi/getAuthorsAdmin/",
             "signature": "/v1/author/authorAdminApi/getAuthorsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2037
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryApi/getBookCategories/",
             "signature": "/v1/category/categoryApi/getBookCategories/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1971
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryApi/getMostVisitedBooksByCategory/",
             "signature": "/v1/category/categoryApi/getMostVisitedBooksByCategory/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 1975
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryAdminApi/getBookCategoriesAdmin/",
             "signature": "/v1/category/categoryAdminApi/getBookCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2029
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryAdminApi/editBookCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/editBookCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2030
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryAdminApi/addBookCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/addBookCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2032
         },
         {
             "path": "library12.sirafgroup.com/v1/category/categoryAdminApi/deleteBookCategoryAdmin/",
             "signature": "/v1/category/categoryAdminApi/deleteBookCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2033
         },
         {
             "path": "library12.sirafgroup.com/v1/messageLog/messageLogApi/libraryAddLog/",
             "signature": "/v1/messageLog/messageLogApi/libraryAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2455
         },
         {
             "path": "library12.sirafgroup.com/v1/messageLog/messageLogApi/libraryImportLog/",
             "signature": "/v1/messageLog/messageLogApi/libraryImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2456
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/date/dateApi/getDaysInfo/",
             "signature": "/v1/date/dateApi/getDaysInfo/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2328
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/date/dayRecitationApi/getDayRecitation/",
             "signature": "/v1/date/dayRecitationApi/getDayRecitation/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2004
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/activity/activityApi/getActivities/",
             "signature": "/v1/activity/activityApi/getActivities/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2003
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/activity/activityAdminApi/addActivityAdmin/",
             "signature": "/v1/activity/activityAdminApi/addActivityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2079
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/activity/activityAdminApi/deleteActivityAdmin/",
             "signature": "/v1/activity/activityAdminApi/deleteActivityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2080
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/activity/activityAdminApi/editActivityAdmin/",
             "signature": "/v1/activity/activityAdminApi/editActivityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2081
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/activity/activityAdminApi/getActivitiesAdmin/",
             "signature": "/v1/activity/activityAdminApi/getActivitiesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2082
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/event/eventApi/getEvents/",
             "signature": "/v1/event/eventApi/getEvents/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2006
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/event/eventAdminApi/getEventsAdmin/",
             "signature": "/v1/event/eventAdminApi/getEventsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2083
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/event/eventAdminApi/addEventAdmin/",
             "signature": "/v1/event/eventAdminApi/addEventAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2084
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/event/eventAdminApi/editEventAdmin/",
             "signature": "/v1/event/eventAdminApi/editEventAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2085
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/event/eventAdminApi/deleteEventAdmin/",
             "signature": "/v1/event/eventAdminApi/deleteEventAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2086
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/ephemerisDateApi/getEphemeris/",
             "signature": "/v1/ephemeris/ephemerisDateApi/getEphemeris/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2008
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/countryApi/getCountries/",
             "signature": "/v1/ephemeris/countryApi/getCountries/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 1999
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/countryAdminApi/getCountriesAdmin/",
             "signature": "/v1/ephemeris/countryAdminApi/getCountriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2068
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/countryAdminApi/addCountryAdmin/",
             "signature": "/v1/ephemeris/countryAdminApi/addCountryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2109
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/countryAdminApi/deleteCountryAdmin/",
             "signature": "/v1/ephemeris/countryAdminApi/deleteCountryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2110
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/countryAdminApi/editCountryAdmin/",
             "signature": "/v1/ephemeris/countryAdminApi/editCountryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2111
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/provinceAdminApi/getProvincesAdmin/",
             "signature": "/v1/ephemeris/provinceAdminApi/getProvincesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2069
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/provinceAdminApi/addProvinceAdmin/",
             "signature": "/v1/ephemeris/provinceAdminApi/addProvinceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2112
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/provinceAdminApi/editProvinceAdmin/",
             "signature": "/v1/ephemeris/provinceAdminApi/editProvinceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2113
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/provinceAdminApi/deleteProvinceAdmin/",
             "signature": "/v1/ephemeris/provinceAdminApi/deleteProvinceAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2114
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/getCitiesAdmin/",
             "signature": "/v1/ephemeris/cityAdminApi/getCitiesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2070
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/addCityAdmin/",
             "signature": "/v1/ephemeris/cityAdminApi/addCityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2115
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/editCityAdmin/",
             "signature": "/v1/ephemeris/cityAdminApi/editCityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2116
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/deleteCityAdmin/",
             "signature": "/v1/ephemeris/cityAdminApi/deleteCityAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2117
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/getCityByCordinate/",
             "signature": "/v1/ephemeris/cityAdminApi/getCityByCordinate/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2133
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/ephemeris/cityAdminApi/editCityCordinatesAdmin/",
             "signature": "/v1/ephemeris/cityAdminApi/editCityCordinatesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2302
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/azan/azanApi/getAzans/",
             "signature": "/v1/azan/azanApi/getAzans/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2001
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/azan/userAzanApi/addUserAzan/",
             "signature": "/v1/azan/userAzanApi/addUserAzan/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2000
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/azan/userAzanApi/getUserAzans/",
             "signature": "/v1/azan/userAzanApi/getUserAzans/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2053
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/user/userCityApi/getUserCities/",
             "signature": "/v1/user/userCityApi/getUserCities/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2282
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/user/userCityApi/setCity/",
             "signature": "/v1/user/userCityApi/setCity/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2283
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/messageLog/messageLogApi/calendarAddLog/",
             "signature": "/v1/messageLog/messageLogApi/calendarAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2457
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/messageLog/messageLogApi/calendarImportLog/",
             "signature": "/v1/messageLog/messageLogApi/calendarImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2458
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/noteApi/addNote/",
             "signature": "/v1/note/noteApi/addNote/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2350
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/noteApi/getNotes/",
             "signature": "/v1/note/noteApi/getNotes/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2354
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/noteApi/deleteNote/",
             "signature": "/v1/note/noteApi/deleteNote/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2355
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/noteApi/editNote/",
             "signature": "/v1/note/noteApi/editNote/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2356
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderApi/addReminder/",
             "signature": "/v1/note/reminderApi/addReminder/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2357
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderApi/editReminder/",
             "signature": "/v1/note/reminderApi/editReminder/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2358
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderApi/deleteReminder/",
             "signature": "/v1/note/reminderApi/deleteReminder/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2359
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderApi/getReminders/",
             "signature": "/v1/note/reminderApi/getReminders/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2360
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderApi/getReminder/",
             "signature": "/v1/note/reminderApi/getReminder/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2361
         },
         {
             "path": "https://calendar12.sirafgroup.com/v1/note/reminderCategoryApi/getReminderCategories/",
             "signature": "/v1/note/reminderCategoryApi/getReminderCategories/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2416
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/addRecitation/",
             "signature": "/v1/recitation/recitationApi/addRecitation/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2013
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/getRecitations/",
             "signature": "/v1/recitation/recitationApi/getRecitations/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2014
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/deleteRecitation/",
             "signature": "/v1/recitation/recitationApi/deleteRecitation/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2015
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/getRecitationsHistory/",
             "signature": "/v1/recitation/recitationApi/getRecitationsHistory/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2016
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/getRecitation/",
             "signature": "/v1/recitation/recitationApi/getRecitation/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2018
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/recitationApi/addRecitationToHistory/",
             "signature": "/v1/recitation/recitationApi/addRecitationToHistory/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2020
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/userRecitationApi/deleteRecitationsHistory/",
             "signature": "/v1/recitation/userRecitationApi/deleteRecitationsHistory/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2017
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/userRecitationApi/addRecitaionCounter/",
             "signature": "/v1/recitation/userRecitationApi/addRecitaionCounter/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2019
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/recitation/userRecitationApi/resetRecitation/",
             "signature": "/v1/recitation/userRecitationApi/resetRecitation/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2089
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/messageLog/messageLogApi/recitationAddLog/",
             "signature": "/v1/messageLog/messageLogApi/recitationAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2459
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/messageLog/messageLogApi/recitationImportLog/",
             "signature": "/v1/messageLog/messageLogApi/recitationImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2460
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/campaign/campaignApi/getCampaigns/",
             "signature": "/v1/campaign/campaignApi/getCampaigns/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2501
         },
         {
             "path": "https://recitation12.sirafgroup.com/v1/campaign/userCampaignApi/getMyCampaignCount/",
             "signature": "/v1/campaign/userCampaignApi/getMyCampaignCount/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2502
         },
         {
             "path": "https://recitation12.sirafgroup.com/campaign/userCampaignApi/addCampaignCount/",
             "signature": "/campaign/userCampaignApi/addCampaignCount/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2503
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/soreAdminApi/addSoreAdmin/",
             "signature": "/v1/quran/soreAdminApi/addSoreAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2090
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/soreAdminApi/editSoreAdmin/",
             "signature": "/v1/quran/soreAdminApi/editSoreAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2091
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/soreAdminApi/getSoreAdmin/",
             "signature": "/v1/quran/soreAdminApi/getSoreAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2092
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/soreAdminApi/deleteSoreAdmin/",
             "signature": "/v1/quran/soreAdminApi/deleteSoreAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2093
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/verseAdminApi/addVerseAdmin/",
             "signature": "/v1/quran/verseAdminApi/addVerseAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2094
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/verseAdminApi/editVerseAdmin/",
             "signature": "/v1/quran/verseAdminApi/editVerseAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2095
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/verseAdminApi/deleteVerseAdmin/",
             "signature": "/v1/quran/verseAdminApi/deleteVerseAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2096
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/verseAdminApi/getVersesAdmin/",
             "signature": "/v1/quran/verseAdminApi/getVersesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2097
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/pageApi/showQuranPage/",
             "signature": "/v1/quran/pageApi/showQuranPage/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2167
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/pageApi/getPages/",
             "signature": "/v1/quran/pageApi/getPages/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2168
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/pageApi/getFavoritePage/",
             "signature": "/v1/quran/pageApi/getFavoritePage/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2170
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/quran/pageAdminApi/getPagesAdmin/",
             "signature": "/v1/quran/pageAdminApi/getPagesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2098
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/concludeQuran/concludeQuranAdminApi/getConcludeQuranReportAdmin/",
             "signature": "/v1/concludeQuran/concludeQuranAdminApi/getConcludeQuranReportAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2107
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/concludeQuran/concludeQuranPageApi/getQuranPage/",
             "signature": "/v1/concludeQuran/concludeQuranPageApi/getQuranPage/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2048
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/concludeQuran/concludeQuranPageApi/addConcludeQuranPage/",
             "signature": "/v1/concludeQuran/concludeQuranPageApi/addConcludeQuranPage/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2049
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/concludeQuran/concludeQuranPageApi/getUserReport/",
             "signature": "/v1/concludeQuran/concludeQuranPageApi/getUserReport/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2050
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/concludeQuran/concludeQuranPageApi/getGeneralReport/",
             "signature": "/v1/concludeQuran/concludeQuranPageApi/getGeneralReport/",
-            "cache": true,
+            "cache": 1,
             "method": "get",
             "id": 2051
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/reader/readerAdminApi/getReadersAdmin/",
             "signature": "/v1/reader/readerAdminApi/getReadersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2099
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/reader/pageReaderAdminApi/addPageReaderAdmin/",
             "signature": "/v1/reader/pageReaderAdminApi/addPageReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2103
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/reader/pageReaderAdminApi/deletePageReaderAdmin/",
             "signature": "/v1/reader/pageReaderAdminApi/deletePageReaderAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2105
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/reader/pageReaderAdminApi/getPageReadersAdmin/",
             "signature": "/v1/reader/pageReaderAdminApi/getPageReadersAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2106
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/messageLog/messageLogApi/concludeQuranAddLog/",
             "signature": "/v1/messageLog/messageLogApi/concludeQuranAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2461
         },
         {
             "path": "https://concludeQuran12.sirafgroup.com/v1/messageLog/messageLogApi/concludeQuranImportLog/",
             "signature": "/v1/messageLog/messageLogApi/concludeQuranImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2462
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/sendBoxApi/addToSendBoxAdmin/",
             "signature": "/v1/notification/sendBoxApi/addToSendBoxAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2056
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/sendBoxApi/getUserNotifications/",
             "signature": "/v1/notification/sendBoxApi/getUserNotifications/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2120
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/sendBoxApi/postSendBoxes/",
             "signature": "/v1/notification/sendBoxApi/postSendBoxes/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2178
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/weekNotifyApi/addWeekNotify/",
             "signature": "/v1/notification/weekNotifyApi/addWeekNotify/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2057
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/weekNotifyApi/getWeekNotify/",
             "signature": "/v1/notification/weekNotifyApi/getWeekNotify/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2172
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/weekNotifyApi/addWeekNotifToSendBox/",
             "signature": "/v1/notification/weekNotifyApi/addWeekNotifToSendBox/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2280
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/notificationAdminApi/addNotificationAdmin/",
             "signature": "/v1/notification/notificationAdminApi/addNotificationAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2108
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/notificationAdminApi/deleteNotificationAdmin/",
             "signature": "/v1/notification/notificationAdminApi/deleteNotificationAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2119
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/notificationAdminApi/getNotificationsAdmin/",
             "signature": "/v1/notification/notificationAdminApi/getNotificationsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2121
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/notificationAdminApi/sendNotifAdmin/",
             "signature": "/v1/notification/notificationAdminApi/sendNotifAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2140
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/categoryAdminApi/addCategoryAdmin/",
             "signature": "/v1/notification/categoryAdminApi/addCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2122
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/categoryAdminApi/editCategoryAdmin/",
             "signature": "/v1/notification/categoryAdminApi/editCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2123
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/categoryAdminApi/deleteCategoryAdmin/",
             "signature": "/v1/notification/categoryAdminApi/deleteCategoryAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2124
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/categoryAdminApi/getCategoriesAdmin/",
             "signature": "/v1/notification/categoryAdminApi/getCategoriesAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2125
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/userNotifApi/getUserNotif/",
             "signature": "/v1/notification/userNotifApi/getUserNotif/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2180
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/notification/userNotifApi/setUserNotif/",
             "signature": "/v1/notification/userNotifApi/setUserNotif/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2181
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/user/user/syncUserAdmin/",
             "signature": "/v1/user/user/syncUserAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2179
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/userIEMI/userIEMIApi/addIEMI/",
             "signature": "/v1/userIEMI/userIEMIApi/addIEMI/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2308
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/userIEMI/userIEMIApi/updateIEMI/",
             "signature": "/v1/userIEMI/userIEMIApi/updateIEMI/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2337
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/messageLog/messageLogApi/notificationAddLog/",
             "signature": "/v1/messageLog/messageLogApi/notificationAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2463
         },
         {
             "path": "https://notif12.sirafgroup.com/v1/messageLog/messageLogApi/notificationImportLog/",
             "signature": "/v1/messageLog/messageLogApi/notificationImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2464
         },
         {
             "path": "https://message12.sirafgroup.com/api/user/exportLog/",
             "signature": "/api/user/exportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2145
         },
         {
             "path": "https://message12.sirafgroup.com/api/Email/sendEmail/",
             "signature": "/api/Email/sendEmail/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2146
         },
         {
             "path": "https://message12.sirafgroup.com/api/rabbitmq/sendExchangeMessage/",
             "signature": "/api/rabbitmq/sendExchangeMessage/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2147
         },
         {
             "path": "https://message12.sirafgroup.com/api/rabbitmq/sendNotification/",
             "signature": "/api/rabbitmq/sendNotification/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2148
         },
         {
             "path": "https://message12.sirafgroup.com/api/v1/notification/notifications/",
             "signature": "/api/v1/notification/notifications/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2149
         },
         {
             "path": "https://message12.sirafgroup.com/api/v1/notification/notification/",
             "signature": "/api/v1/notification/notification/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2150
         },
         {
             "path": "https://message12.sirafgroup.com/api/v1/notification/deleteNotification/",
             "signature": "/api/v1/notification/deleteNotification/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2151
         },
         {
             "path": "https://message12.sirafgroup.com/api/servicesCompany/sendSmsSingle/",
             "signature": "/api/servicesCompany/sendSmsSingle/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2152
         },
         {
             "path": "https://message12.sirafgroup.com/api/servicesCompany/sendSmsConfirm/",
             "signature": "/api/servicesCompany/sendSmsConfirm/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2153
         },
         {
             "path": "https://message12.sirafgroup.com/api/fireBase/sendNotification/",
             "signature": "/api/fireBase/sendNotification/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2155
         },
         {
             "path": "https://message12.sirafgroup.com/api/fireBase/addDevice/",
             "signature": "/api/fireBase/addDevice/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2156
         },
         {
             "path": "https://message12.sirafgroup.com/api/fireBase/deleteDevice/",
             "signature": "/api/fireBase/deleteDevice/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2157
         },
         {
             "path": "https://message12.sirafgroup.com/v1/messageLog/messageLogApi/messageAddLog/",
             "signature": "/v1/messageLog/messageLogApi/messageAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2465
         },
         {
             "path": "https://message12.sirafgroup.com/v1/messageLog/messageLogApi/messageImportLog/",
             "signature": "/v1/messageLog/messageLogApi/messageImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2466
         },
         {
             "path": "https://ticket.12application.com/api/user/OperatorUsers/",
             "signature": "/api/user/OperatorUsers/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2226
         },
         {
             "path": "https://ticket.12application.com/api/user/operators/",
             "signature": "/api/user/operators/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2227
         },
         {
             "path": "https://ticket.12application.com/",
             "signature": "",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2228
         },
         {
             "path": "https://ticket.12application.com/api/group/editGroup/",
             "signature": "/api/group/editGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2229
         },
         {
             "path": "https://ticket.12application.com/api/group/removeGroup/",
             "signature": "/api/group/removeGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2230
         },
         {
             "path": "https://ticket.12application.com/api/group/groups/",
             "signature": "/api/group/groups/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2231
         },
         {
             "path": "https://ticket.12application.com/api/group/changeGroupId/",
             "signature": "/api/group/changeGroupId/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2232
         },
         {
             "path": "https://ticket.12application.com/api/userGroup/addUserGroup/",
             "signature": "/api/userGroup/addUserGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2233
         },
         {
             "path": "https://ticket.12application.com/api/userGroup/removeUserGroup/",
             "signature": "/api/userGroup/removeUserGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2234
         },
         {
             "path": "https://ticket.12application.com/api/userGroup/addAdminToGroup/",
             "signature": "/api/userGroup/addAdminToGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2235
         },
         {
             "path": "https://ticket.12application.com/api/userGroup/removeAdminGroup/",
             "signature": "/api/userGroup/removeAdminGroup/",
-            "cache": false,
+            "cache": 0,
             "method": "delete",
             "id": 2236
         },
         {
             "path": "https://ticket.12application.com/api/ticket/addMessage/",
             "signature": "/api/ticket/addMessage/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2237
         },
         {
             "path": "https://ticket.12application.com/api/ticket/createTicket/",
             "signature": "/api/ticket/createTicket/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2238
         },
         {
             "path": "https://ticket.12application.com/api/ticket/tickets/",
             "signature": "/api/ticket/tickets/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2239
         },
         {
             "path": "https://ticket.12application.com/api/ticket/ticket/",
             "signature": "/api/ticket/ticket/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2240
         },
         {
             "path": "https://ticket.12application.com/api/ticket/ticketsAnswer/",
             "signature": "/api/ticket/ticketsAnswer/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2241
         },
         {
             "path": "https://ticket.12application.com/api/ticket/ticketClose/",
             "signature": "/api/ticket/ticketClose/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2242
         },
         {
             "path": "https://ticket.12application.com/api/ticket/ticketsAdminget/",
             "signature": "/api/ticket/ticketsAdminget/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2243
         },
         {
             "path": "https://ticket.12application.com/",
             "signature": "",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2244
         },
         {
             "path": "https://ticket.12application.com/api/ticket/setExpertId/",
             "signature": "/api/ticket/setExpertId/",
-            "cache": false,
+            "cache": 0,
             "method": "put",
             "id": 2245
         },
         {
             "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketAdmin/ticket_id/",
             "signature": "/api/ticketAdminApi/getTicketAdmin/ticket_id/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2246
         },
         {
             "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketsAdmin/",
             "signature": "/api/ticketAdminApi/getTicketsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2247
         },
         {
             "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketsAdmin/",
             "signature": "/api/ticketAdminApi/getTicketsAdmin/",
-            "cache": false,
+            "cache": 0,
             "method": "post",
             "id": 2248
         },
         {
             "path": "https://ticket.12application.com/v1/messageLog/messageLogApi/ticketAddLog/",
             "signature": "/v1/messageLog/messageLogApi/ticketAddLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2467
         },
         {
             "path": "https://ticket.12application.com/v1/messageLog/messageLogApi/ticketImportLog/",
             "signature": "/v1/messageLog/messageLogApi/ticketImportLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2468
         },
           {
             "path": "https://subscriber12.sirafgroup.com/v1/subscriber/subscriberApi/filterLog/",
             "signature": "/v1/subscriber/subscriberApi/filterLog/",
-            "cache": false,
+            "cache": 0,
             "method": "get",
             "id": 2418
         }
