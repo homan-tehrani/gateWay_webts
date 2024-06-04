@@ -3120,175 +3120,175 @@
             "id": 2466
         },
         {
-            "path": "https://ticket.12application.com/api/user/OperatorUsers/",
+            "path": "https://ticket12.sirafgroup.com/api/user/OperatorUsers/",
             "signature": "/api/user/OperatorUsers/",
             "cache": 0,
             "method": "get",
             "id": 2226
         },
         {
-            "path": "https://ticket.12application.com/api/user/operators/",
+            "path": "https://ticket12.sirafgroup.com/api/user/operators/",
             "signature": "/api/user/operators/",
             "cache": 0,
             "method": "get",
             "id": 2227
         },
         {
-            "path": "https://ticket.12application.com/",
+            "path": "https://ticket12.sirafgroup.com/",
             "signature": "",
             "cache": 0,
             "method": "post",
             "id": 2228
         },
         {
-            "path": "https://ticket.12application.com/api/group/editGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/group/editGroup/",
             "signature": "/api/group/editGroup/",
             "cache": 0,
             "method": "post",
             "id": 2229
         },
         {
-            "path": "https://ticket.12application.com/api/group/removeGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/group/removeGroup/",
             "signature": "/api/group/removeGroup/",
             "cache": 0,
             "method": "post",
             "id": 2230
         },
         {
-            "path": "https://ticket.12application.com/api/group/groups/",
+            "path": "https://ticket12.sirafgroup.com/api/group/groups/",
             "signature": "/api/group/groups/",
             "cache": 0,
             "method": "get",
             "id": 2231
         },
         {
-            "path": "https://ticket.12application.com/api/group/changeGroupId/",
+            "path": "https://ticket12.sirafgroup.com/api/group/changeGroupId/",
             "signature": "/api/group/changeGroupId/",
             "cache": 0,
             "method": "put",
             "id": 2232
         },
         {
-            "path": "https://ticket.12application.com/api/userGroup/addUserGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/userGroup/addUserGroup/",
             "signature": "/api/userGroup/addUserGroup/",
             "cache": 0,
             "method": "post",
             "id": 2233
         },
         {
-            "path": "https://ticket.12application.com/api/userGroup/removeUserGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/userGroup/removeUserGroup/",
             "signature": "/api/userGroup/removeUserGroup/",
             "cache": 0,
             "method": "delete",
             "id": 2234
         },
         {
-            "path": "https://ticket.12application.com/api/userGroup/addAdminToGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/userGroup/addAdminToGroup/",
             "signature": "/api/userGroup/addAdminToGroup/",
             "cache": 0,
             "method": "post",
             "id": 2235
         },
         {
-            "path": "https://ticket.12application.com/api/userGroup/removeAdminGroup/",
+            "path": "https://ticket12.sirafgroup.com/api/userGroup/removeAdminGroup/",
             "signature": "/api/userGroup/removeAdminGroup/",
             "cache": 0,
             "method": "delete",
             "id": 2236
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/addMessage/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/addMessage/",
             "signature": "/api/ticket/addMessage/",
             "cache": 0,
             "method": "post",
             "id": 2237
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/createTicket/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/createTicket/",
             "signature": "/api/ticket/createTicket/",
             "cache": 0,
             "method": "post",
             "id": 2238
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/tickets/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/tickets/",
             "signature": "/api/ticket/tickets/",
             "cache": 0,
             "method": "get",
             "id": 2239
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/ticket/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/ticket/",
             "signature": "/api/ticket/ticket/",
             "cache": 0,
             "method": "get",
             "id": 2240
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/ticketsAnswer/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/ticketsAnswer/",
             "signature": "/api/ticket/ticketsAnswer/",
             "cache": 0,
             "method": "get",
             "id": 2241
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/ticketClose/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/ticketClose/",
             "signature": "/api/ticket/ticketClose/",
             "cache": 0,
             "method": "get",
             "id": 2242
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/ticketsAdminget/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/ticketsAdminget/",
             "signature": "/api/ticket/ticketsAdminget/",
             "cache": 0,
             "method": "get",
             "id": 2243
         },
         {
-            "path": "https://ticket.12application.com/",
+            "path": "https://ticket12.sirafgroup.com/",
             "signature": "",
             "cache": 0,
             "method": "get",
             "id": 2244
         },
         {
-            "path": "https://ticket.12application.com/api/ticket/setExpertId/",
+            "path": "https://ticket12.sirafgroup.com/api/ticket/setExpertId/",
             "signature": "/api/ticket/setExpertId/",
             "cache": 0,
             "method": "put",
             "id": 2245
         },
         {
-            "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketAdmin/ticket_id/",
+            "path": "https://ticket12.sirafgroup.com/api/ticketAdminApi/getTicketAdmin/ticket_id/",
             "signature": "/api/ticketAdminApi/getTicketAdmin/ticket_id/",
             "cache": 0,
             "method": "get",
             "id": 2246
         },
         {
-            "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketsAdmin/",
+            "path": "https://ticket12.sirafgroup.com/api/ticketAdminApi/getTicketsAdmin/",
             "signature": "/api/ticketAdminApi/getTicketsAdmin/",
             "cache": 0,
             "method": "post",
             "id": 2247
         },
         {
-            "path": "https://ticket.12application.com/api/ticketAdminApi/getTicketsAdmin/",
+            "path": "https://ticket12.sirafgroup.com/api/ticketAdminApi/getTicketsAdmin/",
             "signature": "/api/ticketAdminApi/getTicketsAdmin/",
             "cache": 0,
             "method": "post",
             "id": 2248
         },
         {
-            "path": "https://ticket.12application.com/v1/messageLog/messageLogApi/ticketAddLog/",
+            "path": "https://ticket12.sirafgroup.com/v1/messageLog/messageLogApi/ticketAddLog/",
             "signature": "/v1/messageLog/messageLogApi/ticketAddLog/",
             "cache": 0,
             "method": "get",
             "id": 2467
         },
         {
-            "path": "https://ticket.12application.com/v1/messageLog/messageLogApi/ticketImportLog/",
+            "path": "https://ticket12.sirafgroup.com/v1/messageLog/messageLogApi/ticketImportLog/",
             "signature": "/v1/messageLog/messageLogApi/ticketImportLog/",
             "cache": 0,
             "method": "get",
