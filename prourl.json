@@ -1391,7 +1391,7 @@
         "path": "http://abstinence.app12.svc.cluster.local/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
         "signature": "/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
         "method": "get",
-        "cache": 1
+        "cache": 0
     },
     {
         "id": 1958,
