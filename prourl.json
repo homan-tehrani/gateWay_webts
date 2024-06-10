@@ -301,6 +301,20 @@
         "method": "post",
         "cache": 0
     },
+        {
+        "id": 2526,
+        "path": "http://auth.app12.svc.cluster.local/v1/user/userApi/getRegistrationDate/",
+        "signature": "/v1/user/userApi/getRegistrationDate/",
+        "method": "get",
+        "cache": 0
+    },
+        {
+        "id": 2511,
+        "path": "http://auth.app12.svc.cluster.local/v1/user/systemApi/usersInfo/",
+        "signature": "/v1/user/systemApi/usersInfo/",
+        "method": "get",
+        "cache": 0
+    },
     {
         "id": 1687,
         "path": "http://auth.app12.svc.cluster.local/v1/user/userAdminApi/users/",
@@ -3297,5 +3311,6 @@
         "method": "post",
         "cache": 0
     }
+
 ]
 }
