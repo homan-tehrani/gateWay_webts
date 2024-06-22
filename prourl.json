@@ -2822,8 +2822,8 @@
     },
     {
         "id": 2257,
-        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/admin/removeUserGroup/",
-        "signature": "/api/userGroup/admin/removeUserGroup/",
+        "path": "http://ticket.app12.svc.cluster.local/v1/group/userGroupAdminApi/removeUserGroup/",
+        "signature": "/v1/group/userGroupAdminApi/removeUserGroup/",
         "method": "put",
         "cache": 0
     },
@@ -2843,8 +2843,8 @@
     },
     {
         "id": 2260,
-        "path": "http://ticket.app12.svc.cluster.local/api/userGroup/admin/userGroups/",
-        "signature": "/api/userGroup/admin/userGroups/",
+        "path": "http://ticket.app12.svc.cluster.local/v1/group/userGroupAdminApi/userGroups/",
+        "signature": "/v1/group/userGroupAdminApi/userGroups/",
         "method": "get",
         "cache": 0
     },
@@ -3532,6 +3532,13 @@
         "path": "http://auth.app12.svc.cluster.local/v1/user/userApi/getRegistrationDate/",
         "signature": "/v1/user/userApi/getRegistrationDate/",
         "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2567,
+        "path": "http://ticket.app12.svc.cluster.local/v1/ticket/messageApi/deleteMessageAdmin/",
+        "signature": "/v1/ticket/messageApi/deleteMessageAdmin/",
+        "method": "delete",
         "cache": 0
     }
 ]

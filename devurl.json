@@ -1390,7 +1390,7 @@
         "path": "https://abstinence12.sirafgroup.com/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
         "signature": "/v1/leaveSin/leaveSinApi/getPublicLeaveSins/",
         "method": "get",
-        "cache": 1
+        "cache": 0
     },
     {
         "id": 1958,
@@ -3496,6 +3496,13 @@
         "id": 2511,
         "path": "https://auth12.sirafgroup.com/v1/user/systemApi/usersInfo/",
         "signature": "/v1/user/systemApi/usersInfo/",
+        "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2516,
+        "path": "https://abstinence12.sirafgroup.com/v1/user/userApi/updateUserInfo/",
+        "signature": "/v1/user/userApi/updateUserInfo/",
         "method": "get",
         "cache": 0
     },
