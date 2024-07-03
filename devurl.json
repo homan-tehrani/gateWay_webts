@@ -2822,8 +2822,8 @@
     },
     {
         "id": 2257,
-        "path": "https://ticket12.sirafgroup.com/api/userGroup/admin/removeUserGroup/",
-        "signature": "/api/userGroup/admin/removeUserGroup/",
+        "path": "https://ticket12.sirafgroup.com/v1/group/userGroupAdminApi/removeUserGroup/",
+        "signature": "/v1/group/userGroupAdminApi/removeUserGroup/",
         "method": "put",
         "cache": 0
     },
@@ -2843,8 +2843,8 @@
     },
     {
         "id": 2260,
-        "path": "https://ticket12.sirafgroup.com/api/userGroup/admin/userGroups/",
-        "signature": "/api/userGroup/admin/userGroups/",
+        "path": "https://ticket12.sirafgroup.com/v1/group/userGroupAdminApi/userGroups/",
+        "signature": "/v1/group/userGroupAdminApi/userGroups/",
         "method": "get",
         "cache": 0
     },
@@ -3532,6 +3532,13 @@
         "path": "https://auth12.sirafgroup.com/v1/user/userApi/getRegistrationDate/",
         "signature": "/v1/user/userApi/getRegistrationDate/",
         "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2567,
+        "path": "https://ticket12.sirafgroup.com/v1/ticket/messageApi/deleteMessageAdmin/",
+        "signature": "/v1/ticket/messageApi/deleteMessageAdmin/",
+        "method": "delete",
         "cache": 0
     }
 ]
