@@ -3535,9 +3535,107 @@
         "cache": 0
     },
     {
+        "id": 2557,
+        "path": "http://calendar.app12.svc.cluster.local/v1/ephemeris/cityAdminApi/addWholeInfo/",
+        "signature": "/v1/ephemeris/cityAdminApi/addWholeInfo/",
+        "method": "post",
+        "cache": 0
+    },
+    {
         "id": 2567,
         "path": "http://ticket.app12.svc.cluster.local/v1/ticket/messageApi/deleteMessageAdmin/",
         "signature": "/v1/ticket/messageApi/deleteMessageAdmin/",
+        "method": "delete",
+        "cache": 0
+    },
+    {
+        "id": 2597,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearAdminApi/addGhamriYearAdmin/",
+        "signature": "/v1/date/ghamariYearAdminApi/addGhamriYearAdmin/",
+        "method": "post",
+        "cache": 0
+    },
+    {
+        "id": 2598,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearAdminApi/getGhamriYearAdmin/",
+        "signature": "/v1/date/ghamariYearAdminApi/getGhamriYearAdmin/",
+        "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2599,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearAdminApi/deleteGhamriYearAdmin/",
+        "signature": "/v1/date/ghamariYearAdminApi/deleteGhamriYearAdmin/",
+        "method": "delete",
+        "cache": 0
+    },
+    {
+        "id": 2602,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearAdminApi/editGhamriYearAdmin/",
+        "signature": "/v1/date/ghamariYearAdminApi/editGhamriYearAdmin/",
+        "method": "put",
+        "cache": 0
+    },
+    {
+        "id": 2607,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearAdminApi/getGhamriYearsAdmin/",
+        "signature": "/v1/date/ghamariYearAdminApi/getGhamriYearsAdmin/",
+        "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2608,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearApi/getGhamriYears/",
+        "signature": "/v1/date/ghamariYearApi/getGhamriYears/",
+        "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2615,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearDetailAdminApi/deleteGhamariYearDetailAdmin/",
+        "signature": "/v1/date/ghamariYearDetailAdminApi/deleteGhamariYearDetailAdmin/",
+        "method": "delete",
+        "cache": 0
+    },
+    {
+        "id": 2616,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearDetailAdminApi/editGhamariYearDetailAdmin/",
+        "signature": "/v1/date/ghamariYearDetailAdminApi/editGhamariYearDetailAdmin/",
+        "method": "put",
+        "cache": 0
+    },
+    {
+        "id": 2617,
+        "path": "http://calendar.app12.svc.cluster.local/v1/date/ghamariYearDetailAdminApi/addGhamariYearDetailAdmin/",
+        "signature": "/v1/date/ghamariYearDetailAdminApi/addGhamariYearDetailAdmin/",
+        "method": "post",
+        "cache": 0
+    },
+    {
+        "id": 2620,
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventApi/getGhamariEvents/",
+        "signature": "/v1/event/ghamariEventApi/getGhamariEvents/",
+        "method": "get",
+        "cache": 0
+    },
+    {
+        "id": 2621,
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/addGhamariEventAdmin/",
+        "signature": "/v1/event/ghamariEventAdminApi/addGhamariEventAdmin/",
+        "method": "post",
+        "cache": 0
+    },
+    {
+        "id": 2622,
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/editGhamariEventAdmin/",
+        "signature": "/v1/event/ghamariEventAdminApi/editGhamariEventAdmin/",
+        "method": "put",
+        "cache": 0
+    },
+    {
+        "id": 2623,
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/deleteGhamariEvent/",
+        "signature": "/v1/event/ghamariEventAdminApi/deleteGhamariEvent/",
         "method": "delete",
         "cache": 0
     }
