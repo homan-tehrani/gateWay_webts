@@ -3634,9 +3634,16 @@
     },
     {
         "id": 2623,
-        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/deleteGhamariEvent/",
-        "signature": "/v1/event/ghamariEventAdminApi/deleteGhamariEvent/",
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/deleteGhamariEventAdmin/",
+        "signature": "/v1/event/ghamariEventAdminApi/deleteGhamariEventAdmin/",
         "method": "delete",
+        "cache": 0
+    },
+    {
+        "id": 2624,
+        "path": "http://calendar.app12.svc.cluster.local/v1/event/ghamariEventAdminApi/getGhamariEventsAdmin/",
+        "signature": "/v1/event/ghamariEventAdminApi/getGhamariEventsAdmin/",
+        "method": "get",
         "cache": 0
     }
 ]
