@@ -30,7 +30,9 @@ async def createDB():
             path TEXT,
             signature TEXT,
             method TEXT,
-            cache Bool DEFAULT FALSE 
+            cache Bool DEFAULT FALSE ,
+            project_id INTEGER  ,
+            project_name TEXT 
         )
     ''')
 
@@ -41,12 +43,12 @@ async def createDB():
 # CRUD Operations
 
 # Create
-async def create_Url(id, path, signature, method, cache):
+async def create_Url(id, path, signature, method, cache, project_id, project_name):
     connection = sqlite3.connect(DB_NAME)
 
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
-    query = f'INSERT INTO Urls (id, path, signature, method, cache) VALUES ("{id}", "{path}", "{signature}", "{method}", "{cache}")'
+    query = f'INSERT INTO Urls (id, path, signature, method, cache, project_id, project_name) VALUES ("{id}", "{path}", "{signature}", "{method}", "{cache}", "{project_id}", "{project_name}")'
     cursor.execute(query)
     connection.commit()
 
@@ -79,18 +81,18 @@ async def get_url(id):
         cursor.execute('SELECT * FROM Urls WHERE  signature=?', (id,))
     result = cursor.fetchone()
     if result:
-        return {"id": result[0], "path": result[1], "signature": result[2], "method": result[3], "cache": result[4], }
+        return {"id": result[0], "path": result[1], "signature": result[2], "method": result[3], "cache": result[4],"project_id": result[5], "project_name": result[6], }
     return None
 
 
 # Update
-async def update_Url(id, path, signature, method, cache):
+async def update_Url(id, path, signature, method, cache, project_id, project_name):
     connection = sqlite3.connect(DB_NAME)
 
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
-    query = 'UPDATE Urls SET path=?, signature=?, method=?, cache=? WHERE id=?'
-    cursor.execute(query, (path, signature, method, cache, id))
+    query = 'UPDATE Urls SET path=?, signature=?, method=?, cache=?, project_id=?, project_name=? WHERE id=?'
+    cursor.execute(query, (path, signature, method, cache, project_id, project_name, id))
     connection.commit()
 
 

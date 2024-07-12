@@ -26,7 +26,7 @@ class GateWay:
         self.param = None
         self.method = None
         self.body = None
-        self.path = None
+        self.db_url = None
 
     async def call(self, request: Request):       
         await check_connection_cache(cache, request)
@@ -49,10 +49,10 @@ class GateWay:
                 except:
                     return callService
             
-            asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.status_code))
+            asyncio.create_task(send_log_to_rabbitmq(request,2,callService.text,callService.status_code, self.db_url))
             return JSONResponse(content=callServiceContent, status_code=callService.status_code)
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call function : {str(e)}",500))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call function : {str(e)}",500, self.db_url))
             return JSONResponse(content="error in call function", status_code=400)
 
     async def parseUrl(self, request):
@@ -90,10 +90,10 @@ class GateWay:
                 # Try to get the path from the cache
                 path = cache.get(signature)
                 if path is not None:
-                    self.path = path
+                    self.db_url = path
                     # return path
             except Exception as e:
-                asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server ",500))
+                asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server ",500, self.db_url))
 
                 print('GateWayError! 1', str(e))
 
@@ -103,46 +103,45 @@ class GateWay:
 
                 # Validate HTTP method
                 if str(self.method).lower() != url['method']:
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : {str(self.method).lower()} !== {url['method']}",500))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : {str(self.method).lower()} !== {url['method']}",500, self.db_url))
                     return False
 
                 # Check if 'path' key is present in the retrieved URL
                 if 'path' not in url :
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : path not in  !== {json.dumps(url)}",500))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in validate : path not in  !== {json.dumps(url)}",500, self.db_url))
                     return False
 
                 try:
                     # Cache the URL
                     cache.set(signature, url, time=int(CACHE_TIME))
                 except Exception as e:
-                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"caching url failed with error : {str(e)}",500))
+                    asyncio.create_task(send_log_to_rabbitmq(request,1,f"caching url failed with error : {str(e)}",500, self.db_url))
                 path = url
 
             # Return the final path or False if not found
             if path:
-                self.path = path
+                self.db_url = path
                 return path
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"this path dose not exist",500))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"this path dose not exist",500, self.db_url))
             return False
 
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in parse url : {json.dumps(url)}",500))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in parse url : {json.dumps(url)}",500, self.db_url))
             return JSONResponse(content="parseUrl", status_code=400)
 
     async def existUrl(self, request):
-
         # Attempt to parse the URL using the parseUrl method
         try:
             path = await self.parseUrl(request)
-            # If a valid path is obtained, update self.path and return True
+            # If a valid path is obtained, update self.db_url and return True
             if not path:
                 return False
-            self.path = path
+            self.db_url = path
             return True
 
         # Handle exceptions during the URL parsing
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"does not existUrl : {str(e)}",500))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"does not existUrl : {str(e)}",500, self.db_url))
             return JSONResponse(content=f"does not existUrl ----> {e}", status_code=400)
 
     async def callService(self, request):
@@ -158,12 +157,12 @@ class GateWay:
 
             # Construct the URL based on the request parameters
             if request.query_params:
-                url = f"{self.path['path']}?{request.query_params}"
+                url = f"{self.db_url['path']}?{request.query_params}"
             else:
-                url = f"{self.path['path']}"
-            print("asdfasdf",self.path['cache'])
+                url = f"{self.db_url['path']}"
+            print("asdfasdf",self.db_url['cache'])
             # Check if caching is disabled for this path
-            if self.path['cache'] == 0:
+            if self.db_url['cache'] == 0:
 
                 try:
 
@@ -232,7 +231,7 @@ class GateWay:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
                 return response
         except Exception as e:
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}",100))
+            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}",100, self.db_url))
             return JSONResponse(content=" error in callService", status_code=500)
 
 
@@ -244,5 +243,5 @@ def get_client_ip(request):
             return request.scope['client'][0]
         return ""
     except Exception as e:
-        asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in get client ip : {str(e)}"))
+        asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in get client ip : {str(e)}", self.db_url))
         return JSONResponse(content="get_client_ip", status_code=400)

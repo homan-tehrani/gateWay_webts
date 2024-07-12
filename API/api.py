@@ -15,7 +15,6 @@ async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Head
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
         raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
-    
     await check_url_table_exists()
     
     try:
@@ -32,10 +31,10 @@ async def add_url(datas: AddListUrlValidation = Body(),authorization: str = Head
 
             if url:
                 # update
-                await update_Url(data.id, data.path, data.signature, data.method, data.cache)
+                await update_Url(data.id, data.path, data.signature, data.method, data.cache, data.project_id, data.project_name)
             else:
                 # create
-                await create_Url(data.id, data.path, data.signature, data.method, data.cache)
+                await create_Url(data.id, data.path, data.signature, data.method, data.cache, data.project_id, data.project_name)
 
         return JSONResponse(content={"detail": "URLs added successfully"}, status_code=200)
 

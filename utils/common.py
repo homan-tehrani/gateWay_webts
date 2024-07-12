@@ -46,7 +46,7 @@ async def check_connection_cache(cache, request):
     except Exception as e:
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server : {str(e)}"))
 
-async def send_log_to_rabbitmq(request,type,message,status_code=None):
+async def send_log_to_rabbitmq(request,type,message,status_code=None,db_url=None):
     data={}
     current_datetime = JalaliDateTime.now()
     data['createAt']=str(current_datetime)
@@ -57,6 +57,11 @@ async def send_log_to_rabbitmq(request,type,message,status_code=None):
         data['response']=message
     except:
         data['gateway']=message
+    try:
+        data['project_id']=db_url.get("project_id")
+        data['project_name']=db_url.get("project_name")
+    except:
+        pass
     if status_code:
         data['status_code']=status_code
     data=json.dumps(data,ensure_ascii=False).encode('utf8')
@@ -86,7 +91,7 @@ async def send_log_to_rabbitmq(request,type,message,status_code=None):
                 aio_pika.Message(body=data),
                 routing_key=send_routing_key
             )
-            print("Message sent successfully")
+            print(f"Message sent successfully")
 
 
     except Exception as e:
