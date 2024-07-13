@@ -48,7 +48,7 @@ async def check_connection_cache(cache, request):
 
 async def send_log_to_rabbitmq(request,type,message,status_code=None,db_url=None):
     data={}
-    current_datetime = JalaliDateTime.now()
+    current_datetime = datetime.now()
     data['createAt']=str(current_datetime)
     request_data= await parse_request(request)
     data['request']=request_data
