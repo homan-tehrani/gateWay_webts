@@ -28,7 +28,7 @@ services:
       - network_api
 
   cache:
-    image: memcached
+    image: docker.arvancloud.ir/memcached
     #    ports:
     #      - "11211:11211"
     networks:
