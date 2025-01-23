@@ -42,9 +42,12 @@ async def check_connection_cache(cache, request):
         cache.set("testConnections", "connected to server  cache successfully", time=20)
         testConnections = cache.get("testConnections")
         if not testConnections:
+            print(f"error in connect to cache")
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server "))
     except Exception as e:
+            print(f"error in connect to cache server : {str(e)}")
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server : {str(e)}"))
+
 
 async def send_log_to_rabbitmq(request,type,message,status_code=None,db_url=None):
     data={}
