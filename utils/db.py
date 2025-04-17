@@ -80,6 +80,7 @@ async def get_url(id):
     else:
         cursor.execute('SELECT * FROM Urls WHERE  signature=?', (id,))
     result = cursor.fetchone()
+
     if result:
         return {"id": result[0], "path": result[1], "signature": result[2], "method": result[3], "cache": result[4],"project_id": result[5], "project_name": result[6], }
     return None

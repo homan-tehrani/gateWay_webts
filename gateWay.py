@@ -11,10 +11,23 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from utils.db import get_url
 from utils.common import check_connection_cache,send_log_to_rabbitmq
-
+from fastapi.responses import Response
 cache = memcache.Client([CACHE_IP_ADDRESS])
 
 # cache.flush_all()
+
+class HTMLRedirectResponse(Response):
+    media_type = "text/html"
+
+    def __init__(self, redirect_url: str, status_code: int):
+        content = f"""<!-- محتوای HTML -->"""
+        super().__init__(
+            content=content,
+            status_code=status_code,
+            headers={"Location": redirect_url}
+        )
+
+# در endpoint:
 
 class GateWay:
 
@@ -34,6 +47,7 @@ class GateWay:
         try:
             # Check exist input URL
             existUrl = await self.parseUrl(request)
+            print(existUrl,111111111)
             if not existUrl:
                 #  response for client
                 return JSONResponse(content={"detail": "address not found"}, status_code=404)
@@ -71,7 +85,8 @@ class GateWay:
 
             # Try to get the signature from the request scope's path, fallback to referer header
             try:
-                signature = request.scope['path']
+                signature = request.scope['path'] if request.scope['path'].endswith('/') else request.scope[
+                                                                                                  'path'] + '/'
             except Exception as e:
                 signature = request.headers.get('referer')
 
@@ -99,6 +114,7 @@ class GateWay:
 
             # If path is not in cache, retrieve it from the database
             url = await get_url(signature)
+            print(66666666666666,signature)
             if url:
 
                 # Validate HTTP method
@@ -170,15 +186,26 @@ class GateWay:
                     async with httpx.AsyncClient() as client:
                         if self.method.upper() == 'GET':
                             response = await client.get(url, headers=headers, timeout=30)
+                        # بررسی کدهای وضعیت ریدایرکت
+                        if response.status_code in (301, 302, 307):
+
+                            return HTMLRedirectResponse(
+                                redirect_url=response.headers.get('Location', ''),
+                                status_code=response.status_code
+                            )
+
                         elif self.method.upper() == 'POST':
                             response = await client.post(url, headers=headers, data=await request.body(), timeout=30)
                         elif self.method.upper() == 'PUT':
                             response = await client.put(url, headers=headers, data=await request.body(), timeout=30)
                         elif self.method.upper() == 'DELETE':
                             response = await client.delete(url, headers=headers, data=await request.body(), timeout=30)
+
+
                         return response
                 except:
                     response = requests.request(self.method, url, headers=headers, data=await request.body())
+                    print("______DDD3333DDD____")
                     return response
 
             # Attempt to retrieve the response from the cache
@@ -229,6 +256,7 @@ class GateWay:
                     return response
             except:
                 response = requests.request(self.method, url, headers=headers, data=await request.body())
+                print("______DDDDDD____")
                 return response
         except Exception as e:
             asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in call service : {str(e)}",100, self.db_url))

@@ -9,7 +9,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - 8085:80
+      - 80:80
     environment:
       - LOG_URL=https://loger.sirafgroup.com/api/save-log
       - CACHE_TIME=108000
