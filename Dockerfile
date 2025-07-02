@@ -4,7 +4,8 @@ RUN mkdir -p /app
 WORKDIR /app
 
 COPY requirements.txt /
-RUN pip install -r /requirements.txt
+#RUN #pip install -r /requirements.txt
+RUN pip install --trusted-host https://mirror-pypi.runflare.com -i https://mirror-pypi.runflare.com/simple/ -r /requirements.txt
 
 COPY . /app
 
