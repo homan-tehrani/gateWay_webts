@@ -50,55 +50,56 @@ async def check_connection_cache(cache, request):
 
 
 async def send_log_to_rabbitmq(request,type,message,status_code=None,db_url=None):
-    data={}
-    current_datetime = datetime.now()
-    data['createAt']=str(current_datetime)
-    request_data= await parse_request(request)
-    data['request']=request_data
-    try:
-        message=json.loads(message)
-        data['response']=message
-    except:
-        data['gateway']=message
-    try:
-        data['project_id']=db_url.get("project_id")
-        data['project_name']=db_url.get("project_name")
-    except:
-        pass
-    if status_code:
-        data['status_code']=status_code
-    data=json.dumps(data,ensure_ascii=False).encode('utf8')
-    try:
-        connection = await aio_pika.connect_robust(
-            host=RABBITMQ_HOST,
-            port=int(RABBITMQ_PORT),
-            login=RABBITMQ_USERNAME,
-            password=RABBITMQ_PASSWORD,
-            virtualhost=RABBITMQ_VHOST
-        )
-
-        async with connection:
-            channel = await connection.channel()
-
-            # Declare a fanout exchange
-            exchange = await channel.declare_exchange(RABBIT_EXCHANGE_NAME, aio_pika.ExchangeType.FANOUT)
-            
-            # Declare a queue
-            if type==1:
-                send_routing_key = 'gateway_logs'
-            elif type==2:
-                send_routing_key = 'requests_logs'
-
-            # Publish a message to the exchange with a routing key
-            await exchange.publish(
-                aio_pika.Message(body=data),
-                routing_key=send_routing_key
-            )
-            print(f"Message sent successfully")
-
-
-    except Exception as e:
-        print(e)
+    pass
+    # data={}
+    # current_datetime = datetime.now()
+    # data['createAt']=str(current_datetime)
+    # request_data= await parse_request(request)
+    # data['request']=request_data
+    # try:
+    #     message=json.loads(message)
+    #     data['response']=message
+    # except:
+    #     data['gateway']=message
+    # try:
+    #     data['project_id']=db_url.get("project_id")
+    #     data['project_name']=db_url.get("project_name")
+    # except:
+    #     pass
+    # if status_code:
+    #     data['status_code']=status_code
+    # data=json.dumps(data,ensure_ascii=False).encode('utf8')
+    # try:
+    #     connection = await aio_pika.connect_robust(
+    #         host=RABBITMQ_HOST,
+    #         port=int(RABBITMQ_PORT),
+    #         login=RABBITMQ_USERNAME,
+    #         password=RABBITMQ_PASSWORD,
+    #         virtualhost=RABBITMQ_VHOST
+    #     )
+    #
+    #     async with connection:
+    #         channel = await connection.channel()
+    #
+    #         # Declare a fanout exchange
+    #         exchange = await channel.declare_exchange(RABBIT_EXCHANGE_NAME, aio_pika.ExchangeType.FANOUT)
+    #
+    #         # Declare a queue
+    #         if type==1:
+    #             send_routing_key = 'gateway_logs'
+    #         elif type==2:
+    #             send_routing_key = 'requests_logs'
+    #
+    #         # Publish a message to the exchange with a routing key
+    #         await exchange.publish(
+    #             aio_pika.Message(body=data),
+    #             routing_key=send_routing_key
+    #         )
+    #         print(f"Message sent successfully")
+    #
+    #
+    # except Exception as e:
+    #     print(e)
 
 
 def check_and_convert_to_bytes(data):
