@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+      
     ports:
       - 80:80
     environment:
@@ -23,6 +25,7 @@ services:
       - RABBITMQ_PASSWORD=Bgateway@1256
       - RABBITMQ_VHOST=gateway
       - RABBIT_EXCHANGE_NAME=logs
+      - RESOURCE_TOKEN=a9F23112kP72
 
     networks:
       - network_api

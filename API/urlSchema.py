@@ -19,3 +19,6 @@ class DeleteUrlValidation(BaseModel):
     id: int
 
 
+class GetServersResourceValidator(BaseModel):
+    resourceToken: str = Field(..., description="Unique identifier of the resource")
+    containerNames: list[str] = Field(..., description="Names of the containers")
