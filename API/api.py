@@ -2,10 +2,11 @@ import os
 from datetime import datetime
 
 import docker
+import psutil
+
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation, GetServersResourceValidator
 from dotenv import load_dotenv
-from fastapi import APIRouter, Body, Header, HTTPException
-from fastapi import Depends, APIRouter, Request
+from fastapi import APIRouter, Body, Header, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse
 from gateWay import cache
 from pydantic import ValidationError
@@ -109,120 +110,162 @@ async def get_health():
     return ({"status": 200})
 
 
-
-
 @router.get("/getServersResource/")
-async def getServersResource(request: Request):
-    # extract list of containers from querystring
-    containerNames = request.query_params.getlist("containerNames")
-    RESOURCE_TOKEN = str(os.getenv("RESOURCE_TOKEN"))
+async def get_servers_resource(request: Request):
+    container_names = request.query_params.getlist("containerNames")
+    resource_token = request.query_params.get("resourceToken")
 
-    # build params dict for validation
-    params = dict(request.query_params)
-    params["containerNames"] = containerNames
-
-    # validate using pydantic
-    try:
-        query = GetServersResourceValidator(**params)
-    except ValidationError as e:
+    if not container_names or not resource_token:
         return JSONResponse(
             status_code=400,
-            content={"code": 8901, "message": "Validation failed", "errors": e.errors()}
+            content={"code": 8901, "message": "containerNames and resourceToken are required"}
         )
 
-    # validate token
-    if query.resourceToken != RESOURCE_TOKEN:
+    if resource_token != os.getenv("RESOURCE_TOKEN"):
         return JSONResponse(
             status_code=403,
-            content={"code": 8898, "message": "Invalid resource token"}
+            content={"code": 8937, "message": "Invalid resource token"}
         )
 
-    # try to init docker client
     try:
         client = docker.from_env()
     except Exception as e:
         return JSONResponse(
             status_code=500,
-            content={"code": 8899, "message": "Docker connection failed", "error": str(e)}
+            content={"code": 8937, "message": "Docker connection failed", "error": str(e)}
         )
 
-    results = []
+    # ================= SERVER METRICS =================
 
-    # iterate over containers
-    for container_name in containerNames:
+    vm = psutil.virtual_memory()
+    swap = psutil.swap_memory()
+    disk = psutil.disk_usage("/")
+    cpu_times = psutil.cpu_times_percent(interval=0.5)
+    load_1, load_5, load_15 = os.getloadavg()
+    net = psutil.net_io_counters()
+    disk_io = psutil.disk_io_counters()
+
+    server = {
+        "cpu": {
+            "usage_percent": psutil.cpu_percent(),
+            "iowait_percent": cpu_times.iowait,
+            "load_1m": load_1,
+            "load_5m": load_5,
+            "load_15m": load_15,
+            "total_cores": psutil.cpu_count(logical=True)
+        },
+        "memory": {
+            "used_mb": round(vm.used / 1024 / 1024, 2),
+            "total_mb": round(vm.total / 1024 / 1024, 2),
+            "available_mb": round(vm.available / 1024 / 1024, 2),
+            "swap_used_mb": round(swap.used / 1024 / 1024, 2),
+            "swap_total_mb": round(swap.total / 1024 / 1024, 2)
+        },
+        "disk": {
+            "used_gb": round(disk.used / 1024 ** 3, 2),
+            "total_gb": round(disk.total / 1024 ** 3, 2),
+            "read_mb": round(disk_io.read_bytes / 1024 / 1024, 2),
+            "write_mb": round(disk_io.write_bytes / 1024 / 1024, 2)
+        },
+        "network": {
+            "rx_mb": round(net.bytes_recv / 1024 / 1024, 2),
+            "tx_mb": round(net.bytes_sent / 1024 / 1024, 2),
+            "rx_errors": net.errin,
+            "tx_errors": net.errout
+        }
+    }
+
+    # ================= CONTAINER METRICS =================
+
+    containers = []
+
+    for name in container_names:
         try:
-            container = client.containers.get(container_name)
+            container = client.containers.get(name)
             stats = container.stats(stream=False)
+            attrs = container.attrs
 
-            # cpu calculation
+            cpu_stats = stats["cpu_stats"]
+            precpu = stats["precpu_stats"]
+
             cpu_delta = (
-                    stats["cpu_stats"]["cpu_usage"]["total_usage"]
-                    - stats["precpu_stats"]["cpu_usage"]["total_usage"]
+                cpu_stats["cpu_usage"]["total_usage"]
+                - precpu["cpu_usage"]["total_usage"]
             )
             system_delta = (
-                    stats["cpu_stats"]["system_cpu_usage"]
-                    - stats["precpu_stats"]["system_cpu_usage"]
+                cpu_stats["system_cpu_usage"]
+                - precpu["system_cpu_usage"]
             )
 
             cpu_percent = 0.0
             if cpu_delta > 0 and system_delta > 0:
-                cpu_percent = (
-                        cpu_delta / system_delta
-                        * len(stats["cpu_stats"]["cpu_usage"].get("percpu_usage", [1]))
-                        * 100
-                )
+                cpu_count = len(cpu_stats["cpu_usage"].get("percpu_usage", []))
+                cpu_percent = (cpu_delta / system_delta) * cpu_count * 100
 
-            # memory calculation
-            mem_usage = stats["memory_stats"]["usage"] / (1024 * 1024)
-            mem_limit = stats["memory_stats"]["limit"] / (1024 * 1024)
-            mem_percent = (mem_usage / mem_limit * 100) if mem_limit else 0
+            throttling = cpu_stats.get("throttling_data", {})
 
-            # network
+            mem_stats = stats["memory_stats"]
+            mem_usage = mem_stats.get("usage", 0)
+            mem_limit = mem_stats.get("limit", 0)
+            mem_detail = mem_stats.get("stats", {})
+
+            host_cfg = attrs["HostConfig"]
+            cpu_limit = None
+            if host_cfg.get("NanoCpus", 0) > 0:
+                cpu_limit = host_cfg["NanoCpus"] / 1e9
+            elif host_cfg.get("CpuQuota", 0) > 0:
+                cpu_limit = host_cfg["CpuQuota"] / host_cfg["CpuPeriod"]
+
             net_stats = stats.get("networks", {})
-            rx_mb = sum(x["rx_bytes"] for x in net_stats.values()) / (1024 * 1024)
-            tx_mb = sum(x["tx_bytes"] for x in net_stats.values()) / (1024 * 1024)
+            rx_bytes = sum(n["rx_bytes"] for n in net_stats.values())
+            tx_bytes = sum(n["tx_bytes"] for n in net_stats.values())
+            rx_err = sum(n.get("rx_errors", 0) for n in net_stats.values())
+            tx_err = sum(n.get("tx_errors", 0) for n in net_stats.values())
 
-            # disk
-            attrs = container.attrs
-            disk_gb = round(attrs.get("SizeRw", 0) / (1024 ** 3), 2)
-
-            results.append({
-                "containerName": container_name,
-                "timestamp": datetime.utcnow().isoformat(),
-                "resources": {
-                    "cpu_percent": round(cpu_percent, 2),
-                    "memory_percent": round(mem_percent, 2),
-                    "memory_usage_mb": round(mem_usage, 2),
-                    "disk_usage_gb": disk_gb,
-                    "network_in_mb": round(rx_mb, 2),
-                    "network_out_mb": round(tx_mb, 2),
+            containers.append({
+                "name": name,
+                "status": attrs["State"]["Status"],
+                "started_at": attrs["State"]["StartedAt"],
+                "restart_count": attrs["RestartCount"],
+                "cpu": {
+                    "usage_percent": round(cpu_percent, 2),
+                    "limit_cores": cpu_limit,
+                    "throttled_periods": throttling.get("throttled_periods"),
+                    "throttled_time_ns": throttling.get("throttled_time")
+                },
+                "memory": {
+                    "used_mb": round(mem_usage / 1024 / 1024, 2),
+                    "limit_mb": round(mem_limit / 1024 / 1024, 2),
+                    "rss_mb": round(mem_detail.get("rss", 0) / 1024 / 1024, 2),
+                    "cache_mb": round(mem_detail.get("cache", 0) / 1024 / 1024, 2),
+                    "failcnt": mem_detail.get("failcnt"),
+                    "oom_detected": mem_detail.get("oom_kill", 0) > 0
+                },
+                "network": {
+                    "rx_mb": round(rx_bytes / 1024 / 1024, 2),
+                    "tx_mb": round(tx_bytes / 1024 / 1024, 2),
+                    "rx_errors": rx_err,
+                    "tx_errors": tx_err
+                },
+                "disk": {
+                    "writable_layer_mb": round(attrs.get("SizeRw", 0) / 1024 / 1024, 2)
                 }
             })
 
         except docker.errors.NotFound:
-            results.append({
-                "containerName": container_name,
-                "error": f"Container '{container_name}' not found"
-            })
-
+            containers.append({"name": name, "error": "Container not found"})
         except Exception as e:
-            results.append({
-                "containerName": container_name,
-                "error": str(e)
-            })
+            containers.append({"name": name, "error": str(e)})
 
-    # close docker client
-    try:
-        client.close()
-    except:
-        pass
+    client.close()
 
-    # final JSONResponse
     return JSONResponse(
         status_code=200,
         content={
-            "code": 8899,
-            "message": "Server resource fetched successfully",
-            "data": results
+            "code": 8938,
+            "timestamp": datetime.utcnow().isoformat(),
+            "server": server,
+            "containers": containers
         }
     )
+
