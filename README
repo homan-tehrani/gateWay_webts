@@ -1,8 +1,0 @@
-# Survey Project
-## usage 
-```
-1 create upload folder in base directory 
-2 create a venv and install packages that are in a requirements.txt
-3 run 'alembic upgrade head' command 
-4 run project with uvicorn (vicorn main:app --reload) 
-```

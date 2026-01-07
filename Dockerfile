@@ -1,5 +1,5 @@
 #FROM python:3.10
-FROM docker.arvancloud.ir/python:3.10
+FROM docker.arvancloud.ir/python:3.12
 RUN mkdir -p /app
 WORKDIR /app
 

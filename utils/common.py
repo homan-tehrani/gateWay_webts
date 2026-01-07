@@ -1,15 +1,15 @@
-from fastapi import Request
-import httpx
+import asyncio
 import json
 from datetime import datetime
-import asyncio
-import requests
-import aio_pika
-import json
-from starlette.datastructures import UploadFile 
-from persiantools.jdatetime import JalaliDate, JalaliDateTime
 
-from utils.global_variables import RABBITMQ_HOST,RABBITMQ_PASSWORD,RABBITMQ_PORT,RABBITMQ_USERNAME,RABBITMQ_VHOST,RABBIT_EXCHANGE_NAME
+import aio_pika
+import httpx
+import requests
+from fastapi import Request
+from persiantools.jdatetime import JalaliDate, JalaliDateTime
+from starlette.datastructures import UploadFile
+from utils.global_variables import RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME, RABBITMQ_VHOST, \
+    RABBIT_EXCHANGE_NAME
 
 
 async def CallService(url, method, headers, data=None, time=30):
@@ -36,20 +36,19 @@ async def CallService(url, method, headers, data=None, time=30):
         return False
 
 
-
 async def check_connection_cache(cache, request):
     try:
         cache.set("testConnections", "connected to server  cache successfully", time=20)
         testConnections = cache.get("testConnections")
         if not testConnections:
             print(f"error in connect to cache")
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server "))
+            asyncio.create_task(send_log_to_rabbitmq(request, 1, f"error in connect to cache server "))
     except Exception as e:
-            print(f"error in connect to cache server : {str(e)}")
-            asyncio.create_task(send_log_to_rabbitmq(request,1,f"error in connect to cache server : {str(e)}"))
+        print(f"error in connect to cache server : {str(e)}")
+        asyncio.create_task(send_log_to_rabbitmq(request, 1, f"error in connect to cache server : {str(e)}"))
 
 
-async def send_log_to_rabbitmq(request,type,message,status_code=None,db_url=None):
+async def send_log_to_rabbitmq(payload):
     pass
     # data={}
     # current_datetime = datetime.now()
@@ -112,26 +111,27 @@ def check_and_convert_to_bytes(data):
         except Exception as ex:
             print(f"Conversion to bytes failed with error: {ex}")
             return None
-        
+
+
 async def parse_request(request: Request):
     headers = dict(request.headers)
     try:
         body = await request.body()
-        body=body.decode()
-        body=json.loads(body)
+        body = body.decode()
+        body = json.loads(body)
     except:
-        body=""
+        body = ""
     try:
         form_data = dict(await request.form())
         for key, value in form_data.items():
-            if type(value)==UploadFile:
-                form_data[key]=dict(value.headers)
-                form_data[key]['size']=f"{value.size} bytes"
+            if type(value) == UploadFile:
+                form_data[key] = dict(value.headers)
+                form_data[key]['size'] = f"{value.size} bytes"
     except:
-        body=form_data
+        body = form_data
     query_params = dict(request.query_params)
-    url=str(request.url)
-    method=str(request.method)
+    url = str(request.url)
+    method = str(request.method)
     return {
         "url": url,
         "method": method,

@@ -72,7 +72,7 @@ async def get_urls():
 # Read
 async def get_url(id):
     connection = sqlite3.connect(DB_NAME)
-    
+
     # Create a cursor object to execute SQL commands
     cursor = connection.cursor()
     if type(id) is int:
@@ -85,6 +85,35 @@ async def get_url(id):
         return {"id": result[0], "path": result[1], "signature": result[2], "method": result[3], "cache": result[4],"project_id": result[5], "project_name": result[6], }
     return None
 
+async def get_route(signature: str, method: str):
+    connection = sqlite3.connect(DB_NAME)
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT * FROM Urls
+        WHERE signature = ?
+        AND method = ?
+        LIMIT 1
+        """,
+        (signature, method.lower())
+    )
+
+    result = cursor.fetchone()
+    connection.close()
+
+    if not result:
+        return None
+
+    return {
+        "id": result[0],
+        "path": result[1],
+        "signature": result[2],
+        "method": result[3],
+        "cache": result[4],
+        "project_id": result[5],
+        "project_name": result[6],
+    }
 
 # Update
 async def update_Url(id, path, signature, method, cache, project_id, project_name):

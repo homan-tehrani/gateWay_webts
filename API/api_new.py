@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
-from gateWay import cache
+from gateway.cache_client import memcache_client as cache
 from utils.db import (
     get_url,
     get_urls,
