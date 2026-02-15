@@ -1,21 +1,20 @@
 import asyncio
+import base64
 import hashlib
+import json
 import re
-import sentry_sdk
-
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from urllib.parse import parse_qsl, urlencode
-from concurrent.futures import ThreadPoolExecutor
 
 import httpx
+import sentry_sdk
 from fastapi import Request
 from fastapi.responses import JSONResponse, Response
-
-from utils.global_variables import DO_LOG, LOG_TO_RABBITMQ, LOG_TO_SENTRY
 from gateway.cache_client import memcache_client
 from utils.common import send_log_to_rabbitmq
 from utils.db import get_route
-
+from utils.global_variables import DO_LOG, LOG_TO_RABBITMQ, LOG_TO_SENTRY
 
 LOG_EXECUTOR = ThreadPoolExecutor(
     max_workers=4,
@@ -71,14 +70,15 @@ class Gateway:
 
             response = await self.call_upstream_flow()
 
-            if response.status_code == 200:
-                memcache_client.set(self.cache_key, self.pack_response(response))
+            if self._is_cacheable_response(response):
+                memcache_client.set(self.cache_key, self.pack_response(response), time=86400)
 
             self.fire_and_forget_log(response, "CACHE_MISS")
             return response
 
         except Exception:
             response = JSONResponse({"detail": "gateway error"}, status_code=500)
+
             self.fire_and_forget_log(response, "GATEWAY_EXCEPTION", force=True)
             return response
 
@@ -166,12 +166,13 @@ class Gateway:
         if isinstance(raw_response, Response):
             return raw_response
 
+        headers = dict(raw_response.headers)
+        headers = self._strip_hop_by_hop_headers(headers)
+
         return Response(
             content=raw_response.content,
             status_code=raw_response.status_code,
-            headers={
-                "content-type": raw_response.headers.get("content-type", "")
-            },
+            headers=headers,
         )
 
     async def call_upstream_flow(self):
@@ -228,7 +229,92 @@ class Gateway:
             pass
 
     def pack_response(self, response: Response) -> bytes:
-        return response.body
+        headers = dict(response.headers) if hasattr(response, "headers") else {}
+        headers = self._strip_hop_by_hop_headers(headers)
+
+        payload = {
+            "status_code": int(getattr(response, "status_code", 200)),
+            "headers": headers,
+            "body_b64": base64.b64encode(response.body).decode("ascii"),
+        }
+        return json.dumps(payload, separators=(",", ":")).encode("utf-8")
 
     def unpack_response(self, data: bytes) -> Response:
-        return Response(content=data, status_code=200)
+        try:
+            payload = json.loads(data.decode("utf-8"))
+            body = base64.b64decode(payload.get("body_b64", ""))
+            headers = payload.get("headers") or {}
+            headers = self._strip_hop_by_hop_headers(headers)
+            status_code = int(payload.get("status_code", 200))
+            return Response(content=body, status_code=status_code, headers=headers)
+        except Exception:
+            return Response(content=data, status_code=200)
+
+    def _strip_hop_by_hop_headers(self, headers: dict) -> dict:
+        hop_by_hop = {
+            "connection",
+            "keep-alive",
+            "proxy-authenticate",
+            "proxy-authorization",
+            "te",
+            "trailer",
+            "transfer-encoding",
+            "upgrade",
+        }
+
+        # Also strip headers that become invalid after httpx decompression / rewriting
+        always_strip = {
+            "content-encoding",
+            "content-length",
+        }
+
+        connection = headers.get("connection") or headers.get("Connection")
+        if connection:
+            for token in str(connection).split(","):
+                name = token.strip().lower()
+                if name:
+                    hop_by_hop.add(name)
+
+        cleaned = {}
+        for k, v in headers.items():
+            lk = k.lower()
+            if lk in hop_by_hop:
+                continue
+            if lk in always_strip:
+                continue
+            cleaned[k] = v
+
+        return cleaned
+
+    def _is_cacheable_response(self, response: Response) -> bool:
+        if self.context["method"] != "GET":
+            return False
+
+        if response.status_code != 200:
+            return False
+
+        headers = dict(getattr(response, "headers", {}))
+        if "authorization" in self.context["headers"]:
+            return False
+
+        # Do not cache responses that vary by request headers (simple performance mode)
+        # vary = headers.get("vary") or headers.get("Vary") or ""
+        # if str(vary).strip():
+        #     return False
+
+        # Never cache responses that set cookies (risk of leakage)
+        if any(k.lower() == "set-cookie" for k in headers.keys()):
+            return False
+
+        cache_control = headers.get("cache-control") or headers.get("Cache-Control") or ""
+        cc_low = str(cache_control).lower()
+
+        if "no-store" in cc_low:
+            return False
+        if "private" in cc_low:
+            return False
+        if "no-cache" in cc_low:
+            return False
+
+        return True
+
