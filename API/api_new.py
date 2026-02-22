@@ -4,13 +4,12 @@ from datetime import datetime
 
 import docker
 import psutil
+from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
 from dotenv import load_dotenv
 from fastapi import APIRouter, Body, Header, HTTPException, Request, Query
 from fastapi.responses import JSONResponse
-from pydantic import ValidationError
-
-from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
 from gateway.cache_client import memcache_client as cache
+from pydantic import ValidationError
 from utils.db import (
     get_url,
     get_urls,
@@ -151,6 +150,7 @@ async def add_url(datas: AddListUrlValidation = Body(), authorization: str = Hea
             status_code=400
         )
 
+
 @router.get("/getUrls/")
 async def get_urls_endpoint(authorization: str = Header(None)):
     _auth_or_401(authorization)
@@ -190,9 +190,10 @@ async def delete_url_endpoint(data: DeleteUrlValidation = Body(), authorization:
 
 @router.get("/clearCache/")
 async def clear_cache(
-    authorization: str = Header(None),
-    signature: str | None = Query(default=None),
-    url_id: int | None = Query(default=None),
+        authorization: str = Header(None),
+        signature: str | None = Query(default=None),
+        url_id: int | None = Query(default=None),
+        flush_all: bool = Query(default=True),
 ):
     """
     Clear cache safely.
@@ -204,6 +205,13 @@ async def clear_cache(
     await check_url_table_exists()
 
     try:
+        if flush_all:
+            # English comment: Flush entire memcached instance
+            cache.flush_all()
+            return JSONResponse(
+                content={"detail": "all cache flushed"},
+                status_code=200,
+            )
         sig = None
 
         if signature:
@@ -288,8 +296,8 @@ async def get_servers_resource(request: Request):
             "swap_total_mb": round(swap.total / 1024 / 1024, 2),
         },
         "disk": {
-            "used_gb": round(disk.used / 1024**3, 2),
-            "total_gb": round(disk.total / 1024**3, 2),
+            "used_gb": round(disk.used / 1024 ** 3, 2),
+            "total_gb": round(disk.total / 1024 ** 3, 2),
             "read_mb": round(disk_io.read_bytes / 1024 / 1024, 2),
             "write_mb": round(disk_io.write_bytes / 1024 / 1024, 2),
         },
