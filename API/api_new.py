@@ -27,7 +27,7 @@ def _auth_or_401(authorization: str | None):
     # Validate admin token
     correct_token = str(os.getenv("TOKEN"))
     if authorization is None or authorization != correct_token:
-        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است")
+        raise HTTPException(status_code=401, detail="کاربر احراز هویت نشده است.")
 
 
 def _normalize_signature(sig: str) -> str:
