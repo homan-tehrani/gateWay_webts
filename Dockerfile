@@ -10,7 +10,7 @@ COPY requirements.txt /
 RUN pip install --trusted-host liara.ir -i https://package-mirror.liara.ir/repository/pypi/simple --upgrade pip
 
 # install requirements using liara mirror
-#RUN pip install --trusted-host liara.ir -i https://package-mirror.liara.ir/repository/pypi/simple -r /requirements.txt
+RUN pip install --trusted-host liara.ir -i https://package-mirror.liara.ir/repository/pypi/simple -r /requirements.txt
 COPY . /app
 
 
