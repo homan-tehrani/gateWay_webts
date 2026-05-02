@@ -100,6 +100,7 @@ class Gateway:
 
     def build_signature(self):
         raw_path = self.context["path"]
+        print("RAW PATH:", self.context["path"])
 
         normalized_path = re.sub(r"/+", "/", raw_path).strip("/")
 
@@ -135,14 +136,28 @@ class Gateway:
 
     def build_upstream_request(self):
         url = self.route
+
+        # --- 🔍 Replace dynamic path segments like {id} with real values from request ---
+        raw_path_segments = self.context["path"].strip("/").split("/")
+        route_segments = re.split(r"/+", self.signature.strip("/"))
+
+        replacements = {}
+        # create a map like {"{id}": "2499"}
+        for r_seg, p_seg in zip(route_segments, raw_path_segments):
+            if r_seg == "{id}":
+                replacements["{id}"] = p_seg
+
+        # replace placeholders in final URL
+        for placeholder, val in replacements.items():
+            url = url.replace(placeholder, val)
+
+        # --- keep query params if any ---
         if self.context["query"]:
             url += f"?{self.context['query']}"
 
         headers = {}
-
         if "authorization" in self.context["headers"]:
             headers["authorization"] = self.context["headers"]["authorization"]
-
         if "content-type" in self.context["headers"]:
             headers["content-type"] = self.context["headers"]["content-type"]
 
