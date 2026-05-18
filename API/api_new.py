@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 
 import docker
+import httpx
 import psutil
 from API.urlSchema import AddUrlValidation, AddListUrlValidation, DeleteUrlValidation
 from dotenv import load_dotenv
@@ -18,6 +19,7 @@ from utils.db import (
     create_Url,
     check_url_table_exists,
 )
+from utils.global_variables import GROUP_PROJECT_ID, APIS_FOR_GATEWAY
 
 router = APIRouter(prefix="/url")
 load_dotenv()
@@ -70,6 +72,81 @@ def _bump_route_version(signature: str) -> int:
         new_v = int(time.time())
         cache.set(k, new_v)
         return new_v
+
+
+@router.get("/syncFromGateway/")
+async def sync_from_gateway(
+        authorization: str = Header(None),
+        type: int = Query(default=1)
+):
+    # Validate admin token
+    _auth_or_401(authorization)
+
+    await check_url_table_exists()
+
+    if not GROUP_PROJECT_ID or not APIS_FOR_GATEWAY:
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "Missing GROUP_PROJECT_ID or APIS_FOR_GATEWAY in .env"}
+        )
+
+    # Build request URL dynamically with type
+    url = f"{APIS_FOR_GATEWAY}?groupId={GROUP_PROJECT_ID}&type={type}"
+
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            response = await client.get(
+                url,
+                headers={"authorization": authorization}
+            )
+
+        if response.status_code != 200:
+            return JSONResponse(
+                status_code=500,
+                content={"detail": f"Gateway request failed: {response.text}"}
+            )
+
+        data = response.json()
+
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Gateway connection error: {e}"}
+        )
+
+    if not isinstance(data.get("data"), list):
+        return JSONResponse(
+            status_code=400,
+            content={"detail": "Invalid Gateway response format"}
+        )
+    data = data.get("data")
+    # Delete old URLs
+    existing = await get_urls()
+    for item in existing:
+        await delete_url(item["id"])
+
+    # Insert new URLs
+    for item in data:
+        validated = AddUrlValidation(**item)
+
+        await create_Url(
+            validated.id,
+            validated.path,
+            validated.signature,
+            validated.method,
+            validated.cache,
+            validated.project_id,
+            validated.project_name,
+        )
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "detail": "URLs synced successfully",
+            "count": len(data),
+            "type_used": type
+        }
+    )
 
 
 @router.post("/addUrl/")

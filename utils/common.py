@@ -11,6 +11,14 @@ from starlette.datastructures import UploadFile
 from utils.global_variables import RABBITMQ_HOST, RABBITMQ_PASSWORD, RABBITMQ_PORT, RABBITMQ_USERNAME, RABBITMQ_VHOST, \
     RABBIT_EXCHANGE_NAME
 
+def parse_bool(value):
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, int):
+        return value == 1
+    if isinstance(value, str):
+        return value.strip().lower() in ("true", "1", "yes")
+    return False
 
 async def CallService(url, method, headers, data=None, time=30):
     try:

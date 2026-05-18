@@ -12,7 +12,7 @@ import sentry_sdk
 from fastapi import Request
 from fastapi.responses import JSONResponse, Response
 from gateway.cache_client import memcache_client
-from utils.common import send_log_to_rabbitmq
+from utils.common import send_log_to_rabbitmq,parse_bool
 from utils.db import get_route
 from utils.global_variables import DO_LOG, LOG_TO_RABBITMQ, LOG_TO_SENTRY
 
@@ -40,13 +40,13 @@ class Gateway:
     async def handle_request(self):
         try:
             self.context = await self.extract_request_context()
-            print(self.context, 11111111111111)
+            # print(self.context, 11111111111111)
 
             self.build_signature()
-            print(self.signature, 22222222)
+            # print(self.signature, 22222222)
 
             await self.resolve_route()
-            print(self.route, self.isCache, 333333333)
+            # print(self.route, self.isCache, 333333333)
 
             if self.route is None:
                 response = JSONResponse({"detail": "route not found"}, status_code=404)
@@ -59,10 +59,10 @@ class Gateway:
                 return response
 
             self.cache_key = self.build_cache_key()
-            print(self.cache_key, 8888888888)
+            # print(self.cache_key, 8888888888)
 
             cache_result = memcache_client.get(self.cache_key)
-
+            print(cache_result,999999999999)
             if cache_result:
                 response = self.unpack_response(cache_result)
                 self.fire_and_forget_log(response, "CACHE_HIT")
@@ -115,12 +115,20 @@ class Gateway:
 
     async def resolve_route(self):
         signature_info = await get_route(self.signature, self.request.method)
+
         if not signature_info:
             return
 
+        print("ROUTE INFO:", signature_info)
+
         self.route = signature_info.get("path")
+
         if self.route:
-            self.isCache = signature_info.get("cache") == 1
+            cache_val = signature_info.get("cache")
+            self.isCache = parse_bool(cache_val)
+
+            print("CACHE RAW:", cache_val)
+            print("ISCACHE:", self.isCache)
 
     def build_cache_key(self):
         parsed_query = parse_qsl(self.context["query"], keep_blank_values=True)
@@ -136,6 +144,12 @@ class Gateway:
 
     def build_upstream_request(self):
         url = self.route
+        try:
+            domain = url.split("/")[2]
+            if "log" in domain and url.endswith("/"):
+                url = url.rstrip("/")
+        except Exception:
+            pass
 
         # --- 🔍 Replace dynamic path segments like {id} with real values from request ---
         raw_path_segments = self.context["path"].strip("/").split("/")
@@ -169,7 +183,7 @@ class Gateway:
         }
 
     async def call_upstream(self, upstream_request):
-        async with httpx.AsyncClient(timeout=30) as client:
+        async with httpx.AsyncClient(timeout=12000) as client:
             return await client.request(
                 method=upstream_request["method"].lower(),
                 url=upstream_request["url"],
@@ -192,16 +206,16 @@ class Gateway:
 
     async def call_upstream_flow(self):
         upstream_request = self.build_upstream_request()
-        print(upstream_request, 66666666666)
+        # print(upstream_request, 66666666666)
 
         raw = await self.call_upstream(upstream_request)
-        print(raw, 7777777777)
+        # print(raw, 7777777777)
 
         return self.normalize_upstream_response(raw)
 
     def fire_and_forget_log(self, response, event_type, force=False):
         payload = self.build_log_payload(response, event_type)
-        print(payload, 55555555)
+        # print(payload, 55555555)
 
         loop = asyncio.get_running_loop()
         loop.run_in_executor(
@@ -213,10 +227,15 @@ class Gateway:
         )
 
     def build_log_payload(self, response, event_type):
+        full_url = self.context["full_url"]
+
+        # If the domain contains "log" and ends with "/", remove the trailing slash
+        if "log" in full_url.split("/")[2] and full_url.endswith("/"):
+            full_url = full_url.rstrip("/")
         return {
             "signature": self.signature,
             "isCache": self.isCache,
-            "full_url": self.context["full_url"],
+            "full_url": full_url,
             "method": self.context["method"],
             "request_body": self.context["body"].decode(errors="ignore"),
             "response_body": response.body.decode(errors="ignore")

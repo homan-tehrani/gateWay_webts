@@ -26,19 +26,21 @@ services:
       - RABBITMQ_VHOST=gateway
       - RABBIT_EXCHANGE_NAME=logs
       - RESOURCE_TOKEN=a9F23112kP72
+      - GROUP_PROJECT_ID=1
+      - APIS_FOR_GATEWAY=https://api.basynergy.ir/api/api/apisForGateway/
 
     networks:
       - network_api
 
-#  cache:
-#    image: docker.arvancloud.ir/memcached
-#    #    ports:
-#    #      - "11211:11211"
-#    networks:
-#      - network_api
-#    entrypoint:
-#      - memcached
-#      - -m 1264
+  cache:
+    image: docker.arvancloud.ir/memcached
+    #    ports:
+    #      - "11211:11211"
+    networks:
+      - network_api
+    entrypoint:
+      - memcached
+      - -m 1264
 
 networks:
   network_api:

@@ -12,6 +12,8 @@ DB_NAME = os.getenv('DB_NAME')
 CACHE_TIME = os.getenv('CACHE_TIME')
 LOG_URL = os.getenv('LOG_URL')
 
+GROUP_PROJECT_ID = os.getenv("GROUP_PROJECT_ID")
+APIS_FOR_GATEWAY = os.getenv("APIS_FOR_GATEWAY")
 
 # Rabbitmq 
 RABBITMQ_HOST = os.getenv('RABBITMQ_HOST')
