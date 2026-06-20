@@ -7,44 +7,156 @@ services:
     alias: docker
 
 variables:
-#  DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  COMPLETE_URL: $DOCKER_REG/app12/gateway:$CI_COMMIT_TAG
-  REG_APP_NAME: gateway
-  SCOPE: app12
+  SCOPE: webts
+
 stages:
   - build
-  - deploy
+  - deploy-ganjineh
+  - deploy-front
+  - deploy-saas
 
+# ==================== BUILD (فقط با تگ) ====================
 build:
   stage: build
   before_script:
     - docker info
-    - echo $DOCKER_REG_PASS | docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin
+    - echo "$DOCKER_REG_PASS" | docker login "$DOCKER_REG" --username "$DOCKER_REG_USER" --password-stdin
   script:
     - echo "Build And Push"
     - export DOCKER_DEFAULT_PLATFORM=linux/amd64
-    - docker build . -t $DOCKER_REG/app12/$REG_APP_NAME:$CI_COMMIT_TAG
-    - echo $CI_REGISTRY
-    - docker push $DOCKER_REG/app12/$REG_APP_NAME:$CI_COMMIT_TAG
+    - IMAGE_TAG="$CI_COMMIT_TAG"
+    - docker build . -t "$DOCKER_REG/$SCOPE/$CI_PROJECT_NAME:$IMAGE_TAG"
+    - docker push "$DOCKER_REG/$SCOPE/$CI_PROJECT_NAME:$IMAGE_TAG"
+    - echo "IMAGE_TAG=$IMAGE_TAG" > variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env
   only:
     - tags
   tags:
     - build
 
-deploy:
-  stage: deploy
-  image:
-    name: reg.masafiranian.ir/localkubectl:1.0.1
+# ==================== DEPLOY GANJINEH ====================
+deploy-ganjineh:
+  stage: deploy-ganjineh
+  when: manual
   script:
-    - echo deploy = $COMPLETE_URL
-    - oc login -u kubeadmin -p $KUBEADMIN_PASS https://api-int.okd.padcenter.ir:6443 --insecure-skip-tls-verify
-    - kubectl set image -n $SCOPE deployment/$REG_APP_NAME $REG_APP_NAME=$COMPLETE_URL --insecure-skip-tls-verify && kubectl set env -n $SCOPE deployment/$REG_APP_NAME APP_VERSION=$CI_COMMIT_TAG --insecure-skip-tls-verify
+    - SSH_USER="$GANJINEH_SSH_USER"
+    - VM_IPADDRESS="$GANJINEH_VM_IPADDRESS"
+    - PATH_RUN="$GANJINEH_PATH_RUN"
+    - SSH_PRIVATE_KEY="$GANJINEH_SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -T 10 -H "$VM_IPADDRESS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "mkdir -p $PATH_RUN/$CI_PROJECT_NAME"
+    - scp ./docker-compose.yml "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"
+    - scp ./run-production.sh "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"  # کپی فایل استاتیک
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "chmod +x $PATH_RUN/$CI_PROJECT_NAME/run-production.sh"
+    - printf '%s' "$DOCKER_REG_PASS" | ssh -A "$SSH_USER@$VM_IPADDRESS" "docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin"
+    - |
+      ssh -o ServerAliveInterval=30 -A "$SSH_USER@$VM_IPADDRESS" "
+        cd '$PATH_RUN/$CI_PROJECT_NAME'
+        export IMAGE_TAG='$IMAGE_TAG'
+        export CI_PROJECT_NAME='$CI_PROJECT_NAME'
+        export DOCKER_REG='$DOCKER_REG'
+        export CI_PROJECT_NAMESPACE='$SCOPE'
+        export DOCKER_REG_USER='$DOCKER_REG_USER'
+        export DOCKER_REG_PASS='$DOCKER_REG_PASS'
+        ./run-production.sh
+      "
+    - echo "Deployed to Ganjineh successfully!"
   only:
     - tags
   needs:
     - build
   tags:
     - deploy
+
+# ==================== DEPLOY FRONT (با نسخه قدیمی docker-compose) ====================
+deploy-front:
+  stage: deploy-front
   when: manual
+  script:
+    - SSH_USER="$FRONT_SSH_USER"
+    - VM_IPADDRESS="$FRONT_VM_IPADDRESS"
+    - PATH_RUN="$FRONT_PATH_RUN"
+    - SSH_PRIVATE_KEY="$FRONT_SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -T 10 -H "$VM_IPADDRESS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "mkdir -p $PATH_RUN/$CI_PROJECT_NAME"
+    - scp ./docker-compose.yml "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"
+    - scp ./run-production.sh "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"  # کپی فایل استاتیک
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "chmod +x $PATH_RUN/$CI_PROJECT_NAME/run-production.sh"
+    - printf '%s' "$DOCKER_REG_PASS" | ssh -A "$SSH_USER@$VM_IPADDRESS" "docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin"
+    - |
+      ssh -o ServerAliveInterval=30 -A "$SSH_USER@$VM_IPADDRESS" "
+        cd '$PATH_RUN/$CI_PROJECT_NAME'
+        export IMAGE_TAG='$IMAGE_TAG'
+        export CI_PROJECT_NAME='$CI_PROJECT_NAME'
+        export DOCKER_REG='$DOCKER_REG'
+        export CI_PROJECT_NAMESPACE='$SCOPE'
+        export DOCKER_REG_USER='$DOCKER_REG_USER'
+        export DOCKER_REG_PASS='$DOCKER_REG_PASS'
+        ./run-production.sh
+      "
+    - echo "Deployed to Front successfully!"
+  only:
+    - tags
+  needs:
+    - build
+  tags:
+    - deploy
+
+# ==================== DEPLOY BASYNERGY ====================
+deploy-saas:
+  stage: deploy-saas
+  when: manual
+  script:
+    - SSH_USER="$BASYNERGY_SSH_USER"
+    - VM_IPADDRESS="$BASYNERGY_VM_IPADDRESS"
+    - PATH_RUN="$BASYNERGY_PATH_RUN"
+    - SSH_PRIVATE_KEY="$BASYNERGY_SSH_PRIVATE_KEY"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -T 10 -H "$VM_IPADDRESS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - eval $(ssh-agent -s)
+    - ssh-add ~/.ssh/id_rsa
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "mkdir -p $PATH_RUN/$CI_PROJECT_NAME"
+    - scp ./docker-compose.yml "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"
+    - scp ./run-production.sh "$SSH_USER@$VM_IPADDRESS:$PATH_RUN/$CI_PROJECT_NAME/"  # کپی فایل استاتیک
+    - ssh -A "$SSH_USER@$VM_IPADDRESS" "chmod +x $PATH_RUN/$CI_PROJECT_NAME/run-production.sh"
+    - printf '%s' "$DOCKER_REG_PASS" | ssh -A "$SSH_USER@$VM_IPADDRESS" "docker login $DOCKER_REG --username $DOCKER_REG_USER --password-stdin"
+    - |
+      ssh -o ServerAliveInterval=30 -A "$SSH_USER@$VM_IPADDRESS" "
+        cd '$PATH_RUN/$CI_PROJECT_NAME'
+        export IMAGE_TAG='$IMAGE_TAG'
+        export CI_PROJECT_NAME='$CI_PROJECT_NAME'
+        export DOCKER_REG='$DOCKER_REG'
+        export CI_PROJECT_NAMESPACE='$SCOPE'
+        export DOCKER_REG_USER='$DOCKER_REG_USER'
+        export DOCKER_REG_PASS='$DOCKER_REG_PASS'
+        ./run-production.sh
+      "
+    - echo "Deployed to Basynergy successfully!"
+  only:
+    - tags
+  needs:
+    - build
+  tags:
+    - deploy
