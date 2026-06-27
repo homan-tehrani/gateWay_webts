@@ -1,36 +1,48 @@
-version: '3.10'
+#version: '3.10'
+#
+#services:
+#  getway:
+#    container_name: getway_webts
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    env_file:
+#      - .env
+#    volumes:
+#      - .:/app
+#      - /var/run/docker.sock:/var/run/docker.sock
+#    ports:
+#      - "80:80"
+#    networks:
+#      - network_api
+#
+#  cache:
+#    image: docker.arvancloud.ir/memcached
+#    networks:
+#      - network_api
+#    entrypoint:
+#      - memcached
+#      - -m
+#      - "1264"
+#
+#networks:
+#  network_api:
+#    driver: overlay
+#    external: true
 
 services:
-  getway:
-    container_name: getway_webts
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
-      - /var/run/docker.sock:/var/run/docker.sock
-      
+  app:
+    image: ${DOCKER_REG}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${IMAGE_TAG}
+    container_name: gateway_webts
     ports:
-      - "80:80"
-    environment:
-      - LOG_URL=https://loger.sirafgroup.com/api/save-log
-      - CACHE_TIME=108000
-      - CACHE_IP_ADDRESS=cache
-      - DB_NAME=Urls.db
-      - TOKEN=test
-      - AUTHENTICATION_SITE=https://nativeauth.sirafgroup.com
-      - RABBITMQ_HOST=77.238.108.86
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=gateway
-      - RABBITMQ_PASSWORD=Bgateway@1256
-      - RABBITMQ_VHOST=gateway
-      - RABBIT_EXCHANGE_NAME=logs
-      - RESOURCE_TOKEN=a9F23112kP72
-      - GROUP_PROJECT_ID=1
-      - APIS_FOR_GATEWAY=https://api.basynergy.ir/api/api/apisForGateway/
-
+      - "6006:80"
     networks:
       - network_api
+    env_file:
+      - .env
+    extra_hosts:
+      - "minio.basynergy.ir:45.82.138.127"
+
 
   cache:
     image: docker.arvancloud.ir/memcached
@@ -44,6 +56,6 @@ services:
 
 networks:
   network_api:
-    driver: overley
+    driver: bridge
     external: true
 

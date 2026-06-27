@@ -1,16 +1,20 @@
-#FROM python:3.10
 FROM docker.arvancloud.ir/python:3.12
+
 RUN mkdir -p /app
 WORKDIR /app
 
 COPY requirements.txt /
-#RUN #pip install -r /requirements.txt
-RUN pip install --trusted-host https://mirror-pypi.runflare.com -i https://mirror-pypi.runflare.com/simple/ -r /requirements.txt
-# upgrade pip using liara mirror
-#RUN pip install --trusted-host liara.ir -i https://package-mirror.liara.ir/repository/pypi/simple --upgrade pip
-#
-## install requirements using liara mirror
-#RUN pip install --trusted-host liara.ir -i https://package-mirror.liara.ir/repository/pypi/simple -r /requirements.txt
+
+# Upgrade pip
+RUN pip install --trusted-host liara.ir \
+    -i https://package-mirror.liara.ir/repository/pypi/simple \
+    --upgrade pip
+
+# Install requirements
+RUN pip install --trusted-host liara.ir \
+    -i https://package-mirror.liara.ir/repository/pypi/simple \
+    -r /requirements.txt
+
 COPY . /app
 
 
