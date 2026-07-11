@@ -15,7 +15,7 @@ stages:
   - build
   - deploy-ganjineh
   - deploy-front
-  - deploy-saas
+  - deploy-basynergy
 
 # ==================== BUILD (فقط با تگ) ====================
 build:
@@ -121,8 +121,8 @@ deploy-front:
     - deploy
 
 # ==================== DEPLOY BASYNERGY ====================
-deploy-saas:
-  stage: deploy-saas
+deploy-basynergy:
+  stage: deploy-basynergy
   when: manual
   script:
     - SSH_USER="$BASYNERGY_SSH_USER"
