@@ -88,8 +88,6 @@ class Gateway:
             self.maybe_log(response, "GATEWAY_EXCEPTION", force=True)
             return response
         finally:
-            # Access stream: exactly one record per request, for EVERY
-            # request. Cost: one tuple + one put_nowait.
             if ACCESS_LOG_ENABLED and response is not None:
                 ctx = self.context or {}
                 log_publisher.log_access(
@@ -98,6 +96,7 @@ class Gateway:
                     url=ctx.get("full_url") or str(self.request.url),
                     status=response.status_code,
                     duration_ms=(time.perf_counter() - self._started) * 1000,
+                    client_ip=ctx.get("client_ip"),
                 )
 
     async def _dispatch(self):

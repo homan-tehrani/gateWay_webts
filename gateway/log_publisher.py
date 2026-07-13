@@ -36,10 +36,12 @@ import aio_pika
 try:
     import orjson
 
+
     def _dumps(payload) -> bytes:
         return orjson.dumps(payload, default=str)
 except ImportError:  # pragma: no cover - stdlib fallback
     import json
+
 
     def _dumps(payload) -> bytes:
         return json.dumps(payload, ensure_ascii=False, default=str).encode("utf-8")
@@ -171,15 +173,19 @@ class RabbitLogPublisher:
             if self._errors % 1000 == 1:  # rate-limited: stack traces are not free
                 logger.exception("log enqueue error, total=%d", self._errors)
 
-    def log_access(self, ts: float, method: str, url: str,
-                   status: int, duration_ms: float) -> None:
-        """
-        Access stream: one call per request, for EVERY request.
-        Cost: one tuple + one put_nowait. Records are fixed-size, so a
-        count cap alone bounds the queue's RAM.
-        """
+    def log_access(
+            self,
+            ts: float,
+            method: str,
+            url: str,
+            status: int,
+            duration_ms: float,
+            client_ip: str | None,
+    ) -> None:
         try:
-            self._access_queue.put_nowait((ts, method, url, status, duration_ms))
+            self._access_queue.put_nowait(
+                (ts, method, url, status, duration_ms, client_ip)
+            )
         except asyncio.QueueFull:
             self._access_dropped += 1
             if self._access_dropped % 1000 == 1:
@@ -204,10 +210,10 @@ class RabbitLogPublisher:
     async def _ensure_channel(self) -> None:
         # Reuse the existing channel/exchanges while they are healthy.
         if (
-            self._exchange is not None
-            and self._access_exchange is not None
-            and self._channel is not None
-            and not self._channel.is_closed
+                self._exchange is not None
+                and self._access_exchange is not None
+                and self._channel is not None
+                and not self._channel.is_closed
         ):
             return
 
@@ -352,16 +358,15 @@ class RabbitLogPublisher:
     # access worker -- batched NDJSON publishing
     # ------------------------------------------------------------------ #
     def _render_access_batch(self, batch: list[tuple]) -> bytes:
-        """Render a batch as NDJSON (one JSON object per line) -- the
-        de-facto standard framing for log streams (Loki, Vector, ES bulk)."""
         lines = []
-        for ts, method, url, status, duration_ms in batch:
+        for ts, method, url, status, duration_ms, client_ip in batch:
             lines.append(_dumps({
                 "ts": datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(),
                 "method": method,
                 "url": url,
                 "status": status,
                 "duration_ms": duration_ms,
+                "client_ip": client_ip,
             }))
         return b"\n".join(lines)
 
