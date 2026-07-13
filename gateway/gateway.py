@@ -1,9 +1,7 @@
-import asyncio
 import base64
 import hashlib
 import json
 import logging
-import re
 import time
 from urllib.parse import parse_qsl, urlencode
 
@@ -12,24 +10,29 @@ from fastapi import Request
 from fastapi.responses import JSONResponse, Response
 
 from gateway.cache_client import memcache_client
-from gateway.container_inspector import get_container_info, resolve_container_name
-from gateway.log_builder import (
-    build_log_payload,
-    is_error_status,
-    should_log,
-    upstream_host,
-)
+from gateway.log_builder import capture_body, should_log
 from gateway.log_publisher import log_publisher
 from utils.common import parse_bool
 from utils.db import get_route
-from utils.global_variables import DO_LOG, LOG_TO_RABBITMQ
+from utils.global_variables import (
+    ACCESS_LOG_ENABLED,
+    CACHE_MAX_BODY_BYTES,
+    DO_LOG,
+    LOG_TO_RABBITMQ,
+)
 
 logger = logging.getLogger("gateway")
+
+# Both flags are set once at startup; collapse them into one boolean so
+# the per-request check is a single name lookup.
+LOGGING_ENABLED = DO_LOG and LOG_TO_RABBITMQ
 
 # --------------------------------------------------------------------- #
 # Shared upstream HTTP client: ONE pool per worker process.
 # Creating an AsyncClient per request forces a new TCP/TLS handshake
 # every time -- this pool is the single biggest performance fix.
+# max_connections also acts as a natural memory ceiling: it bounds how
+# many request/response bodies can be in flight simultaneously.
 # --------------------------------------------------------------------- #
 UPSTREAM_CLIENT = httpx.AsyncClient(
     timeout=httpx.Timeout(30.0, connect=5.0),
@@ -41,9 +44,23 @@ async def close_upstream_client() -> None:
     await UPSTREAM_CLIENT.aclose()
 
 
+# Module-level frozensets: built once, not per call.
+_HOP_BY_HOP = frozenset({
+    "connection", "keep-alive", "proxy-authenticate",
+    "proxy-authorization", "te", "trailer",
+    "transfer-encoding", "upgrade",
+})
+_ALWAYS_STRIP = frozenset({"content-encoding", "content-length"})
+
+
 class Gateway:
     """
     Single-class API Gateway. One instance per request.
+
+    Logging contract: for non-matching statuses the ONLY logging cost is
+    one frozenset lookup. For matching statuses the request path pays a
+    few bounded slices + one put_nowait; everything expensive happens in
+    the publisher worker.
     """
 
     def __init__(self, request: Request):
@@ -61,41 +78,59 @@ class Gateway:
     # main flow
     # ------------------------------------------------------------------ #
     async def handle_request(self):
+        response = None
         try:
-            self.context = await self.extract_request_context()
-            self.build_signature()
-            await self.resolve_route()
-
-            if self.route is None:
-                response = JSONResponse({"detail": "route not found"}, status_code=404)
-                self.maybe_log(response, "ROUTE_NOT_FOUND")
-                return response
-
-            if not self.isCache:
-                response = await self.call_upstream_flow()
-                self.maybe_log(response, "UPSTREAM_CALL")
-                return response
-
-            self.cache_key = self.build_cache_key()
-            cache_result = memcache_client.get(self.cache_key)
-            if cache_result:
-                response = self.unpack_response(cache_result)
-                self.maybe_log(response, "CACHE_HIT")
-                return response
-
-            response = await self.call_upstream_flow()
-
-            if self._is_cacheable_response(response):
-                memcache_client.set(self.cache_key, self.pack_response(response), time=86400)
-
-            self.maybe_log(response, "CACHE_MISS")
+            response = await self._dispatch()
             return response
-
         except Exception:
             logger.exception("gateway error for %s", getattr(self.request.url, "path", "?"))
             response = JSONResponse({"detail": "gateway error"}, status_code=500)
             self.maybe_log(response, "GATEWAY_EXCEPTION", force=True)
             return response
+        finally:
+            # Access stream: exactly one record per request, for EVERY
+            # request. Cost: one tuple + one put_nowait.
+            if ACCESS_LOG_ENABLED and response is not None:
+                ctx = self.context or {}
+                log_publisher.log_access(
+                    ts=time.time(),
+                    method=ctx.get("method") or self.request.method,
+                    url=ctx.get("full_url") or str(self.request.url),
+                    status=response.status_code,
+                    duration_ms=(time.perf_counter() - self._started) * 1000,
+                )
+
+    async def _dispatch(self):
+        self.context = await self.extract_request_context()
+        self.build_signature()
+        await self.resolve_route()
+
+        if self.route is None:
+            response = JSONResponse({"detail": "route not found"}, status_code=404)
+            self.maybe_log(response, "ROUTE_NOT_FOUND")
+            return response
+
+        if not self.isCache:
+            response = await self.call_upstream_flow()
+            self.maybe_log(response, "UPSTREAM_CALL")
+            return response
+
+        self.cache_key = self.build_cache_key()
+        cache_result = memcache_client.get(self.cache_key)
+        if cache_result:
+            response = self.unpack_response(cache_result)
+            if response is not None:
+                self.maybe_log(response, "CACHE_HIT")
+                return response
+            # Corrupt cache entry: treat as a miss and fall through.
+
+        response = await self.call_upstream_flow()
+
+        if self._is_cacheable_response(response):
+            memcache_client.set(self.cache_key, self.pack_response(response), time=86400)
+
+        self.maybe_log(response, "CACHE_MISS")
+        return response
 
     async def extract_request_context(self):
         try:
@@ -115,10 +150,12 @@ class Gateway:
         }
 
     def build_signature(self):
-        normalized_path = re.sub(r"/+", "/", self.context["path"]).strip("/")
+        # split() + filter drops empty segments, which also collapses
+        # repeated slashes -- no regex needed on the hot path.
         parts = [
             "{id}" if segment.isdigit() else segment
-            for segment in normalized_path.split("/")
+            for segment in self.context["path"].split("/")
+            if segment
         ]
         self.signature = "/" + "/".join(parts) + "/"
 
@@ -147,15 +184,9 @@ class Gateway:
     # ------------------------------------------------------------------ #
     def build_upstream_request(self):
         url = self.route
-        try:
-            domain = url.split("/")[2]
-            if "log" in domain and url.endswith("/"):
-                url = url.rstrip("/")
-        except Exception:
-            pass
 
         raw_path_segments = self.context["path"].strip("/").split("/")
-        route_segments = re.split(r"/+", self.signature.strip("/"))
+        route_segments = self.signature.strip("/").split("/")
 
         for r_seg, p_seg in zip(route_segments, raw_path_segments):
             if r_seg == "{id}":
@@ -164,11 +195,13 @@ class Gateway:
         if self.context["query"]:
             url += f"?{self.context['query']}"
 
+        # Forward only what the upstream needs; never leak gateway headers.
         headers = {}
-        if "authorization" in self.context["headers"]:
-            headers["authorization"] = self.context["headers"]["authorization"]
-        if "content-type" in self.context["headers"]:
-            headers["content-type"] = self.context["headers"]["content-type"]
+        req_headers = self.context["headers"]
+        if "authorization" in req_headers:
+            headers["authorization"] = req_headers["authorization"]
+        if "content-type" in req_headers:
+            headers["content-type"] = req_headers["content-type"]
 
         self.upstream_url = url
         return {
@@ -202,63 +235,67 @@ class Gateway:
         return self.normalize_upstream_response(raw)
 
     # ------------------------------------------------------------------ #
-    # logging -- the ONLY per-request cost for non-matching statuses is
-    # the frozenset lookup in should_log().
+    # logging -- request-path cost: one frozenset lookup for non-matching
+    # statuses; a few bounded slices + one put_nowait for matching ones.
+    # No task creation, no decoding, no JSON here.
     # ------------------------------------------------------------------ #
     def maybe_log(self, response: Response, event_type: str, force: bool = False):
-        if not DO_LOG or not LOG_TO_RABBITMQ:
+        if not LOGGING_ENABLED:
             return
         status = response.status_code
         if not force and not should_log(status):
             return
 
-        # Capture everything needed NOW (cheap references), then hand off
-        # the payload building + enqueue to a background task.
-        task = asyncio.create_task(
-            self._build_and_enqueue(response, event_type, status)
-        )
-        # Keep a strong reference so the task isn't garbage-collected mid-flight.
-        _BACKGROUND_TASKS.add(task)
-        task.add_done_callback(_BACKGROUND_TASKS.discard)
-
-    async def _build_and_enqueue(self, response: Response, event_type: str, status: int):
         try:
-            duration_ms = (time.perf_counter() - self._started) * 1000
+            ctx = self.context or {}
+            req_headers = ctx.get("headers") or {}
+            resp_headers = dict(getattr(response, "headers", {}) or {})
+            resp_bytes = getattr(response, "body", b"") or b""
 
-            # Attach container status/logs only for server errors that map
-            # to a known container (TTL-cached, executor-backed).
-            container_info = None
-            if is_error_status(status):
-                name = resolve_container_name(
-                    (self.route_info or {}).get("project_name"),
-                    upstream_host(self.upstream_url),
-                )
-                if name:
-                    container_info = await get_container_info(name)
-
-            payload = build_log_payload(
-                context=self.context,
-                signature=self.signature,
-                route_info=self.route_info,
-                upstream_url=self.upstream_url,
-                response_status=status,
-                response_headers=dict(getattr(response, "headers", {}) or {}),
-                response_body=getattr(response, "body", None),
-                event_type=event_type,
-                duration_ms=duration_ms,
-                container_info=container_info,
+            # Binary bodies -> placeholder, multipart -> capped raw slice
+            # (files stripped later in the worker), text -> capped slice.
+            req_body, req_trunc, req_note = capture_body(
+                ctx.get("body"), req_headers.get("content-type"),
             )
-            log_publisher.enqueue(payload)
+            resp_body, resp_trunc, resp_note = capture_body(
+                resp_bytes, resp_headers.get("content-type"),
+            )
+
+            log_publisher.enqueue_raw({
+                # Timestamp captured now (event time), rendered in worker.
+                "ts": time.time(),
+                "event_type": event_type,
+                "status": status,
+                "duration_ms": (time.perf_counter() - self._started) * 1000,
+                "method": ctx.get("method"),
+                "full_url": ctx.get("full_url"),
+                "path": ctx.get("path"),
+                "query": ctx.get("query"),
+                "client_ip": ctx.get("client_ip"),
+                # Header dicts are never mutated after the request, so we
+                # pass references (no copies); redaction runs in the worker.
+                "req_headers": req_headers,
+                "req_body": req_body,
+                "req_trunc": req_trunc,
+                "req_note": req_note,
+                "resp_headers": resp_headers,
+                "resp_body": resp_body,
+                "resp_trunc": resp_trunc,
+                "resp_note": resp_note,
+                "signature": self.signature,
+                "upstream_url": self.upstream_url,
+                "route_info": self.route_info,
+                "container": None,  # resolved in the worker for 5xx only
+            })
         except Exception:
-            logger.exception("failed to build log payload")
+            # Logging must never break a request.
+            logger.exception("maybe_log failed")
 
     # ------------------------------------------------------------------ #
     # response (de)serialization for cache
     # ------------------------------------------------------------------ #
     def pack_response(self, response: Response) -> bytes:
-        headers = self._strip_hop_by_hop_headers(
-            dict(response.headers) if hasattr(response, "headers") else {}
-        )
+        headers = self._strip_hop_by_hop_headers(dict(response.headers))
         payload = {
             "status_code": int(getattr(response, "status_code", 200)),
             "headers": headers,
@@ -266,7 +303,9 @@ class Gateway:
         }
         return json.dumps(payload, separators=(",", ":")).encode("utf-8")
 
-    def unpack_response(self, data: bytes) -> Response:
+    def unpack_response(self, data: bytes) -> Response | None:
+        """Return the cached Response, or None if the entry is corrupt.
+        Never fall back to serving raw cache bytes to the client."""
         try:
             payload = json.loads(data.decode("utf-8"))
             body = base64.b64decode(payload.get("body_b64", ""))
@@ -274,26 +313,24 @@ class Gateway:
             status_code = int(payload.get("status_code", 200))
             return Response(content=body, status_code=status_code, headers=headers)
         except Exception:
-            return Response(content=data, status_code=200)
+            return None
 
     def _strip_hop_by_hop_headers(self, headers: dict) -> dict:
-        hop_by_hop = {
-            "connection", "keep-alive", "proxy-authenticate",
-            "proxy-authorization", "te", "trailer",
-            "transfer-encoding", "upgrade",
-        }
-        always_strip = {"content-encoding", "content-length"}
-
-        connection = headers.get("connection") or headers.get("Connection")
+        # httpx/starlette normalize header names to lowercase, so a single
+        # lowercase lookup is sufficient.
+        drop = _HOP_BY_HOP
+        connection = headers.get("connection")
         if connection:
+            # Connection header may name additional hop-by-hop headers.
+            drop = set(_HOP_BY_HOP)
             for token in str(connection).split(","):
                 name = token.strip().lower()
                 if name:
-                    hop_by_hop.add(name)
+                    drop.add(name)
 
         return {
             k: v for k, v in headers.items()
-            if k.lower() not in hop_by_hop and k.lower() not in always_strip
+            if k.lower() not in drop and k.lower() not in _ALWAYS_STRIP
         }
 
     def _is_cacheable_response(self, response: Response) -> bool:
@@ -304,17 +341,17 @@ class Gateway:
         if "authorization" in self.context["headers"]:
             return False
 
-        headers = dict(getattr(response, "headers", {}))
-        if any(k.lower() == "set-cookie" for k in headers.keys()):
+        # Don't let one large response bloat process RAM (base64 pack)
+        # and memcache; skip caching it entirely.
+        body = getattr(response, "body", b"") or b""
+        if len(body) > CACHE_MAX_BODY_BYTES:
             return False
 
-        cc_low = str(
-            headers.get("cache-control") or headers.get("Cache-Control") or ""
-        ).lower()
-        if "no-store" in cc_low or "private" in cc_low or "no-cache" in cc_low:
+        headers = response.headers
+        if "set-cookie" in headers:
+            return False
+
+        cc = (headers.get("cache-control") or "").lower()
+        if "no-store" in cc or "private" in cc or "no-cache" in cc:
             return False
         return True
-
-
-# Strong references for fire-and-forget tasks (asyncio requirement).
-_BACKGROUND_TASKS: set[asyncio.Task] = set()

@@ -27,6 +27,7 @@ RABBITMQ_PASSWORD = os.getenv('RABBITMQ_PASSWORD')
 RABBITMQ_VHOST = os.getenv('RABBITMQ_VHOST')
 RABBIT_EXCHANGE_NAME = os.getenv('RABBIT_EXCHANGE_NAME')
 
+
 # --------------------------------------------------------------------- #
 # Logging configuration
 # --------------------------------------------------------------------- #
@@ -86,9 +87,19 @@ except json.JSONDecodeError:
 CONTAINER_INFO_TTL = int(os.getenv("CONTAINER_INFO_TTL", "30"))
 
 # Master switches
-DO_LOG = int(os.getenv("DO_LOG", "1"))                    # 0=off, 1=on
+DO_LOG = int(os.getenv("DO_LOG", "1"))  # 0=off, 1=on
 LOG_TO_RABBITMQ = int(os.getenv("LOG_TO_RABBITMQ", "1"))
 LOG_TO_SENTRY = int(os.getenv("LOG_TO_SENTRY", "0"))
 LOG_QUEUE_NAME = os.getenv("LOG_QUEUE_NAME", "gateway.logs")
 RABBIT_AUTO_MIGRATE = int(os.getenv("RABBIT_AUTO_MIGRATE", "1"))
 
+LOG_QUEUE_MAX_BYTES = 32 * 1024 * 1024  # سقف رم صف لاگ per worker
+LOG_MAX_PER_SECOND = 100  # سقف نرخ enqueue
+CACHE_MAX_BODY_BYTES = 512 * 1024  # پاسخ بزرگ‌تر cache نمی‌شه
+
+ACCESS_LOG_ENABLED = int(os.getenv("ACCESS_LOG_ENABLED", "1"))
+ACCESS_QUEUE_NAME = os.getenv("ACCESS_QUEUE_NAME", "gateway.access")
+ACCESS_ROUTING_KEY = os.getenv("ACCESS_ROUTING_KEY", "access")
+ACCESS_QUEUE_MAXSIZE = 10_000  # ~2MB RAM ceiling per worker
+ACCESS_BATCH_MAX = 200  # records per published message
+ACCESS_FLUSH_SECONDS = 1.0  # max delay before a partial batch ships
