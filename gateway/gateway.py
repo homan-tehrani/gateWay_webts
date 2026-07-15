@@ -27,63 +27,75 @@ logger = logging.getLogger("gateway")
 # the per-request check is a single name lookup.
 LOGGING_ENABLED = DO_LOG and LOG_TO_RABBITMQ
 
-# --------------------------------------------------------------------- #
-# Shared upstream HTTP client: ONE pool per worker process.
-# Creating an AsyncClient per request forces a new TCP/TLS handshake
-# every time -- this pool is the single biggest performance fix.
-# max_connections also acts as a natural memory ceiling: it bounds how
-# many request/response bodies can be in flight simultaneously.
-# --------------------------------------------------------------------- #
+# Shared upstream HTTP client: one pool per worker process.
 UPSTREAM_CLIENT = httpx.AsyncClient(
     timeout=httpx.Timeout(30.0, connect=5.0),
     limits=httpx.Limits(max_connections=200, max_keepalive_connections=50),
 )
+
+# Module-level frozensets: built once, not per call.
+_HOP_BY_HOP = frozenset({
+    "connection",
+    "keep-alive",
+    "proxy-authenticate",
+    "proxy-authorization",
+    "te",
+    "trailer",
+    "transfer-encoding",
+    "upgrade",
+})
+_ALWAYS_STRIP = frozenset({"content-encoding", "content-length"})
 
 
 async def close_upstream_client() -> None:
     await UPSTREAM_CLIENT.aclose()
 
 
-# Module-level frozensets: built once, not per call.
-_HOP_BY_HOP = frozenset({
-    "connection", "keep-alive", "proxy-authenticate",
-    "proxy-authorization", "te", "trailer",
-    "transfer-encoding", "upgrade",
-})
-_ALWAYS_STRIP = frozenset({"content-encoding", "content-length"})
+def _normalize_log_domain_trailing_slash(url: str | None) -> str | None:
+    if not url:
+        return url
+
+    try:
+        domain = url.split("/")[2]
+        if "log" in domain and url.endswith("/"):
+            return url.rstrip("/")
+    except Exception:
+        pass
+
+    return url
 
 
 class Gateway:
     """
     Single-class API Gateway. One instance per request.
 
-    Logging contract: for non-matching statuses the ONLY logging cost is
+    Logging contract: for non-matching statuses the only logging cost is
     one frozenset lookup. For matching statuses the request path pays a
-    few bounded slices + one put_nowait; everything expensive happens in
-    the publisher worker.
+    few bounded slices plus one put_nowait; everything expensive happens
+    in the publisher worker.
     """
 
     def __init__(self, request: Request):
         self.request = request
         self.context = None
         self.signature = None
-        self.route = None            # upstream base url (path column)
-        self.route_info = None       # full row: project_id / project_name / ...
+        self.route = None
+        self.route_info = None
         self.isCache = False
         self.cache_key = None
         self.upstream_url = None
         self._started = time.perf_counter()
 
-    # ------------------------------------------------------------------ #
-    # main flow
-    # ------------------------------------------------------------------ #
     async def handle_request(self):
         response = None
         try:
             response = await self._dispatch()
             return response
         except Exception:
-            logger.exception("gateway error for %s", getattr(self.request.url, "path", "?"))
+            logger.exception(
+                "gateway error for %s",
+                getattr(self.request.url, "path", "?"),
+            )
             response = JSONResponse({"detail": "gateway error"}, status_code=500)
             self.maybe_log(response, "GATEWAY_EXCEPTION", force=True)
             return response
@@ -93,7 +105,9 @@ class Gateway:
                 log_publisher.log_access(
                     ts=time.time(),
                     method=ctx.get("method") or self.request.method,
-                    url=ctx.get("full_url") or str(self.request.url),
+                    url=_normalize_log_domain_trailing_slash(
+                        ctx.get("full_url") or str(self.request.url)
+                    ),
                     status=response.status_code,
                     duration_ms=(time.perf_counter() - self._started) * 1000,
                     client_ip=ctx.get("client_ip"),
@@ -126,7 +140,11 @@ class Gateway:
         response = await self.call_upstream_flow()
 
         if self._is_cacheable_response(response):
-            memcache_client.set(self.cache_key, self.pack_response(response), time=86400)
+            memcache_client.set(
+                self.cache_key,
+                self.pack_response(response),
+                time=86400,
+            )
 
         self.maybe_log(response, "CACHE_MISS")
         return response
@@ -149,8 +167,6 @@ class Gateway:
         }
 
     def build_signature(self):
-        # split() + filter drops empty segments, which also collapses
-        # repeated slashes -- no regex needed on the hot path.
         parts = [
             "{id}" if segment.isdigit() else segment
             for segment in self.context["path"].split("/")
@@ -168,9 +184,6 @@ class Gateway:
         if self.route:
             self.isCache = parse_bool(signature_info.get("cache"))
 
-    # ------------------------------------------------------------------ #
-    # cache
-    # ------------------------------------------------------------------ #
     def build_cache_key(self):
         parsed_query = parse_qsl(self.context["query"], keep_blank_values=True)
         parsed_query.sort()
@@ -178,11 +191,8 @@ class Gateway:
         body_hash = hashlib.sha256(self.context["body"]).hexdigest()
         return f"gw:{self.signature}:{self.context['method']}:{query_hash}:{body_hash}"
 
-    # ------------------------------------------------------------------ #
-    # upstream
-    # ------------------------------------------------------------------ #
     def build_upstream_request(self):
-        url = self.route
+        url = _normalize_log_domain_trailing_slash(self.route)
 
         raw_path_segments = self.context["path"].strip("/").split("/")
         route_segments = self.signature.strip("/").split("/")
@@ -194,7 +204,6 @@ class Gateway:
         if self.context["query"]:
             url += f"?{self.context['query']}"
 
-        # Forward only what the upstream needs; never leak gateway headers.
         headers = {}
         req_headers = self.context["headers"]
         if "authorization" in req_headers:
@@ -221,6 +230,7 @@ class Gateway:
     def normalize_upstream_response(self, raw_response):
         if isinstance(raw_response, Response):
             return raw_response
+
         headers = self._strip_hop_by_hop_headers(dict(raw_response.headers))
         return Response(
             content=raw_response.content,
@@ -233,14 +243,10 @@ class Gateway:
         raw = await self.call_upstream(upstream_request)
         return self.normalize_upstream_response(raw)
 
-    # ------------------------------------------------------------------ #
-    # logging -- request-path cost: one frozenset lookup for non-matching
-    # statuses; a few bounded slices + one put_nowait for matching ones.
-    # No task creation, no decoding, no JSON here.
-    # ------------------------------------------------------------------ #
     def maybe_log(self, response: Response, event_type: str, force: bool = False):
         if not LOGGING_ENABLED:
             return
+
         status = response.status_code
         if not force and not should_log(status):
             return
@@ -251,28 +257,27 @@ class Gateway:
             resp_headers = dict(getattr(response, "headers", {}) or {})
             resp_bytes = getattr(response, "body", b"") or b""
 
-            # Binary bodies -> placeholder, multipart -> capped raw slice
-            # (files stripped later in the worker), text -> capped slice.
             req_body, req_trunc, req_note = capture_body(
-                ctx.get("body"), req_headers.get("content-type"),
+                ctx.get("body"),
+                req_headers.get("content-type"),
             )
             resp_body, resp_trunc, resp_note = capture_body(
-                resp_bytes, resp_headers.get("content-type"),
+                resp_bytes,
+                resp_headers.get("content-type"),
             )
 
+            full_url = _normalize_log_domain_trailing_slash(ctx.get("full_url"))
+
             log_publisher.enqueue_raw({
-                # Timestamp captured now (event time), rendered in worker.
                 "ts": time.time(),
                 "event_type": event_type,
                 "status": status,
                 "duration_ms": (time.perf_counter() - self._started) * 1000,
                 "method": ctx.get("method"),
-                "full_url": ctx.get("full_url"),
+                "full_url": full_url,
                 "path": ctx.get("path"),
                 "query": ctx.get("query"),
                 "client_ip": ctx.get("client_ip"),
-                # Header dicts are never mutated after the request, so we
-                # pass references (no copies); redaction runs in the worker.
                 "req_headers": req_headers,
                 "req_body": req_body,
                 "req_trunc": req_trunc,
@@ -284,15 +289,11 @@ class Gateway:
                 "signature": self.signature,
                 "upstream_url": self.upstream_url,
                 "route_info": self.route_info,
-                "container": None,  # resolved in the worker for 5xx only
+                "container": None,
             })
         except Exception:
-            # Logging must never break a request.
             logger.exception("maybe_log failed")
 
-    # ------------------------------------------------------------------ #
-    # response (de)serialization for cache
-    # ------------------------------------------------------------------ #
     def pack_response(self, response: Response) -> bytes:
         headers = self._strip_hop_by_hop_headers(dict(response.headers))
         payload = {
@@ -303,8 +304,7 @@ class Gateway:
         return json.dumps(payload, separators=(",", ":")).encode("utf-8")
 
     def unpack_response(self, data: bytes) -> Response | None:
-        """Return the cached Response, or None if the entry is corrupt.
-        Never fall back to serving raw cache bytes to the client."""
+        """Return the cached response, or None if the entry is corrupt."""
         try:
             payload = json.loads(data.decode("utf-8"))
             body = base64.b64decode(payload.get("body_b64", ""))
@@ -315,12 +315,9 @@ class Gateway:
             return None
 
     def _strip_hop_by_hop_headers(self, headers: dict) -> dict:
-        # httpx/starlette normalize header names to lowercase, so a single
-        # lowercase lookup is sufficient.
         drop = _HOP_BY_HOP
         connection = headers.get("connection")
         if connection:
-            # Connection header may name additional hop-by-hop headers.
             drop = set(_HOP_BY_HOP)
             for token in str(connection).split(","):
                 name = token.strip().lower()
@@ -328,7 +325,8 @@ class Gateway:
                     drop.add(name)
 
         return {
-            k: v for k, v in headers.items()
+            k: v
+            for k, v in headers.items()
             if k.lower() not in drop and k.lower() not in _ALWAYS_STRIP
         }
 
@@ -340,8 +338,6 @@ class Gateway:
         if "authorization" in self.context["headers"]:
             return False
 
-        # Don't let one large response bloat process RAM (base64 pack)
-        # and memcache; skip caching it entirely.
         body = getattr(response, "body", b"") or b""
         if len(body) > CACHE_MAX_BODY_BYTES:
             return False
@@ -353,4 +349,5 @@ class Gateway:
         cc = (headers.get("cache-control") or "").lower()
         if "no-store" in cc or "private" in cc or "no-cache" in cc:
             return False
+
         return True
